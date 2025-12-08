@@ -6,20 +6,20 @@ using namespace std;
 class Account
 {
 protected:
-	string accountID; //id tai khoan
-	string customerID;// ten chu tai khoan
-	string openDate;// ngay tao tai khoan
-	string status;// trang thai tai khoan
-	long long balance;// so du tai khoan
+    std::string accountID;   // ID tai khoan
+    std::string customerID;  // Ten chu tai khoan
+    std::string openDate;    // Ngay tao tai khoan
+    std::string status;      // Trang thai
+    double balance;          // So du (Dung double cho tien te co phan thap phan)
 
 public:
-    Account(string id,string name,double initialBalance);
+    Account(string id, string name, double initialBalance, string date = "01/01/2025");
     virtual ~Account();
 
-	virtual bool withdraw(double amount);// rut tien
-	virtual void deposit(double amount);// gui tien
-	virtual double calculateInterest();// tinh lai suat
-	virtual void displayInfo();// hien thi thong tin tai khoan
-	double getBalance() const;// lay so du tai khoan
-	void closeAccount();// dong tai khoan
+    virtual bool withdraw(double amount);      // Rut tien
+    virtual void deposit(double amount);       // Gui tien
+    virtual double calculateInterest();        // Tinh lai suat
+    virtual void displayInfo();                // Hien thi thong tin
+    virtual double getBalance() const;         // Lay so du
+    virtual void closeAccount();               // Dong tai khoan
 };

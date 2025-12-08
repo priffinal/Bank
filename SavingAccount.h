@@ -1,17 +1,17 @@
 #pragma once
 #include "Account.h"
-#include <string>
-#include <iostream>
-#include <iomanip>
 using namespace std;
-class SavingAccount:: public Account
+class SavingAccount : public Account // Da sua loi cu phap ":: public"
 {
 private:
-	double interestRate; // lai suat
-	double minimumBalance; // so du toi thieu
-	int term;//ky han
-public:
-	SavingAccount(); // ham tao mac dinh
-	void calculateInterest(); // tinh lai suat
+    double interestRate;   // Lai suat (%)
+    double minimumBalance; // So du toi thieu de huong lai
+    int term;              // Ky han (thang)
 
+public:
+    SavingAccount(string id, string name, double initialBalance, double rate, int termVal);
+
+    double calculateInterest() override; // Sua kieu tra ve thanh double
+    void applyInterest(); // Ham moi de cong lai vao goc
+    void displayInfo() override;
 };
