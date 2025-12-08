@@ -1,48 +1,57 @@
 #include "Account.h"
+#include <string>
 #include <iostream>
 using namespace std;
 
-Account::Account(string id, string name, double initialBalance, string date) : accountID(id), customerID(name), balance(initialBalance), openDate(date), status("Open") {}
-
+Account::Account(string id, string name, double initialBalance) : accountID(id), customerID(name), balance(initialBalance), status("Open")
+{
+	// ham tao
+}
 Account::~Account() {}
 
 bool Account::withdraw(double amount)
 {
-    if (amount > balance)
-    {
-        cout << "So du khong du de thuc hien giao dich co ban." << endl;
-        return false;
-    }
-    balance -= amount;
-    return true;
+	if (amount > balance)
+	{
+		cout << "\nSo du khong du" << endl;
+		return false;
+	}
+	balance -= amount;
+	return true;
 }
-
 void Account::deposit(double amount)
 {
-    if (amount > 0)
-    {
-        balance += amount;
-        cout << "Da gui " << amount << " vao tai khoan." << endl;
-    }
+	balance += amount;
 }
-
-double Account::calculateInterest() {return 0.0;}
-
+double Account::calculateInterest()
+{
+	return 0.0;
+}
 void Account::displayInfo()
 {
-    cout << "-----------------------------------" << endl;
-    cout << "Account ID: " << accountID << endl;
-    cout << "Customer:   " << customerID << endl;
-    cout << "Open Date:  " << openDate << endl;
-    cout << "Status:     " << status << endl;
-    cout << "Balance:    " << balance << endl;
+	cout << "\nAccount ID: " << accountID << endl;
+	cout << "\nCustomer ID: " << customerID << endl;
+	cout << "\nOpen Date: " << openDate << endl;
+	cout << "\nStatus: " << status << endl;
+	cout << "\nBalance: " << balance << endl;
 }
-
-double Account::getBalance() const {return balance;}
-
+long long Account::getBalance() 
+{
+	return balance;
+}
 void Account::closeAccount()
 {
-    status = "Closed";
-    //balance = 0; // Rut het tien khi dong
-    cout << "Tai khoan da dong." << endl;
+	status = "Closed";
+}
+void Account::createAccount()
+{
+	cout << "\nNhap ID tai khoan: ";
+	cin >> accountID;
+	cout << "\nNhap ho va ten chu tai khoan: ";
+	cin.ignore();
+	getline(cin, customerID);
+	cout << "\nNhap so du khoi tao: ";
+	cin >> balance;
+	openDate = "2024-12-08"; // gia su ngay tao la ngay hien tai
+	status = "Open";
 }
