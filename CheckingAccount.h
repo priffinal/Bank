@@ -8,7 +8,6 @@ private:
     double overdraftLimit; // Gioi han thau chi (so tien duoc no)
 
 public:
-    
     CheckingAccount(string id, string name, double initialBalance, double fee, double limit);
 
     double calculateInterest() override; // Override phai cung kieu tra ve (double)
