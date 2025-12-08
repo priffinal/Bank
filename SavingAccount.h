@@ -1,7 +1,7 @@
 #pragma once
 #include "Account.h"
 using namespace std;
-class SavingAccount : public Account // Da sua loi cu phap ":: public"
+class SavingAccount : public Account
 {
 private:
     double interestRate;   // Lai suat (%)

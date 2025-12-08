@@ -6,10 +6,10 @@ using namespace std;
 class Account
 {
 protected:
-    std::string accountID;   // ID tai khoan
-    std::string customerID;  // Ten chu tai khoan
-    std::string openDate;    // Ngay tao tai khoan
-    std::string status;      // Trang thai
+    string accountID;   // ID tai khoan
+    string customerID;  // Ten chu tai khoan
+    string openDate;    // Ngay tao tai khoan
+    string status;      // Trang thai
     double balance;          // So du (Dung double cho tien te co phan thap phan)
 
 public:

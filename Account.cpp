@@ -2,9 +2,7 @@
 #include <iostream>
 using namespace std;
 
-Account::Account(string id, string name, double initialBalance, string date) : accountID(id), customerID(name), balance(initialBalance), openDate(date), status("Open")
-{
-}
+Account::Account(string id, string name, double initialBalance, string date) : accountID(id), customerID(name), balance(initialBalance), openDate(date), status("Open") {}
 
 Account::~Account() {}
 
@@ -21,16 +19,14 @@ bool Account::withdraw(double amount)
 
 void Account::deposit(double amount)
 {
-    if (amount > 0) {
+    if (amount > 0)
+    {
         balance += amount;
         cout << "Da gui " << amount << " vao tai khoan." << endl;
     }
 }
 
-double Account::calculateInterest()
-{
-    return 0.0; // Tai khoan thuong mac dinh khong co lai hoac lai = 0
-}
+double Account::calculateInterest() {return 0.0;}
 
 void Account::displayInfo()
 {
@@ -42,14 +38,11 @@ void Account::displayInfo()
     cout << "Balance:    " << balance << endl;
 }
 
-double Account::getBalance() const
-{
-    return balance;
-}
+double Account::getBalance() const {return balance;}
 
 void Account::closeAccount()
 {
     status = "Closed";
-    balance = 0; // Rut het tien khi dong
+    //balance = 0; // Rut het tien khi dong
     cout << "Tai khoan da dong." << endl;
 }
