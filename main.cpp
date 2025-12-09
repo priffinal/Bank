@@ -27,4 +27,8 @@ int main()
 		cout << "\nTao them tai khoan khong? (1-Co, 0-Khong): ";
 		cin >> check;
 	} while (check == 1);
+
+	tk[0]->deposit(100000);
+	tk[0]->printLog();
+	return 0;
 }

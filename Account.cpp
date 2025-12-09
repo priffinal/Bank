@@ -18,15 +18,18 @@ bool Account::withdraw(double amount)
 	if (amount > balance)
 	{
 		cout << "\nSo du khong du" << endl;
+		tr.push_back(Transaction(accountID, "1-1-2026", amount, "withdraw", "failed"));
 		return false;
 	}
 	balance -= amount;
+	tr.push_back(Transaction(accountID, "1-1-2026", amount, "withdraw", "success"));
 	return true;
 }
 
 void Account::deposit(double amount)
 {
 	balance += amount;
+	tr.push_back(Transaction(accountID, "1-1-2026", amount, "deposit", "success"));
 }
 
 double Account::calculateInterest()
@@ -64,4 +67,9 @@ void Account::createAccount()
 	cin >> balance;
 	openDate = "2024-12-08";
 	status = "Open";
+}
+
+void Account::printLog()
+{
+	tr.at(0).log();
 }

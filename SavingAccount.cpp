@@ -4,9 +4,8 @@
 #include <iomanip>
 using namespace std;
 
-SavingAccount::SavingAccount()
+SavingAccount::SavingAccount() : Account("", "", 0.0)
 {
-	Account("", "", 0.0);
 	interest = 0;
 	minimumBalance = 0.0;
 	term = 0;

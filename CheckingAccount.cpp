@@ -4,9 +4,8 @@
 #include <iomanip>
 using namespace std;
 
-CheckingAccount::CheckingAccount()
+CheckingAccount::CheckingAccount() : Account("", "", 0.0)
 {
-	Account("", "", 0.0);
 	overdraftLimit = 0.0;
 }
 
@@ -51,7 +50,9 @@ bool CheckingAccount::withdraw(double amount)
 {
 	if (amount + transactionFee > getBalance() + overdraftLimit)
 	{
-		cout << "Rut tien bi tu choi do han muc khong du" << endl; return false;
+		cout << "Rut tien bi tu choi do han muc khong du" << endl;
+		tr.push_back(Transaction(accountID, "1/1/2026", amount, "withdraw", "failed"));
+		return false;
 	}
 	else
 	{
@@ -59,6 +60,7 @@ bool CheckingAccount::withdraw(double amount)
 		deductFee();
 		cout << fixed << setprecision(2);
 		cout << "Da rut" << amount << "tu tai khoan" << endl;
+		tr.push_back(Transaction(accountID, "1/1/2026", amount, "withdraw", "success"));
 		return true;
 	}
 }
