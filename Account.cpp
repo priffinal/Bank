@@ -65,3 +65,7 @@ void Account::createAccount()
 	openDate = "2024-12-08";
 	status = "Open";
 }
+void Account::pushCusID(string ID)
+{
+	customerID = ID;
+}
