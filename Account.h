@@ -22,4 +22,5 @@ public:
 	long long getBalance();
 	void closeAccount();
 	void createAccount();
+	void pushCusID(string ID);
 };
