@@ -21,10 +21,12 @@ public:
 
 	virtual bool withdraw(double amount);
 	virtual void deposit(double amount);
+	// virtual bool transfer(double amount, string relatedID);
 	virtual double calculateInterest();
 	virtual void displayInfo();
 	void printLog();
 	long long getBalance();
+	void lockAccount();
 	void closeAccount();
 	virtual void createAccount();
 	void pushCusID(string ID);

@@ -1,7 +1,9 @@
 #include "Account.h"
+#include <ctime>
 #include <string>
 #include <iostream>
 using namespace std;
+
 
 Account::Account(){}
 Account::Account(string id, string name, double initialBalance)
@@ -19,19 +21,40 @@ bool Account::withdraw(double amount)
 	if (amount > balance)
 	{
 		cout << "\nSo du khong du" << endl;
-		tr.push_back(Transaction(accountID, "1-1-2026", amount, "withdraw", "failed"));
+		time_t now = time(0);
+		tm *ltm = localtime(&now);
+		tr.push_back(Transaction(accountID, "", ltm, amount, "withdraw", "failed"));
 		return false;
 	}
 	balance -= amount;
-	tr.push_back(Transaction(accountID, "1-1-2026", amount, "withdraw", "success"));
+	time_t now = time(0);
+	tm *ltm = localtime(&now);
+	tr.push_back(Transaction(accountID, "", ltm, amount, "withdraw", "success"));
 	return true;
 }
 
 void Account::deposit(double amount)
 {
 	balance += amount;
-	tr.push_back(Transaction(accountID, "1-1-2026", amount, "deposit", "success"));
+	time_t now = time(0);
+	tm *ltm = localtime(&now);
+	tr.push_back(Transaction(accountID, "", ltm, amount, "deposit", "success"));
 }
+
+// bool Account::transfer(double amount, string relatedID)
+// {
+// 	if (amount > balance)
+// 	{
+// 		cout << "\nSo du khong du" << endl;
+// 		tr.push_back(Transaction(accountID, relatedID, ctime(&now), amount, "transfer", "failed"));
+// 		return false;
+// 	}
+// 	balance -= amount;
+// 	//continue
+// 	tr.push_back(Transaction(accountID, relatedID, ctime(&now), amount, "withdraw", "success"));
+// 	return true;
+// }
+
 
 double Account::calculateInterest()
 {
@@ -66,7 +89,7 @@ void Account::createAccount()
 	getline(cin, customerID);
 	cout << "\nNhap so du khoi tao: ";
 	cin >> balance;
-	openDate = "2024-12-08";
+	openDate = "12-8-2024";
 	status = "Open";
 }
 
