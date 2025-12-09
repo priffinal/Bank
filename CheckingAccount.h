@@ -6,15 +6,13 @@
 class CheckingAccount : public Account
 {
 private:
-	double transactionFee=10000; // phi giao dich
-	double overdraftLimit; // gioi han rut qua tai khoan
+	double transactionFee=10000;
+	double overdraftLimit;
 public:
-	double calculateInterest(); // tinh lai suat (lai suat nho)
-	bool withdraw(double amount); // rut tien voi phi giao dich va gioi han rut qua tai khoan
-	void deductFee(); // tru phi giao dich
-	void createAccount(); // tao tai khoan thanh toan
+	double calculateInterest();
+	bool withdraw(double amount);
+	void deductFee();
+	void createAccount();
 	void displayInfo();
-	CheckingAccount() : Account("", "", 0.0), overdraftLimit(0.0) {} // ham tao mac dinh
-
-
+	CheckingAccount() : Account("", "", 0.0), overdraftLimit(0.0) {}
 };

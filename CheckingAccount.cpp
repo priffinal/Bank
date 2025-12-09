@@ -4,8 +4,6 @@
 #include <iomanip>
 using namespace std;
 
-// ...rest of your code remains unchanged...
-using namespace std;
 void CheckingAccount::createAccount()
 {
 	cout << "\n--- Tao tai khoan thanh toan ---" << endl;
@@ -13,6 +11,7 @@ void CheckingAccount::createAccount()
 	cout << "\nNhap gioi han rut qua tai khoan: ";
 	cin >> overdraftLimit;
 }
+
 void CheckingAccount::displayInfo()
 {
 	cout << "\n--- Thong tin tai khoan thanh toan ---" << endl;
@@ -21,6 +20,7 @@ void CheckingAccount::displayInfo()
 	cout << "\nPhi giao dich: " << transactionFee << endl;
 	cout << "\nGioi han rut qua tai khoan: " << overdraftLimit << endl;
 }
+
 void CheckingAccount::deductFee()
 {
 	if (getBalance() - transactionFee < overdraftLimit)
@@ -34,11 +34,13 @@ void CheckingAccount::deductFee()
 		cout << "Phi giao dich la " << transactionFee << "da tru" << endl;
 	}
 }
+
 double CheckingAccount::calculateInterest()
 {
 	cout << "Tai khoan co lai suat thap" << endl;
 	return 0.0;
 }
+
 bool CheckingAccount::withdraw(double amount)
 {
 	if (amount + transactionFee > getBalance() + overdraftLimit)

@@ -3,10 +3,7 @@
 #include <iostream>
 using namespace std;
 
-Account::Account(string id, string name, double initialBalance) : accountID(id), customerID(name), balance(initialBalance), status("Open")
-{
-	// ham tao
-}
+Account::Account(string id, string name, double initialBalance) : accountID(id), customerID(name), balance(initialBalance), status("Open"){}
 Account::~Account() {}
 
 bool Account::withdraw(double amount)
@@ -19,14 +16,17 @@ bool Account::withdraw(double amount)
 	balance -= amount;
 	return true;
 }
+
 void Account::deposit(double amount)
 {
 	balance += amount;
 }
+
 double Account::calculateInterest()
 {
 	return 0.0;
 }
+
 void Account::displayInfo()
 {
 	cout << "\nAccount ID: " << accountID << endl;
@@ -35,14 +35,17 @@ void Account::displayInfo()
 	cout << "\nStatus: " << status << endl;
 	cout << "\nBalance: " << balance << endl;
 }
+
 long long Account::getBalance() 
 {
 	return balance;
 }
+
 void Account::closeAccount()
 {
 	status = "Closed";
 }
+
 void Account::createAccount()
 {
 	cout << "\nNhap ID tai khoan: ";
