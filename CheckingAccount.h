@@ -14,5 +14,5 @@ public:
 	void deductFee();
 	void createAccount();
 	void displayInfo();
-	CheckingAccount() : Account("", "", 0.0), overdraftLimit(0.0) {}
+	CheckingAccount();
 };

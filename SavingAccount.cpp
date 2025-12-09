@@ -4,6 +4,14 @@
 #include <iomanip>
 using namespace std;
 
+SavingAccount::SavingAccount()
+{
+	Account("", "", 0.0);
+	interest = 0;
+	minimumBalance = 0.0;
+	term = 0;
+};
+
 double SavingAccount::calculateInterest()
 {
 	 interest = minimumBalance*(4.67/100) * term ;

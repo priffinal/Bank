@@ -16,5 +16,5 @@ public:
     double calculateInterest();
 	void displayInfo();
 	void createAccount();
-	SavingAccount() : Account("", "", 0.0), interest(0), minimumBalance(0.0), term(0) {}
+	SavingAccount();
 };

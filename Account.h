@@ -11,6 +11,7 @@ protected:
 	string status;
 	long long balance;
 public:
+	Account();
 	Account(string id, string name, double initialBalance);
 	virtual ~Account();
 

@@ -3,7 +3,14 @@
 #include <iostream>
 using namespace std;
 
-Account::Account(string id, string name, double initialBalance) : accountID(id), customerID(name), balance(initialBalance), status("Open"){}
+Account::Account(string id, string name, double initialBalance)
+{
+	accountID = id;
+	customerID = name;
+	balance = initialBalance; 
+	status = "Open";
+}
+
 Account::~Account() {}
 
 bool Account::withdraw(double amount)
@@ -55,6 +62,6 @@ void Account::createAccount()
 	getline(cin, customerID);
 	cout << "\nNhap so du khoi tao: ";
 	cin >> balance;
-	openDate = "2024-12-08"; // gia su ngay tao la ngay hien tai
+	openDate = "2024-12-08";
 	status = "Open";
 }

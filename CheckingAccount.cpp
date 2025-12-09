@@ -4,6 +4,12 @@
 #include <iomanip>
 using namespace std;
 
+CheckingAccount::CheckingAccount()
+{
+	Account("", "", 0.0);
+	overdraftLimit = 0.0;
+}
+
 void CheckingAccount::createAccount()
 {
 	cout << "\n--- Tao tai khoan thanh toan ---" << endl;
