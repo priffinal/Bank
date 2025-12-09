@@ -18,21 +18,23 @@ Transaction::Transaction(string aID, string date, long long amount, string type,
     this->status = status;
 }
 
-string Transaction::generateID()
+void Transaction::generateID()
 {
     stringstream s;
-    if (status == "deposit") {
+    if (type == "deposit") {
         s << "DP" << setw(4) << setfill('0') << ID++;
-    } if (status == "withdraw") {
+    } else if (type == "withdraw") {
         s << "WD" << setw(4) << setfill('0') << ID++;
+    } else {
+        s << "TR" << setw(4) << setfill('0') << ID++;
     }
     transactionID = s.str();
-    return transactionID;
 }
 
 void Transaction::log()
 {
-    cout << "ID giao dich: " << generateID() << endl;
+    generateID();
+    cout << "ID giao dich: " << transactionID << endl;
     cout << "Loai giao dich: " << type << endl;
     cout << "Ngay giao dich: " << dateTime << endl; 
     cout << "TK giao dich: " << accountID << endl;

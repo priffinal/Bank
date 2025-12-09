@@ -16,6 +16,6 @@ public:
     Transaction();
     Transaction(string aID, string date, long long amount, string type, string status);
     ~Transaction();
-    string generateID();
+    void generateID();
     void log();
 };
