@@ -10,10 +10,10 @@ int main()
 	int check;
 	int n = 0;
 	Account* tk[100];
-	cout << "\nTao tai khoan thanh toan hay tai khoan tieu kiem? (1-TT, 2-TK): ";
-	cin >> check;	
 	do
 	{
+		cout << "\nTao tai khoan thanh toan hay tai khoan tieu kiem? (1-TT, 2-TK): ";
+		cin >> check;	
 		if (check == 1)
 		{
 			tk[n] = new CheckingAccount;

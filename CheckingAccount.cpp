@@ -1,8 +1,11 @@
-﻿#include <iostream>
-#include "CheckingAccount.h"
+﻿#include "CheckingAccount.h"
+#include <iostream>
+#include <ctime>
 #include <string>
 #include <iomanip>
 using namespace std;
+
+time_t now = time(0);
 
 CheckingAccount::CheckingAccount() : Account("", "", 0.0)
 {
@@ -51,7 +54,9 @@ bool CheckingAccount::withdraw(double amount)
 	if (amount + transactionFee > getBalance() + overdraftLimit)
 	{
 		cout << "Rut tien bi tu choi do han muc khong du" << endl;
-		tr.push_back(Transaction(accountID, "1/1/2026", amount, "withdraw", "failed"));
+		time_t now = time(0);
+		tm *ltm = localtime(&now);
+		tr.push_back(Transaction(accountID, "", ltm, amount, "withdraw", "failed"));
 		return false;
 	}
 	else
@@ -60,7 +65,9 @@ bool CheckingAccount::withdraw(double amount)
 		deductFee();
 		cout << fixed << setprecision(2);
 		cout << "Da rut" << amount << "tu tai khoan" << endl;
-		tr.push_back(Transaction(accountID, "1/1/2026", amount, "withdraw", "success"));
+		time_t now = time(0);
+		tm *ltm = localtime(&now);
+		tr.push_back(Transaction(accountID, "", ltm, amount, "withdraw", "success"));
 		return true;
 	}
 }
