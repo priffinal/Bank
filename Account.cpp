@@ -3,6 +3,7 @@
 #include <iostream>
 using namespace std;
 
+Account::Account(){}
 Account::Account(string id, string name, double initialBalance)
 {
 	accountID = id;
@@ -72,4 +73,9 @@ void Account::createAccount()
 void Account::printLog()
 {
 	tr.at(0).log();
+}
+
+void Account::pushCusID(string ID)
+{
+	customerID = ID;
 }

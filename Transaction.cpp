@@ -25,8 +25,6 @@ void Transaction::generateID()
         s << "DP" << setw(4) << setfill('0') << ID++;
     } else if (type == "withdraw") {
         s << "WD" << setw(4) << setfill('0') << ID++;
-    } else {
-        s << "TR" << setw(4) << setfill('0') << ID++;
     }
     transactionID = s.str();
 }
@@ -35,9 +33,9 @@ void Transaction::log()
 {
     generateID();
     cout << "ID giao dich: " << transactionID << endl;
+    cout << "TK giao dich: " << accountID << endl;
     cout << "Loai giao dich: " << type << endl;
     cout << "Ngay giao dich: " << dateTime << endl; 
-    cout << "TK giao dich: " << accountID << endl;
     cout << "So tien: " << amount << endl;
     cout << "Trang thai: " << status << endl;
 }
