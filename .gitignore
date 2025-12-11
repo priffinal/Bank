@@ -17,6 +17,7 @@ Release/
 
 # Visual Studio user-specific
 *.vcxproj.user
+.vs/
 
 # Cache / temporary
 *.tmp
