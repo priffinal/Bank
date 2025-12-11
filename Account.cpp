@@ -105,3 +105,8 @@ void Account::pushCusID(string ID)
 {
 	customerID = ID;
 }
+
+string Account::getID()
+{
+	return accountID;
+}

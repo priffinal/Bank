@@ -14,6 +14,7 @@ private:
 	int term;
 public:
     double calculateInterest();
+	bool withdraw(double amount);
 	void displayInfo();
 	void createAccount();
 	SavingAccount();

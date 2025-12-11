@@ -7,7 +7,7 @@
 using namespace std;
 
 int main() {
-	/*int check;
+	int check;
 	int n = 0;
 	Account* tk[100];
 	do
@@ -30,10 +30,10 @@ int main() {
 
 	tk[0]->deposit(100000);
 	tk[0]->printLog();
-	return 0;*/
-	Customer q;
-	q.addaccount();
+	return 0;
+	// Customer q;
+	// q.addAccount();
 	
-	q.showinfo();
+	// q.showinfo();
 
 }

@@ -11,11 +11,13 @@ CheckingAccount::CheckingAccount() : Account("", "", 0.0)
 	overdraftLimit = 0.0;
 }
 
+
+
 void CheckingAccount::createAccount()
 {
 	cout << "\n--- Tao tai khoan thanh toan ---" << endl;
 	Account::createAccount();
-	cout << "\nNhap gioi han rut qua tai khoan: "<<"\n";
+	cout << "\nNhap gioi han rut qua tai khoan: ";
 	cin >> overdraftLimit;
 }
 
@@ -62,11 +64,8 @@ bool CheckingAccount::withdraw(double amount)
 	{
 		Account::withdraw(amount);
 		deductFee();
-		cout << fixed << setprecision(2);
+		cout << fixed << setprecision(0);
 		cout << "Da rut" << amount << "tu tai khoan" << endl;
-		time_t now = time(0);
-		tm *ltm = localtime(&now);
-		tr.push_back(Transaction(accountID, "", ltm, amount, "withdraw", "success"));
 		return true;
 	}
 }

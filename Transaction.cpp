@@ -1,5 +1,6 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include "Transaction.h"
+#include "AutoGen.h"
 #include "PrintTime.h"
 #include <iostream>
 #include <iomanip>
@@ -23,18 +24,15 @@ Transaction::Transaction(string aID, string rID, tm *date, long long amount, str
 
 void Transaction::generateID()
 {
-    stringstream s;
     if (type == "deposit") {
-        s << "DEP" << setw(4) << setfill('0') << ++counter["deposit"];
+        transactionID = autoGenerate("DEP", ++counter["deposit"]);
     } else if (type == "withdraw") {
-        s << "WDR" << setw(4) << setfill('0') << ++counter["withdraw"];
+        transactionID = autoGenerate("WDR", ++counter["deposit"]);
     } else if (type == "transfer_in") {
-        s << "TFI" << setw(4) << setfill('0') << ++counter["transfer_in"];
+        transactionID = autoGenerate("TFI", ++counter["deposit"]);
     } else if (type == "transfer_out") {
-        s << "TFO" << setw(4) << setfill('0') << ++counter["transfer_out"];
+        transactionID = autoGenerate("TFO", ++counter["deposit"]);
     }
-
-    transactionID = s.str();
 }
 
 void Transaction::log()

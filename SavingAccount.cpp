@@ -1,8 +1,17 @@
-﻿#include "SavingAccount.h"
+﻿#define _CRT_SECURE_NO_WARNINGS
+#include "SavingAccount.h"
 #include <string>
+#include <ctime>
 #include <iostream>
 #include <iomanip>
 using namespace std;
+
+tm addYears(tm *t, int year)
+{
+	t->tm_year += year;
+	time_t time = mktime(t);
+	return *localtime(&time);
+}
 
 SavingAccount::SavingAccount() : Account("", "", 0.0)
 {
@@ -35,4 +44,23 @@ void SavingAccount::createAccount()
 	cin >> minimumBalance;
 	cout << "\nNhap ky han (nam): "<<"\n";
 	cin >> term;
+}
+
+bool SavingAccount::withdraw(double amount)
+{
+	time_t now = time(0);
+	tm expiredTm = addYears(openDate, term);
+	time_t expired = mktime(&expiredTm);
+	if (difftime(expired, now)>0) {
+		cout << "Khong ho tro rut tien trong ky han.";
+		tr.push_back(Transaction(accountID, "", localtime(&now), amount, "withdraw", "failed"));
+		return 0;
+	}
+	else
+	{
+		Account::withdraw(amount);
+		cout << fixed << setprecision(0);
+		cout << "Da rut" << amount << "tu tai khoan" << endl;
+		return true;
+	}
 }

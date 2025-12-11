@@ -1,5 +1,6 @@
 #pragma once
 #include"Account.h"
+#include <vector>
 #include<string>
 using namespace std;
 class Account;
@@ -10,18 +11,17 @@ class Customer
     string phone;
     string email;
     string address;
-    Account* account[1000];
-    int n = 0;
-
+    vector<Account*> account;
+    static int n;
 public:
     Customer();
-    void addaccount();
+    void addAccount();
     string getID();
     void showinfo();
-    void updateInfo(string name, string p, string e, string addr);
+    void updateInfo();
     bool removeAccount(string accID);
 
     double getBalance();
-    void createcustomer();
+    void createCustomer();
 
 };

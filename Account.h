@@ -18,9 +18,9 @@ protected:
 public:
 	Account();
 	Account(string id, string name, double initialBalance);
-	virtual ~Account();
+	~Account();
 
-	virtual bool withdraw(double amount);
+	bool withdraw(double amount);
 	virtual void deposit(double amount);
 	// virtual bool transfer(double amount, string relatedID);
 	virtual double calculateInterest();
