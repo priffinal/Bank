@@ -28,7 +28,6 @@ int main()
 		cin >> check;
 	} while (check == 1);
 
-	tk[0]->deposit(100000);
-	tk[0]->printLog();
+	tk[0]->displayInfo();
 	return 0;
 }
