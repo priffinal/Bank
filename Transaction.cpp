@@ -1,4 +1,6 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include "Transaction.h"
+#include "PrintTime.h"
 #include <iostream>
 #include <iomanip>
 #include <sstream>
@@ -8,15 +10,6 @@ map<string, int> Transaction::counter = {};
 
 Transaction::Transaction() {}
 Transaction::~Transaction() {}
-
-ostream& operator<<(ostream &os, tm *ltm)
-{
-    os << ltm->tm_hour << ":" << ltm->tm_min << ":" << ltm->tm_sec
-    << " " << (ltm->tm_mday < 10 ? "0":"") << ltm->tm_mday << "/"
-    << (ltm->tm_mon + 1 < 10 ? "0":"") << ltm->tm_mon + 1 << "/"
-    << ltm->tm_year + 1900;
-    return os;
-}
 
 Transaction::Transaction(string aID, string rID, tm *date, long long amount, string type, string status)
 {
@@ -32,17 +25,13 @@ void Transaction::generateID()
 {
     stringstream s;
     if (type == "deposit") {
-        counter["deposit"]++;
-        s << "DEP" << setw(4) << setfill('0') << counter["deposit"];
+        s << "DEP" << setw(4) << setfill('0') << ++counter["deposit"];
     } else if (type == "withdraw") {
-        counter["withdraw"]++;
-        s << "WDR" << setw(4) << setfill('0') << counter["withdraw"]++;
+        s << "WDR" << setw(4) << setfill('0') << ++counter["withdraw"];
     } else if (type == "transfer_in") {
-        counter["transfer_in"]++;
-        s << "TFI" << setw(4) << setfill('0') << counter["transfer_in"]++;
+        s << "TFI" << setw(4) << setfill('0') << ++counter["transfer_in"];
     } else if (type == "transfer_out") {
-        counter["transfer_out"]++;
-        s << "TFO" << setw(4) << setfill('0') << counter["transfer_out"]++;
+        s << "TFO" << setw(4) << setfill('0') << ++counter["transfer_out"];
     }
 
     transactionID = s.str();

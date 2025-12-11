@@ -1,5 +1,6 @@
 #pragma once
 #include "Transaction.h"
+#include <ctime>
 #include <string>
 #include <iostream>
 #include <vector>
@@ -10,7 +11,7 @@ class Account
 protected:
 	string accountID; 
 	string customerID;
-	string openDate;
+	tm *openDate;
 	string status;
 	long long balance;
 	vector<Transaction> tr;

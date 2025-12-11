@@ -6,8 +6,6 @@
 #include <iomanip>
 using namespace std;
 
-time_t now = time(0);
-
 CheckingAccount::CheckingAccount() : Account("", "", 0.0)
 {
 	overdraftLimit = 0.0;

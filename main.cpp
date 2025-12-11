@@ -29,6 +29,7 @@ int main()
 		cin >> check;
 	} while (check == 1);
 
+<<<<<<< HEAD
 	tk[0]->deposit(100000);
 	tk[0]->printLog();
 	return 0;*/
@@ -37,4 +38,8 @@ int main()
 	
 	q.showinfo();
 
+=======
+	tk[0]->displayInfo();
+	return 0;
+>>>>>>> d6aed6ac7563928d84635cd1bd2d5b6a5ff75a53
 }

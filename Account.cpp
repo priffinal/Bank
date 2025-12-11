@@ -1,12 +1,17 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include "Account.h"
+#include "PrintTime.h"
 #include <ctime>
 #include <string>
 #include <iostream>
 using namespace std;
 
+<<<<<<< HEAD
 
 Account::Account() {}
+=======
+Account::Account(){}
+>>>>>>> d6aed6ac7563928d84635cd1bd2d5b6a5ff75a53
 Account::Account(string id, string name, double initialBalance)
 {
 	accountID = id;
@@ -90,7 +95,9 @@ void Account::createAccount()
 	getline(cin, customerID);
 	cout << "\nNhap so du khoi tao: ";
 	cin >> balance;
-	openDate = "12-8-2024";
+	time_t now = time(0);
+	tm *ltm = localtime(&now);
+	openDate = ltm;
 	status = "Open";
 }
 
