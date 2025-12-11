@@ -24,7 +24,7 @@ void SavingAccount::displayInfo()
 	cout << fixed << setprecision(2);
 	cout << "\nLai suat: " << interestRate << "% /nam" << endl;
 	cout << "\nSo du toi thieu: " << minimumBalance << endl;
-	cout << "\nKy han: " << term << " nam" << endl;
+	cout << "\nKy han: " << term << " nam" <<"\n"<< endl;
 }
 
 void SavingAccount::createAccount()
@@ -33,6 +33,6 @@ void SavingAccount::createAccount()
 	Account::createAccount();
 	cout << "\nNhap so du toi thieu: ";
 	cin >> minimumBalance;
-	cout << "\nNhap ky han (nam): ";
+	cout << "\nNhap ky han (nam): "<<"\n";
 	cin >> term;
 }

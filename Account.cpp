@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include "Account.h"
 #include <ctime>
 #include <string>
@@ -5,12 +6,12 @@
 using namespace std;
 
 
-Account::Account(){}
+Account::Account() {}
 Account::Account(string id, string name, double initialBalance)
 {
 	accountID = id;
 	customerID = name;
-	balance = initialBalance; 
+	balance = initialBalance;
 	status = "Open";
 }
 
@@ -22,13 +23,13 @@ bool Account::withdraw(double amount)
 	{
 		cout << "\nSo du khong du" << endl;
 		time_t now = time(0);
-		tm *ltm = localtime(&now);
+		tm* ltm = localtime(&now);
 		tr.push_back(Transaction(accountID, "", ltm, amount, "withdraw", "failed"));
 		return false;
 	}
 	balance -= amount;
 	time_t now = time(0);
-	tm *ltm = localtime(&now);
+	tm* ltm = localtime(&now);
 	tr.push_back(Transaction(accountID, "", ltm, amount, "withdraw", "success"));
 	return true;
 }
@@ -37,7 +38,7 @@ void Account::deposit(double amount)
 {
 	balance += amount;
 	time_t now = time(0);
-	tm *ltm = localtime(&now);
+	tm* ltm = localtime(&now);
 	tr.push_back(Transaction(accountID, "", ltm, amount, "deposit", "success"));
 }
 
@@ -70,7 +71,7 @@ void Account::displayInfo()
 	cout << "\nBalance: " << balance << endl;
 }
 
-long long Account::getBalance() 
+long long Account::getBalance()
 {
 	return balance;
 }

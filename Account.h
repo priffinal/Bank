@@ -30,4 +30,5 @@ public:
 	void closeAccount();
 	virtual void createAccount();
 	void pushCusID(string ID);
+	string getID();
 };

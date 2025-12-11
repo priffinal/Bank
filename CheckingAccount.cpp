@@ -1,4 +1,5 @@
-﻿#include "CheckingAccount.h"
+﻿#define _CRT_SECURE_NO_WARNINGS
+#include "CheckingAccount.h"
 #include <iostream>
 #include <ctime>
 #include <string>
@@ -16,7 +17,7 @@ void CheckingAccount::createAccount()
 {
 	cout << "\n--- Tao tai khoan thanh toan ---" << endl;
 	Account::createAccount();
-	cout << "\nNhap gioi han rut qua tai khoan: ";
+	cout << "\nNhap gioi han rut qua tai khoan: "<<"\n";
 	cin >> overdraftLimit;
 }
 
@@ -26,7 +27,7 @@ void CheckingAccount::displayInfo()
 	Account::displayInfo();
 	cout << fixed << setprecision(2);
 	cout << "\nPhi giao dich: " << transactionFee << endl;
-	cout << "\nGioi han rut qua tai khoan: " << overdraftLimit << endl;
+	cout << "\nGioi han rut qua tai khoan: " << overdraftLimit <<"\n"<< endl;
 }
 
 void CheckingAccount::deductFee()
