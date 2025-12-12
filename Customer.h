@@ -1,11 +1,12 @@
 #pragma once
-#include"Account.h"
+// #include"Account.h"
 #include <vector>
 #include<string>
 using namespace std;
 class Account;
 class Customer
 {
+private:
     string customerID;
     string fullName;
     string phone;
@@ -15,13 +16,13 @@ class Customer
     static int n;
 public:
     Customer();
-    void addAccount();
+    Account* addAccount();
+    int getAccountCount();
+    Account* getAccountAt(int index);
     string getID();
-    void showinfo();
+    void showInfo();
     void updateInfo();
     bool removeAccount(string accID);
-
-    double getBalance();
     void createCustomer();
-
+    void autoID(string ID);
 };

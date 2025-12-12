@@ -6,17 +6,17 @@
 #include <iomanip>
 using namespace std;
 
-CheckingAccount::CheckingAccount() : Account("", "", 0.0)
+CheckingAccount::CheckingAccount() : Account("", 0)
 {
 	overdraftLimit = 0.0;
 }
 
+bool CheckingAccount::isSAV() { return false; }
 
-
-void CheckingAccount::createAccount()
+void CheckingAccount::createAccount(const Customer &c)
 {
 	cout << "\n--- Tao tai khoan thanh toan ---" << endl;
-	Account::createAccount();
+	Account::createAccount(c);
 	cout << "\nNhap gioi han rut qua tai khoan: ";
 	cin >> overdraftLimit;
 }

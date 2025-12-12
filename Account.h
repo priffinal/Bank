@@ -1,5 +1,7 @@
 #pragma once
 #include "Transaction.h"
+#include "Customer.h"
+#include <map>
 #include <ctime>
 #include <string>
 #include <iostream>
@@ -10,26 +12,29 @@ class Account
 {
 protected:
 	string accountID; 
-	string customerID;
+	Customer customerInfo;
 	tm *openDate;
 	string status;
 	long long balance;
 	vector<Transaction> tr;
+	static map<string, int> accType;
 public:
 	Account();
-	Account(string id, string name, double initialBalance);
+	Account(string id, double initialBalance);
 	~Account();
 
 	bool withdraw(double amount);
+	virtual bool isSAV()=0;
 	virtual void deposit(double amount);
-	// virtual bool transfer(double amount, string relatedID);
+	virtual void transfer_in(double amount, string relatedID);
+	virtual bool transfer_out(double amount, string relatedID);
 	virtual double calculateInterest();
 	virtual void displayInfo();
 	void printLog();
 	long long getBalance();
 	void lockAccount();
 	void closeAccount();
-	virtual void createAccount();
+	virtual void createAccount(const Customer &c);
 	void pushCusID(string ID);
 	string getID();
 };

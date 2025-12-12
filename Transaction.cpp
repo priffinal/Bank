@@ -27,11 +27,11 @@ void Transaction::generateID()
     if (type == "deposit") {
         transactionID = autoGenerate("DEP", ++counter["deposit"]);
     } else if (type == "withdraw") {
-        transactionID = autoGenerate("WDR", ++counter["deposit"]);
+        transactionID = autoGenerate("WDR", ++counter["withdraw"]);
     } else if (type == "transfer_in") {
-        transactionID = autoGenerate("TFI", ++counter["deposit"]);
+        transactionID = autoGenerate("TFI", ++counter["transfer_in"]);
     } else if (type == "transfer_out") {
-        transactionID = autoGenerate("TFO", ++counter["deposit"]);
+        transactionID = autoGenerate("TFO", ++counter["transfer_out"]);
     }
 }
 

@@ -14,8 +14,9 @@ private:
 	int term;
 public:
     double calculateInterest();
+	bool isSAV();
 	bool withdraw(double amount);
 	void displayInfo();
-	void createAccount();
+	void createAccount(const Customer &c);
 	SavingAccount();
 };

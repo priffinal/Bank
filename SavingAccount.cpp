@@ -6,6 +6,8 @@
 #include <iomanip>
 using namespace std;
 
+bool SavingAccount::isSAV() { return true; }
+
 tm addYears(tm *t, int year)
 {
 	t->tm_year += year;
@@ -13,7 +15,7 @@ tm addYears(tm *t, int year)
 	return *localtime(&time);
 }
 
-SavingAccount::SavingAccount() : Account("", "", 0.0)
+SavingAccount::SavingAccount() : Account("", 0.0)
 {
 	interest = 0;
 	minimumBalance = 0.0;
@@ -36,13 +38,13 @@ void SavingAccount::displayInfo()
 	cout << "\nKy han: " << term << " nam" <<"\n"<< endl;
 }
 
-void SavingAccount::createAccount()
+void SavingAccount::createAccount(const Customer &c)
 {
 	cout << "\n--- Tao tai khoan tiet kiem ---" << endl;
-	Account::createAccount();
+	Account::createAccount(c);
 	cout << "\nNhap so du toi thieu: ";
 	cin >> minimumBalance;
-	cout << "\nNhap ky han (nam): "<<"\n";
+	cout << "\nNhap ky han (nam): ";
 	cin >> term;
 }
 

@@ -8,11 +8,12 @@ class CheckingAccount : public Account
 private:
 	double transactionFee=10000;
 	double overdraftLimit;
-public:
+	public:
+	CheckingAccount();
 	double calculateInterest();
 	bool withdraw(double amount);
 	void deductFee();
-	void createAccount();
+	void createAccount(const Customer &c);
 	void displayInfo();
-	CheckingAccount();
+	bool isSAV();
 };
