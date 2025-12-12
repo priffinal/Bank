@@ -1,1 +1,26 @@
+# Build folders
+x64/
+Debug/
+Release/
+
+# Compiled files
+*.exe
+*.dll
+*.obj
+*.lib
+*.pdb
+*.ilk
+*.log
+
+# VSCode
+.vscode/
+
+# Visual Studio user-specific
+*.vcxproj.user
 .vs/
+
+# Cache / temporary
+*.tmp
+*.cache
+*.tlog
+*.opendb

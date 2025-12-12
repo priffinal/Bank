@@ -6,12 +6,9 @@
 #include <iostream>
 using namespace std;
 
-<<<<<<< HEAD
 
-Account::Account() {}
-=======
 Account::Account(){}
->>>>>>> d6aed6ac7563928d84635cd1bd2d5b6a5ff75a53
+
 Account::Account(string id, string name, double initialBalance)
 {
 	accountID = id;
@@ -90,9 +87,6 @@ void Account::createAccount()
 {
 	cout << "\nNhap ID tai khoan: ";
 	cin >> accountID;
-	cout << "\nNhap ho va ten chu tai khoan: ";
-	cin.ignore();
-	getline(cin, customerID);
 	cout << "\nNhap so du khoi tao: ";
 	cin >> balance;
 	time_t now = time(0);

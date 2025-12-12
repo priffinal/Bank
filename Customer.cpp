@@ -5,48 +5,43 @@
 #include<string>
 #include<iostream>
 using namespace std;
+
+int Customer::n = 0;
+
 Customer::Customer() {}
 
 string Customer::getID() {
 	return customerID;
 }
+
 //ham them tai khoan
-void Customer::addaccount()
+void Customer::addAccount()
 {
 	int choice;
 	do {
-		createcustomer();
-		cout << "chon tai khoan tiet kiem hoac tai khoan thanh toan(1/2): ";
+		createCustomer();
+		cout << "Chon tai khoan tiet kiem hoac tai khoan thanh toan (1-TK/2-TT): ";
 		cin >> choice;
 		//createcustomer();
 		if (choice == 1) {
 			account[n] = new SavingAccount;
-			
+
 		}
 		if (choice == 2) {
 			account[n] = new CheckingAccount;
 		}
 		account[n++]->createAccount();
 		//createcustomer();
-		cout << "co tiep tuc k (y/n): ";
+		cout << "Co tiep tuc k (y/n): ";
 		cin >> choice;
 	} while (choice == 'y');
 }
-double Customer::getBalance()
-{
-	double sum = 0;
 
-	for (int i = 0; i < n; i++)
-		sum += account[i]->getBalance();
-	return sum;
-}
-void Customer::createcustomer()
+void Customer::createCustomer()
 {
-	//cin.ignore();
-
 	cout << "Nhap ho ten: ";
 	getline(cin, fullName);
-	cout<<"\n";
+	cout << "\n";
 	cout << "Nhap so dien thoai: ";
 	getline(cin, phone);
 	cout << "\n";
@@ -56,31 +51,36 @@ void Customer::createcustomer()
 	cout << "Nhap dia chi: ";
 	getline(cin, address);
 	cout << "\n";
-	//cin.ignore();
 }
 
 
 //ham show thong tin tai khoan
 void Customer::showinfo()
 {
-	for (int i = 0; i <= n; i++) {
+	for (int i = 0; i < n; i++) {
 		cout << "Ho ten: " << fullName << "\n" << endl;
 		cout << "Dien thoai: " << phone << "\n" << endl;
 		cout << "Email: " << email << "\n" << endl;
 		cout << "Dia chi: " << address << "\n" << endl;
 		cout << "So tai khoan: " << n << "\n" << endl;
 		account[i]->displayInfo();
-	
 	}
 }
 
 //ham chinh sua ti khoan
-void Customer::updateInfo(string name, string p, string e, string addr)
+void Customer::updateInfo()
 {
-	fullName = name;
-	this->phone = p;
-	this->address = addr;
-	this->email = e;
+	string name, p, e, addr;
+	cout << "Sua thong tin (khong can sua thi an Enter): " << endl;
+	cout << "Nhap ten: "; getline(cin, name);
+	cout << "Nhap SDT: "; cin >> p;
+	cout << "Nhap email: "; cin >> e;
+	cout << "Nhap dia chi: "; getline(cin, addr);
+
+	if (!name.empty()) fullName = name;
+	if (!p.empty())	this->phone = p;
+	if (!addr.empty()) this->address = addr;
+	if (!e.empty())	this->email = e;
 }
 
 //ham xoa tai khoan
@@ -99,4 +99,3 @@ bool Customer::removeAccount(string accID)
 	}
 	return false;
 }
-

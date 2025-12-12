@@ -1,2 +1,22 @@
-﻿  Customer.cpp
-  Bài tập lớn.vcxproj -> C:\Users\Admin\OneDrive\Desktop\bank\Bank\x64\Debug\Bài tập lớn.exe
+﻿  Account.cpp
+C:\Users\Admin\OneDrive\Desktop\bank\Bank\Account.cpp(16,12): warning C4244: '=': conversion from 'double' to '__int64', possible loss of data
+C:\Users\Admin\OneDrive\Desktop\bank\Bank\Account.cpp(29,48): warning C4244: 'argument': conversion from 'double' to '__int64', possible loss of data
+C:\Users\Admin\OneDrive\Desktop\bank\Bank\Account.cpp(32,13): warning C4244: '-=': conversion from 'double' to '__int64', possible loss of data
+C:\Users\Admin\OneDrive\Desktop\bank\Bank\Account.cpp(35,47): warning C4244: 'argument': conversion from 'double' to '__int64', possible loss of data
+C:\Users\Admin\OneDrive\Desktop\bank\Bank\Account.cpp(41,13): warning C4244: '+=': conversion from 'double' to '__int64', possible loss of data
+C:\Users\Admin\OneDrive\Desktop\bank\Bank\Account.cpp(44,47): warning C4244: 'argument': conversion from 'double' to '__int64', possible loss of data
+  CheckingAccount.cpp
+C:\Users\Admin\OneDrive\Desktop\bank\Bank\CheckingAccount.cpp(58,48): warning C4244: 'argument': conversion from 'double' to '__int64', possible loss of data
+C:\Users\Admin\OneDrive\Desktop\bank\Bank\CheckingAccount.cpp(69,48): warning C4244: 'argument': conversion from 'double' to '__int64', possible loss of data
+  Customer.cpp
+  main.cpp
+C:\Users\Admin\OneDrive\Desktop\bank\Bank\main.cpp(36,4): error C2039: 'addaccount': is not a member of 'Customer'
+      C:\Users\Admin\OneDrive\Desktop\bank\Bank\Customer.h(7,7):
+      see declaration of 'Customer'
+  
+  menu.cpp
+  SavingAccount.cpp
+C:\Users\Admin\OneDrive\Desktop\bank\Bank\SavingAccount.cpp(16,40): warning C4244: '=': conversion from 'double' to '__int64', possible loss of data
+C:\Users\Admin\OneDrive\Desktop\bank\Bank\SavingAccount.cpp(17,10): warning C4244: 'return': conversion from '__int64' to 'double', possible loss of data
+  Transaction.cpp
+  Generating Code...
