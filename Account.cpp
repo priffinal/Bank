@@ -1,18 +1,17 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include "Account.h"
+#include "AutoGen.h"
 #include "PrintTime.h"
 #include <ctime>
 #include <string>
 #include <iostream>
 using namespace std;
 
-
+map<string, int> Account::accType = {};
 Account::Account(){}
-
-Account::Account(string id, string name, double initialBalance)
+Account::Account(string id, double initialBalance)
 {
 	accountID = id;
-	customerID = name;
 	balance = initialBalance;
 	status = "Open";
 }
@@ -44,20 +43,29 @@ void Account::deposit(double amount)
 	tr.push_back(Transaction(accountID, "", ltm, amount, "deposit", "success"));
 }
 
-// bool Account::transfer(double amount, string relatedID)
-// {
-// 	if (amount > balance)
-// 	{
-// 		cout << "\nSo du khong du" << endl;
-// 		tr.push_back(Transaction(accountID, relatedID, ctime(&now), amount, "transfer", "failed"));
-// 		return false;
-// 	}
-// 	balance -= amount;
-// 	//continue
-// 	tr.push_back(Transaction(accountID, relatedID, ctime(&now), amount, "withdraw", "success"));
-// 	return true;
-// }
+void Account::transfer_in(double amount, string relatedID)
+{
+	balance += amount;
+	time_t now = time(0);
+	tm* ltm = localtime(&now);
+	tr.push_back(Transaction(accountID, relatedID, ltm, amount, "transfer_in", "success"));
+}
 
+bool Account::transfer_out(double amount, string relatedID)
+{
+	if (amount > balance)
+	{
+		cout << "\nSo du khong du" << endl;
+		time_t now = time(0);
+	tm* ltm = localtime(&now);
+		tr.push_back(Transaction(accountID, relatedID, ltm, amount, "transfer_out", "failed"));
+	}
+	balance -= amount;
+	time_t now = time(0);
+	tm* ltm = localtime(&now);
+	tr.push_back(Transaction(accountID, relatedID, ltm, amount, "transfer_out", "success"));
+	return true;
+}
 
 double Account::calculateInterest()
 {
@@ -67,7 +75,6 @@ double Account::calculateInterest()
 void Account::displayInfo()
 {
 	cout << "\nAccount ID: " << accountID << endl;
-	cout << "\nCustomer ID: " << customerID << endl;
 	cout << "\nOpen Date: " << openDate << endl;
 	cout << "\nStatus: " << status << endl;
 	cout << "\nBalance: " << balance << endl;
@@ -83,16 +90,19 @@ void Account::closeAccount()
 	status = "Closed";
 }
 
-void Account::createAccount()
+void Account::createAccount(const Customer &c)
 {
-	cout << "\nNhap ID tai khoan: ";
-	cin >> accountID;
 	cout << "\nNhap so du khoi tao: ";
 	cin >> balance;
+	if (isSAV()) {
+		accountID = autoGenerate("SAV", ++accType["saving"]);
+	} else accountID = autoGenerate("CHK", ++accType["checking"]);
 	time_t now = time(0);
 	tm *ltm = localtime(&now);
 	openDate = ltm;
+	customerInfo = c;
 	status = "Open";
+
 }
 
 void Account::printLog()
@@ -100,7 +110,7 @@ void Account::printLog()
 	tr.at(0).log();
 }
 
-void Account::pushCusID(string ID)
+string Account::getID()
 {
-	customerID = ID;
+	return accountID;
 }

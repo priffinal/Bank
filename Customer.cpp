@@ -10,38 +10,55 @@ int Customer::n = 0;
 
 Customer::Customer() {}
 
+void Customer::autoID(string ID)
+{
+	customerID = ID;
+}
+
 string Customer::getID() {
 	return customerID;
 }
 
 //ham them tai khoan
-void Customer::addAccount()
+Account* Customer::addAccount()
 {
-	int choice;
-	do {
-		createCustomer();
+	char choice;
+	Account* lastCreated = nullptr;
+	do 
+	{
 		cout << "Chon tai khoan tiet kiem hoac tai khoan thanh toan (1-TK/2-TT): ";
 		cin >> choice;
-		//createcustomer();
-		if (choice == 1) {
-			account[n] = new SavingAccount;
-
+		if (choice == '1') {
+			account.push_back(new SavingAccount);
+			account[n]->createAccount(*this);
+			lastCreated = account[n++];
 		}
-		if (choice == 2) {
-			account[n] = new CheckingAccount;
+		if (choice == '2') {
+			account.push_back(new CheckingAccount);
+			account[n]->createAccount(*this);
+			lastCreated = account[n++];
 		}
-		account[n++]->createAccount();
-		//createcustomer();
-		cout << "Co tiep tuc k (y/n): ";
+		cout << "Co tiep tuc khong (y/n): ";
 		cin >> choice;
-	} while (choice == 'y');
+	} while (choice == 'y' || choice == 'Y');
+	return lastCreated;
 }
+
+int Customer::getAccountCount() {
+	return n;
+}
+
+Account* Customer::getAccountAt(int index) {
+	if (index >= 0 && index < n) return account[index];
+	return nullptr;
+}
+
 
 void Customer::createCustomer()
 {
 	cout << "Nhap ho ten: ";
 	getline(cin, fullName);
-	cout << "\n";
+	cout<<"\n";
 	cout << "Nhap so dien thoai: ";
 	getline(cin, phone);
 	cout << "\n";
@@ -53,23 +70,23 @@ void Customer::createCustomer()
 	cout << "\n";
 }
 
-
 //ham show thong tin tai khoan
-void Customer::showinfo()
+void Customer::showInfo()
 {
+	cout << "Ho ten: " << fullName << endl;
+	cout << "ID: " << customerID << endl;
+	cout << "Dien thoai: " << phone << endl;
+	cout << "Email: " << email << endl;
+	cout << "Dia chi: " << address << endl;
+	cout << "So tai khoan: " << n << endl;
 	for (int i = 0; i < n; i++) {
-		cout << "Ho ten: " << fullName << "\n" << endl;
-		cout << "Dien thoai: " << phone << "\n" << endl;
-		cout << "Email: " << email << "\n" << endl;
-		cout << "Dia chi: " << address << "\n" << endl;
-		cout << "So tai khoan: " << n << "\n" << endl;
 		account[i]->displayInfo();
 	}
 }
 
 //ham chinh sua ti khoan
 void Customer::updateInfo()
-{
+{	
 	string name, p, e, addr;
 	cout << "Sua thong tin (khong can sua thi an Enter): " << endl;
 	cout << "Nhap ten: "; getline(cin, name);

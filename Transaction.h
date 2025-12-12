@@ -8,7 +8,6 @@ class Transaction
 {
 private:
     static map<string, int> counter;
-    friend ostream& operator<<(ostream &os, tm *ltm);
     string transactionID;
     string accountID;
     string relatedID;
