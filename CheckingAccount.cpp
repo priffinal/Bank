@@ -38,15 +38,8 @@ double CheckingAccount::calculateInterest()
 
 bool CheckingAccount::withdraw(double amount)
 {
-	if (getBalance() < amount + transactionFee - overdraftLimit)
-	{
-		time_t now = time(0);
-		tm ltm = *localtime(&now);
-		tr.push_back(Transaction(accountID, "", ltm, amount, "withdraw", "failed"));
-		return false;
-	}
-	else
-	{
+	if (getBalance() < amount + transactionFee - overdraftLimit) return false;
+	else {
 		Account::withdraw(amount);
 		return true;
 	}

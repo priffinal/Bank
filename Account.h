@@ -32,6 +32,7 @@ public:
 	virtual double calculateInterest();
 	virtual void displayInfo();
 	virtual void printList();
+	void addTransaction(Transaction T);
 	long long getBalance();
 	virtual bool withdraw(double amount) = 0;
 	void setOwner(Customer *c);

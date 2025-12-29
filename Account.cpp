@@ -27,19 +27,19 @@ void Account::setOwner(Customer *c)
 	customerInfo = c;
 }
 
+void Account::addTransaction(Transaction T) { tr.push_back(T); }
+
 bool Account::withdraw(double amount)
 {
 	if (amount > balance) {
 		time_t now = time(0);
 		tm ltm = *localtime(&now);
-		tr.push_back(Transaction(accountID, "", ltm, amount, "withdraw", "failed"));
 		return false;
 	}
 	else {
 		balance -= amount;
 		time_t now = time(0);
 		tm ltm = *localtime(&now);
-		tr.push_back(Transaction(accountID, "", ltm, amount, "withdraw", "success"));
 		return true;
 	}
 }
@@ -48,14 +48,12 @@ void Account::deposit(double amount) {
 	balance += amount;
 	time_t now = time(0);
 	tm ltm = *localtime(&now);
-	tr.push_back(Transaction(accountID, "", ltm, amount, "deposit", "success"));
 }
 
 void Account::transfer_in(double amount, string relatedID) {
 	balance += amount;
 	time_t now = time(0);
 	tm ltm = *localtime(&now);
-	tr.push_back(Transaction(accountID, "", ltm, amount, "transfer_in", "success"));
 }
 
 bool Account::transfer_out(double amount, string relatedID)
@@ -63,13 +61,11 @@ bool Account::transfer_out(double amount, string relatedID)
 	if (amount > balance) {
 		time_t now = time(0);
 		tm ltm = *localtime(&now);
-		tr.push_back(Transaction(accountID, "", ltm, amount, "transfer_out", "failed"));
 		return false;
 	} else {
 		balance -= amount;
 		time_t now = time(0);
 		tm ltm = *localtime(&now);
-		tr.push_back(Transaction(accountID, "", ltm, amount, "transfer_out", "success"));
 		return true;
 	}
 }

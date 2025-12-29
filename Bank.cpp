@@ -93,6 +93,7 @@ void Bank::deposit(Account &a, double amount)
     tm ltm = *localtime(&now);
     Transaction T = Transaction(a.getID(), "", ltm, amount, "deposit", "success");
     transactions.push_back(T);
+    a.addTransaction(T);
 }
 
 bool Bank::withdraw(Account &a, double amount)
@@ -102,12 +103,14 @@ bool Bank::withdraw(Account &a, double amount)
         tm ltm = *localtime(&now);
         Transaction T = Transaction(a.getID(), "", ltm, amount, "withdraw", "success");
         transactions.push_back(T);
+        a.addTransaction(T);
         return true;
     } else {
         time_t now = time(0);
         tm ltm = *localtime(&now);
         Transaction T = Transaction(a.getID(), "", ltm, amount, "withdraw", "failed");
         transactions.push_back(T);
+        a.addTransaction(T);
         return false;
     }
 }
@@ -117,15 +120,20 @@ bool Bank::transfer(Account &a, string ID, double amount)
     if (a.transfer_out(amount, ID)) {
         time_t now = time(0);
         tm ltm = *localtime(&now);
-        transactions.push_back(Transaction(a.getID(), ID, ltm, amount, "transfer_out", "success"));
+        Transaction T1 = Transaction(a.getID(), ID, ltm, amount, "transfer_out", "success");
+        transactions.push_back(T1);
+        a.addTransaction(T1);
         searchAccount(ID)->transfer_in(amount, a.getID());
-        transactions.push_back(Transaction(a.getID(), ID, ltm, amount, "transfer_in", "success"));
+        Transaction T2 = Transaction(a.getID(), ID, ltm, amount, "transfer_in", "success");
+        transactions.push_back(T2);
+        searchAccount(ID)->addTransaction(T2);
         return true;
     } else {
         time_t now = time(0);
         tm ltm = *localtime(&now);
-        transactions.push_back(Transaction(a.getID(), ID, ltm, amount, "transfer_out", "failed"));
-        transactions.push_back(Transaction(a.getID(), ID, ltm, amount, "transfer_in", "failed"));
+        Transaction T1 = Transaction(a.getID(), ID, ltm, amount, "transfer_out", "failed");
+        transactions.push_back(T1);
+        a.addTransaction(T1);
         return false;
     }
 }

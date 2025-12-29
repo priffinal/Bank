@@ -53,11 +53,6 @@ bool SavingAccount::withdraw(double amount)
 	time_t now = time(0);
 	tm expiredTm = addYears(&openDate, term);
 	time_t expired = mktime(&expiredTm);
-	if (difftime(expired, now) > 0) {
-		return false;
-		time_t now = time(0);
-		tm ltm = *localtime(&now);
-		tr.push_back(Transaction(accountID, "", ltm, amount, "withdraw", "failed"));
-	}
+	if (difftime(expired, now) > 0) return false;
 	else return Account::withdraw(amount);
 }
