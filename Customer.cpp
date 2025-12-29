@@ -22,25 +22,36 @@ string Customer::getID() {
 //ham them tai khoan
 Account* Customer::addAccount()
 {
-	char choice;
+	char cont;
 	Account* lastCreated = nullptr;
-	do 
-	{
-		cout << "Chon tai khoan tiet kiem hoac tai khoan thanh toan (1-TK/2-TT): ";
-		cin >> choice;
-		if (choice == '1') {
-			account.push_back(new SavingAccount);
-			account[n]->createAccount(*this);
-			lastCreated = account[n++];
+
+	do {
+		int type;
+		cout << "Chon loai tai khoan (1-Tiet kiem, 2-Thanh toan): ";
+		cin >> type;
+
+		Account* acc = nullptr;
+
+		if (type == 1) {
+			acc = new SavingAccount();
 		}
-		if (choice == '2') {
-			account.push_back(new CheckingAccount);
-			account[n]->createAccount(*this);
-			lastCreated = account[n++];
+		else if (type == 2) {
+			acc = new CheckingAccount();
 		}
+		else {
+			cout << "Lua chon khong hop le!\n";
+			continue;
+		}
+
+		acc->createAccount(*this);
+		account.push_back(acc);
+		lastCreated = acc;
+
 		cout << "Co tiep tuc khong (y/n): ";
-		cin >> choice;
-	} while (choice == 'y' || choice == 'Y');
+		cin >> cont;
+
+	} while (cont == 'y' || cont == 'Y');
+
 	return lastCreated;
 }
 

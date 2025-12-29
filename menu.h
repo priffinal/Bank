@@ -9,4 +9,7 @@ public:
     void drawFrame();
     void clearScreen();
     void showMainMenu();
+    void ShowAccountMenu();
+    void ShowCustomerMenu();
+    void ShowTransactionMenu();
 };

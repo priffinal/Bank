@@ -10,5 +10,5 @@ using namespace std;
 int main() {
 	Bank bank;
 	bank.addCustomer();
-	bank.addAccount("C0001");
+	//bank.addAccount("C0001");
 }
