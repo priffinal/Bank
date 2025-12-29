@@ -3,7 +3,9 @@
 #include <vector>
 #include<string>
 using namespace std;
+
 class Account;
+
 class Customer
 {
 private:
@@ -16,13 +18,15 @@ private:
     static int n;
 public:
     Customer();
-    Account* addAccount();
+    string addAccount(Account *acc);
     int getAccountCount();
-    Account* getAccountAt(int index);
+    Account* searchAccount(string ID);
     string getID();
     void showInfo();
-    void updateInfo();
+    void updateInfo(string name, string phone, string email, string address);
     bool removeAccount(string accID);
-    void createCustomer();
+    void createCustomer(string name, string phone, string email, string address);
     void autoID(string ID);
+    bool removeAllAccount();
+    void list();
 };

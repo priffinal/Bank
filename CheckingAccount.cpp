@@ -6,17 +6,17 @@
 #include <iomanip>
 using namespace std;
 
-CheckingAccount::CheckingAccount() : Account("", 0)
+CheckingAccount::CheckingAccount(long long balance, long long overdraftLimit) : Account(balance)
 {
-	overdraftLimit = 0.0;
+	this->overdraftLimit = overdraftLimit;
+	this->accountID = autoGenerate("CHK", ++accType["checking"]);
 }
 
-bool CheckingAccount::isSAV() { return false; }
 
-void CheckingAccount::createAccount(const Customer &c)
+void CheckingAccount::createAccount(const Customer &c, long long balance)
 {
 	cout << "\n--- Tao tai khoan thanh toan ---" << endl;
-	Account::createAccount(c);
+	Account::createAccount(c, balance);
 	cout << "\nNhap gioi han rut qua tai khoan: ";
 	cin >> overdraftLimit;
 }
@@ -30,20 +30,6 @@ void CheckingAccount::displayInfo()
 	cout << "\nGioi han rut qua tai khoan: " << overdraftLimit <<"\n"<< endl;
 }
 
-void CheckingAccount::deductFee()
-{
-	if (getBalance() - transactionFee < overdraftLimit)
-	{
-		cout << "Giao dich bi tu choi do vuot qua han muc thau chi" << endl;
-	}
-	else
-	{
-		withdraw(transactionFee);
-		cout << fixed << setprecision(2);
-		cout << "Phi giao dich la " << transactionFee << "da tru" << endl;
-	}
-}
-
 double CheckingAccount::calculateInterest()
 {
 	cout << "Tai khoan co lai suat thap" << endl;
@@ -52,20 +38,16 @@ double CheckingAccount::calculateInterest()
 
 bool CheckingAccount::withdraw(double amount)
 {
-	if (amount + transactionFee > getBalance() + overdraftLimit)
+	if (getBalance() < amount + transactionFee - overdraftLimit)
 	{
-		cout << "Rut tien bi tu choi do han muc khong du" << endl;
 		time_t now = time(0);
-		tm *ltm = localtime(&now);
+		tm ltm = *localtime(&now);
 		tr.push_back(Transaction(accountID, "", ltm, amount, "withdraw", "failed"));
 		return false;
 	}
 	else
 	{
 		Account::withdraw(amount);
-		deductFee();
-		cout << fixed << setprecision(0);
-		cout << "Da rut" << amount << "tu tai khoan" << endl;
 		return true;
 	}
 }

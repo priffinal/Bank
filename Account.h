@@ -1,6 +1,6 @@
 #pragma once
 #include "Transaction.h"
-#include "Customer.h"
+#include "AutoGen.h"
 #include <map>
 #include <ctime>
 #include <string>
@@ -8,33 +8,34 @@
 #include <vector>
 using namespace std;
 
+class Customer;
+class Transaction;
+
 class Account
 {
 protected:
-	string accountID; 
-	Customer customerInfo;
-	tm *openDate;
+	string accountID;
+	Customer *customerInfo;
+	tm openDate;
 	string status;
 	long long balance;
 	vector<Transaction> tr;
 	static map<string, int> accType;
 public:
 	Account();
-	Account(string id, double initialBalance);
+	Account(double initialBalance);
 	~Account();
-
-	bool withdraw(double amount);
-	virtual bool isSAV()=0;
+	virtual void createAccount(const Customer &c, long long balance);
 	virtual void deposit(double amount);
 	virtual void transfer_in(double amount, string relatedID);
 	virtual bool transfer_out(double amount, string relatedID);
 	virtual double calculateInterest();
 	virtual void displayInfo();
-	void printLog();
+	virtual void printList();
 	long long getBalance();
+	virtual bool withdraw(double amount) = 0;
+	void setOwner(Customer *c);
 	void lockAccount();
 	void closeAccount();
-	virtual void createAccount(const Customer &c);
-	void pushCusID(string ID);
 	string getID();
 };
