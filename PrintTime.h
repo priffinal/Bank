@@ -4,4 +4,4 @@
 #include <ctime>
 using namespace std;
 
-ostream &operator<<(ostream &os, const tm *ltm);
+ostream &operator<<(ostream &os, const tm ltm);

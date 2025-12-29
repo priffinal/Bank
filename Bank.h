@@ -3,7 +3,6 @@
 #include "CheckingAccount.h"
 #include "SavingAccount.h"
 #include "Transaction.h"
-#include"menu.h"
 #include <vector>
 #include <map>
 using namespace std;
@@ -15,24 +14,24 @@ private:
     vector<Account*> accounts;
     vector<Transaction> transactions;
     static int cusNum, accNum;
-    menu ui;
 public:
     Bank();
     ~Bank();
-    void addCustomer();
-    void showCusInfo(string ID);
-    void updateCusInfo(string ID);
-    void deleteCustomer(string ID);
-    void addAccount();
-    void closeAccount();
-    Customer* searchCustomer(string ID);
-    Account &searchAccount(string ID);
+    string addCustomer(string name, string phone, string email, string address);
+    bool showCusInfo(string ID);
+    bool showAccInfo(string ID);
+    bool updateCusInfo(string ID, string name, string phone, string email, string address);
+    bool deleteCustomer(string ID);
+    string addCHK(string ID, long long balance, long long overdraftLimit);
+    string addSAV(string ID, long long balance);
+    void closeAccount(string accID);
+    Customer* searchCustomer(const string &ID);
+    Account* searchAccount(const string &ID);
     void deposit(Account &a, double amount);
-    void withdraw(Account &a, double amount);
-    void transfer(Account &a, string ID, double amount);
-    void list();
-    void run();
-    void accountmenu();
-    void customermenu();
-    void transactionmenu();
+    bool withdraw(Account &a, double amount);
+    bool transfer(Account &a, string ID, double amount);
+    void printAllTransactions();
+    long long totalDeposit();
+    long long totalWithdraw(string ID);
+    vector<Transaction> filterByDate(tm from, tm to);
 };

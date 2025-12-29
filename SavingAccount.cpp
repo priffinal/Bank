@@ -6,7 +6,6 @@
 #include <iomanip>
 using namespace std;
 
-bool SavingAccount::isSAV() { return true; }
 
 tm addYears(tm *t, int year)
 {
@@ -15,11 +14,12 @@ tm addYears(tm *t, int year)
 	return *localtime(&time);
 }
 
-SavingAccount::SavingAccount() : Account("", 0.0)
+SavingAccount::SavingAccount(long long balance) : Account(balance)
 {
 	interest = 0;
 	minimumBalance = 0.0;
 	term = 0;
+	accountID = autoGenerate("SAV", ++accType["saving"]);
 };
 
 double SavingAccount::calculateInterest()
@@ -38,31 +38,21 @@ void SavingAccount::displayInfo()
 	cout << "\nKy han: " << term << " nam" <<"\n"<< endl;
 }
 
-void SavingAccount::createAccount(const Customer &c)
-{
-	cout << "\n--- Tao tai khoan tiet kiem ---" << endl;
-	Account::createAccount(c);
-	cout << "\nNhap so du toi thieu: ";
-	cin >> minimumBalance;
-	cout << "\nNhap ky han (nam): ";
-	cin >> term;
-}
+// void SavingAccount::createAccount(const Customer &c, long long balance)
+// {
+// 	cout << "\n--- Tao tai khoan tiet kiem ---" << endl;
+// 	Account::createAccount(c, balance);
+// 	cout << "\nNhap so du toi thieu: ";
+// 	cin >> minimumBalance;
+// 	cout << "\nNhap ky han (nam): ";
+// 	cin >> term;
+// }
 
 bool SavingAccount::withdraw(double amount)
 {
 	time_t now = time(0);
-	tm expiredTm = addYears(openDate, term);
+	tm expiredTm = addYears(&openDate, term);
 	time_t expired = mktime(&expiredTm);
-	if (difftime(expired, now)>0) {
-		cout << "Khong ho tro rut tien trong ky han.";
-		tr.push_back(Transaction(accountID, "", localtime(&now), amount, "withdraw", "failed"));
-		return 0;
-	}
-	else
-	{
-		Account::withdraw(amount);
-		cout << fixed << setprecision(0);
-		cout << "Da rut" << amount << "tu tai khoan" << endl;
-		return true;
-	}
+	if (difftime(expired, now) > 0) return false;
+	else return Account::withdraw(amount);
 }

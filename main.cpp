@@ -5,10 +5,11 @@
 #include "CheckingAccount.h"
 #include "Account.h"
 #include"Customer.h"
+#include "Menu.h"
 using namespace std;
 
 int main() {
-	Bank bank;
-	bank.addCustomer();
-	//bank.addAccount("C0001");
+	Bank b;
+    Menu menu = Menu(b);
+    menu.mainMenu();
 }

@@ -2,6 +2,8 @@
 #include "Account.h"
 #include "AutoGen.h"
 #include "PrintTime.h"
+#include "Customer.h"
+#include "Transaction.h"
 #include <ctime>
 #include <string>
 #include <iostream>
@@ -9,62 +11,63 @@ using namespace std;
 
 map<string, int> Account::accType = {};
 Account::Account(){}
-Account::Account(string id, double initialBalance)
+Account::Account(double initialBalance)
 {
-	accountID = id;
-	balance = initialBalance;
+	balance = initialBalance;	
+	time_t now = time(0);
+	tm ltm = *localtime(&now);
+	openDate = ltm;
 	status = "Open";
 }
 
 Account::~Account() {}
 
+void Account::setOwner(Customer *c)
+{
+	customerInfo = c;
+}
+
+void Account::addTransaction(Transaction T) { tr.push_back(T); }
+
 bool Account::withdraw(double amount)
 {
-	if (amount > balance)
-	{
-		cout << "\nSo du khong du" << endl;
+	if (amount > balance) {
 		time_t now = time(0);
-		tm* ltm = localtime(&now);
-		tr.push_back(Transaction(accountID, "", ltm, amount, "withdraw", "failed"));
+		tm ltm = *localtime(&now);
 		return false;
 	}
-	balance -= amount;
-	time_t now = time(0);
-	tm* ltm = localtime(&now);
-	tr.push_back(Transaction(accountID, "", ltm, amount, "withdraw", "success"));
-	return true;
+	else {
+		balance -= amount;
+		time_t now = time(0);
+		tm ltm = *localtime(&now);
+		return true;
+	}
 }
 
-void Account::deposit(double amount)
-{
+void Account::deposit(double amount) { 
 	balance += amount;
 	time_t now = time(0);
-	tm* ltm = localtime(&now);
-	tr.push_back(Transaction(accountID, "", ltm, amount, "deposit", "success"));
+	tm ltm = *localtime(&now);
 }
 
-void Account::transfer_in(double amount, string relatedID)
-{
+void Account::transfer_in(double amount, string relatedID) {
 	balance += amount;
 	time_t now = time(0);
-	tm* ltm = localtime(&now);
-	tr.push_back(Transaction(accountID, relatedID, ltm, amount, "transfer_in", "success"));
+	tm ltm = *localtime(&now);
 }
 
 bool Account::transfer_out(double amount, string relatedID)
 {
-	if (amount > balance)
-	{
-		cout << "\nSo du khong du" << endl;
+	if (amount > balance) {
 		time_t now = time(0);
-	tm* ltm = localtime(&now);
-		tr.push_back(Transaction(accountID, relatedID, ltm, amount, "transfer_out", "failed"));
+		tm ltm = *localtime(&now);
+		return false;
+	} else {
+		balance -= amount;
+		time_t now = time(0);
+		tm ltm = *localtime(&now);
+		return true;
 	}
-	balance -= amount;
-	time_t now = time(0);
-	tm* ltm = localtime(&now);
-	tr.push_back(Transaction(accountID, relatedID, ltm, amount, "transfer_out", "success"));
-	return true;
 }
 
 double Account::calculateInterest()
@@ -74,43 +77,29 @@ double Account::calculateInterest()
 
 void Account::displayInfo()
 {
-	cout << "\nAccount ID: " << accountID << endl;
-	cout << "\nOpen Date: " << openDate << endl;
-	cout << "\nStatus: " << status << endl;
-	cout << "\nBalance: " << balance << endl;
+	cout << "- Account ID: " << accountID 
+		 << " - Open Date: " << openDate 
+		 << " - Status: " << status 
+		 << " - Balance: " << balance << endl;
 }
 
-long long Account::getBalance()
-{
-	return balance;
-}
+long long Account::getBalance() { return balance; }
 
-void Account::closeAccount()
-{
-	status = "Closed";
-}
+void Account::closeAccount() { status = "Closed"; }
 
-void Account::createAccount(const Customer &c)
+void Account::createAccount(const Customer &c, long long balance)
 {
-	cout << "\nNhap so du khoi tao: ";
-	cin >> balance;
-	if (isSAV()) {
-		accountID = autoGenerate("SAV", ++accType["saving"]);
-	} else accountID = autoGenerate("CHK", ++accType["checking"]);
+	this->balance = balance;
+	
 	time_t now = time(0);
-	tm *ltm = localtime(&now);
+	tm ltm = *localtime(&now);
 	openDate = ltm;
-	customerInfo = c;
 	status = "Open";
-
 }
 
-void Account::printLog()
-{
-	tr.at(0).log();
-}
+string Account::getID() { return accountID; }
 
-string Account::getID()
+void Account::printList()
 {
-	return accountID;
+	cout << "ID: " << getID() << "So du: " << getBalance() << endl;
 }

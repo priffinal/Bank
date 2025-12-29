@@ -1,235 +1,195 @@
-﻿#define _CRT_SECURE_NO_WARNINGS
 #include "Bank.h"
 #include "AutoGen.h"
-#include"menu.h"
-#include"Customer.h"
-#include"SavingAccount.h"
-#include"CheckingAccount.h"
 #include <iostream>
 #include <ctime>
 using namespace std;
 
 int Bank::cusNum = 0;
-int Bank::accNum = 0;
 
 Bank::Bank(){}
 Bank::~Bank(){}
 
-void Bank::addCustomer()
+string Bank::addCustomer(string name, string phone, string email, string address)
 {
-    ui.clearScreen();
-    cout << "===== DANG KY KHACH HANG =====\n";
     Customer c;
-    c.createCustomer();
+    c.createCustomer(name, phone, email, address);
     c.autoID(autoGenerate("C", ++cusNum));
     customers.push_back(c);
-    cout << "Dang ky thanh cong!\n";
+    return c.getID();
 }
 
-Customer* Bank::searchCustomer(string ID) {
-   
-    for (int i = 0; i < customers.size(); i++) {
-        if (customers[i].getID() == ID) {
-           return &customers[i];   // trả về địa chỉ
+Customer* Bank::searchCustomer(const string &ID) {
+    for (auto& c : customers) {
+        if (c.getID() == ID) {
+            return &c;
         }
     }
-        return nullptr;
+    return nullptr;
 }
 
-void Bank::showCusInfo(string ID)
+bool Bank::showCusInfo(string ID)
 {
-    Customer* c = searchCustomer(ID);
-    if (c != nullptr)
-        c->showInfo();
-
+    Customer* cus = searchCustomer(ID);
+    if (!cus) return false;
+   cus->showInfo();
+   return true;
 }
 
-void Bank::updateCusInfo(string ID)
+bool Bank::updateCusInfo(string ID, string name, string phone, string email, string address)
 {
-    Customer* c = searchCustomer(ID);
-    if (c != nullptr)
-        c->updateInfo();
-
+    Customer* cus = searchCustomer(ID);
+    if (!cus) return false;
+    cus->updateInfo(name, phone, email, address);
+    return true;
 }
 
-void Bank::addAccount() {
-    ui.clearScreen();
-    cout << "===== TAO TAI KHOAN =====\n";
-
-    string customerID;
-    cout << "Nhap ID khach hang: ";
-    cin >> customerID;
-
-    Customer* cust = searchCustomer(customerID);
-
-    // ❌ Chưa đăng ký khách hàng
-    if (cust == nullptr) {
-        cout << "Khach hang chua dang ky!\n";
-        cout << "Ban co muon dang ky khach hang moi? (y/n): ";
-
-        char choice;
-        cin >> choice;
-
-        if (choice == 'y' || choice == 'Y') {
-            addCustomer();                // đăng ký khách hàng
-            cust = searchCustomer(customerID); // tìm lại
-        }
-        else {
-            cout << "Huy tao tai khoan!\n";
-            system("pause");
-            return;
-        }
-    }
-
-    // ✅ Đã có khách hàng → tạo tài khoản
-    cout << "\n1. Saving Account\n";
-    cout << "2. Checking Account\n";
-    cout << "Chon loai: ";
-    int type;
-    cin >> type;
-
-    Account* acc = nullptr;
-    if (type == 1) acc = new SavingAccount();
-    else if (type == 2) acc = new CheckingAccount();
-    else {
-        cout << "Loai tai khoan khong hop le!\n";
-        system("pause");
-        return;
-    }
-
+string Bank::addCHK(string ID, long long balance, long long overdraftLimit)
+{
+    Customer *cus = searchCustomer(ID);
+    if (!cus) return "";
+    Account* acc = new CheckingAccount(balance, overdraftLimit);
+    string newID = cus->addAccount(acc);
     accounts.push_back(acc);
-    cust->addAccount(acc);
-
-    cout << "\nTao tai khoan thanh cong!\n";
-    system("pause");
+    return newID;
 }
 
+string Bank::addSAV(string ID, long long balance)
+{
+    Customer *cus = searchCustomer(ID);
+    if (!cus) return "";
+    Account* acc = new SavingAccount(balance);
+    string newID = cus->addAccount(acc);
+    accounts.push_back(acc);
+    return newID;
+}
 
-
-Account& Bank::searchAccount(string ID) {
+Account* Bank::searchAccount(const string& ID) {
     for (size_t i = 0; i < accounts.size(); ++i) {
         if (accounts[i]->getID() == ID) {
-            return *accounts[i];
+            return accounts[i];
         }
     }
-    throw runtime_error("Khong tim thay tai khoan.");
+    return nullptr;
+}
+
+void Bank::closeAccount(string accID)
+{
+    Account *acc = searchAccount(accID);
+    acc->closeAccount();
+}
+
+bool Bank::showAccInfo(string ID)
+{
+    Account* acc = searchAccount(ID);
+    if (acc == nullptr) return false;
+    acc->displayInfo();
+    return true;
 }
 
 void Bank::deposit(Account &a, double amount)
 {
     a.deposit(amount);
     time_t now = time(0);
-    tm *ltm = localtime(&now);
-    transactions.push_back(Transaction(a.getID(), "", ltm, amount, "deposit", "success"));
+    tm ltm = *localtime(&now);
+    Transaction T = Transaction(a.getID(), "", ltm, amount, "deposit", "success");
+    transactions.push_back(T);
+    a.addTransaction(T);
 }
 
-void Bank::withdraw(Account &a, double amount)
+bool Bank::withdraw(Account &a, double amount)
 {
-    a.withdraw(amount);
-    time_t now = time(0);
-    tm *ltm = localtime(&now);
-    transactions.push_back(Transaction(a.getID(), "", ltm, amount, "withdraw", "success"));
+    if (a.withdraw(amount)) {
+        time_t now = time(0);
+        tm ltm = *localtime(&now);
+        Transaction T = Transaction(a.getID(), "", ltm, amount, "withdraw", "success");
+        transactions.push_back(T);
+        a.addTransaction(T);
+        return true;
+    } else {
+        time_t now = time(0);
+        tm ltm = *localtime(&now);
+        Transaction T = Transaction(a.getID(), "", ltm, amount, "withdraw", "failed");
+        transactions.push_back(T);
+        a.addTransaction(T);
+        return false;
+    }
 }
 
-void Bank::transfer(Account &a, string ID, double amount)
+bool Bank::transfer(Account &a, string ID, double amount)
 {
     if (a.transfer_out(amount, ID)) {
         time_t now = time(0);
-        tm *ltm = localtime(&now);
-        transactions.push_back(Transaction(a.getID(), ID, ltm, amount, "transfer_out", "success"));
-        searchAccount(ID).transfer_in(amount, a.getID());
-        transactions.push_back(Transaction(ID, a.getID(), ltm, amount, "transfer_in", "success"));
+        tm ltm = *localtime(&now);
+        Transaction T1 = Transaction(a.getID(), ID, ltm, amount, "transfer_out", "success");
+        transactions.push_back(T1);
+        a.addTransaction(T1);
+        searchAccount(ID)->transfer_in(amount, a.getID());
+        Transaction T2 = Transaction(a.getID(), ID, ltm, amount, "transfer_in", "success");
+        transactions.push_back(T2);
+        searchAccount(ID)->addTransaction(T2);
+        return true;
     } else {
         time_t now = time(0);
-        tm *ltm = localtime(&now);
-        transactions.push_back(Transaction(a.getID(), ID, ltm, amount, "transfer_out", "failed"));
+        tm ltm = *localtime(&now);
+        Transaction T1 = Transaction(a.getID(), ID, ltm, amount, "transfer_out", "failed");
+        transactions.push_back(T1);
+        a.addTransaction(T1);
+        return false;
     }
 }
 
-void Bank::deleteCustomer(string ID)
+bool Bank::deleteCustomer(string ID)
 {
     for (int i = 0; i < customers.size(); i++) {
         if (customers[i].getID() == ID) {
-            char choice;
-            cout << "Ban co chac chan xoa nguoi dung khong (y/n): " << endl; cin >> choice;
-            if (choice == 'y') {
-                customers[i] = customers.back();
-                customers.pop_back();
-                cout << "Da xoa nguoi dung thanh cong.";
-            } else {
-                
-            }
+            customers[i] = customers.back();
+            customers.pop_back();
+            customers[i].removeAllAccount();
+            return true;
+        }
+    } return false;
+}
+
+
+long long Bank::totalDeposit()
+{
+    long long sum = 0;
+    for (auto t : transactions) {
+        if (t.getType() == "deposit") sum += t.getAmount();
+    }
+    return sum;
+}
+
+long long Bank::totalWithdraw(string ID)
+{
+    double sum = 0;
+    for (auto t : transactions) {
+        if (t.getType() == "withdraw" && t.getAccID() == ID) {
+            sum += t.getAmount();
+        } 
+    }
+    return sum;
+}
+
+vector<Transaction> Bank::filterByDate(tm from, tm to) 
+{
+    vector<Transaction> result;
+    time_t t1 = mktime(&from);
+    time_t t2 = mktime(&to);
+    if (t1 == -1 || t2 == -1) return result;
+    for (auto& tr : transactions) {
+        tm temp = tr.getTime();
+        time_t tt = mktime(&temp);
+        if (tt != -1 && tt >= t1 && tt <= t2) {
+            result.push_back(tr);
         }
     }
+    return result;
 }
 
-void Bank::run() {
-    int choice;
-
-    do {
-        ui.showMainMenu();  
-        cin >> choice;
-
-        switch (choice) {
-        case 1://QUAN LY TAI KHOAN
-            accountmenu();
-            break;
-        case 2://GIAO DICH NGAN HANG
-            transactionmenu();
-            break;
-        case 3://QUAN LY KHACH HANG
-            customermenu();
-            break;
-        case 4://XEM DACH SACH
-
-            break;
-        case 5://Thoat
-
-            break;
-        }
-    } while (choice != 0);
-}
-void Bank::accountmenu()
+void Bank::printAllTransactions()
 {
-    int c;
-    do
-    {
-        ui.ShowAccountMenu();
-        cin >> c;
-        switch (c) {
-        case 1:  break;
-        case 2:  break;
-        case 3:  break;
-        }
-
-    } while (c != 0);
-}
-void Bank::customermenu()
-{
-    int p;
-    do
-    {
-        ui.ShowCustomerMenu();
-        cin >> p;
-        switch (p) {
-        case 1:  break;
-        case 2:  break;
-        case 3:  break;
-        }
-
-    } while (p != 0);
-}
-void Bank::transactionmenu() {
-    int q;
-    do
-    {
-        ui.ShowTransactionMenu();
-        cin >> q;
-        switch (q) {
-        case 1:  break;
-        case 2:  break;
-        case 3:  break;
-        }
-
-    } while (q != 0);
+    for (int i = 0; i < transactions.size(); i++) {
+        transactions[i].log();
+    }
 }
