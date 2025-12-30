@@ -150,7 +150,6 @@ bool Bank::deleteCustomer(string ID)
     } return false;
 }
 
-
 long long Bank::totalDeposit()
 {
     long long sum = 0;
@@ -187,9 +186,34 @@ vector<Transaction> Bank::filterByDate(tm from, tm to)
     return result;
 }
 
+vector<Transaction> Bank::filterByID(string ID)
+{
+    vector<Transaction> result;
+    int n = transactions.size();
+    for (int i = 0; i < n; i++) {
+        if (transactions[i].getAccID() == ID) {
+            result.push_back(transactions[i]);
+        }
+    }
+    return result;
+}
+
+vector<Transaction> Bank::filterByType(string type)
+{
+    vector<Transaction> result;
+    int n = transactions.size();
+    for (int i = 0; i < n; i++) {
+        if (transactions[i].getType() == type) {
+            result.push_back(transactions[i]);
+        }
+    }
+    return result;
+}
+
 void Bank::printAllTransactions()
 {
     for (int i = 0; i < transactions.size(); i++) {
         transactions[i].log();
     }
 }
+

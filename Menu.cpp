@@ -52,61 +52,19 @@ void Menu::customerMenu()
 
         switch (choice) {
         case 1:	{
-            string fullName, phone, email, address;
-            cout << "Nhap ho ten: "; getline(cin, fullName);
-            cout << "Nhap so dien thoai: "; getline(cin, phone);
-            cout << "Nhap email: "; getline(cin, email);
-            cout << "Nhap dia chi: "; getline(cin, address);
-
-            string newID = bank.addCustomer(fullName, phone, email, address);
-            cout << "Tao khach hang thanh cong.\n";
-            cout << "ID cua khach hang la: " << newID << endl;
+            addCustomer();
             break;
         }
         case 2: {
-            do {
-                cout << "Nhap ID khach hang: "; cin >> ID;
-                cin.ignore();
-                if (bank.searchCustomer(ID) == nullptr) {
-                    cout << "Khach hang khong ton tai. Vui long nhap lai.\n";
-                    ok = false;
-                } 
-                else ok = true;
-            } while (!ok);
-            string name, phone, email, address;
-            cout << "Sua thong tin (khong sua thi an Enter)\n";
-            cout << "Sua ten: "; getline(cin, name);
-            cout << "Sua SDT: "; getline(cin, phone);
-            cout << "Sua email: "; getline(cin ,email);
-            cout << "Sua dia chi: "; getline(cin, address);
-            bank.updateCusInfo(ID, name, phone, email, address); 
+            editCusInfo();
             break;
         }
         case 3: {
-            do {
-                cout << "Nhap ID khach hang: "; cin >> ID;
-                cin.ignore();
-                if (bank.searchCustomer(ID) == nullptr) {
-                    cout << "Khach hang khong ton tai. Vui long nhap lai.\n";
-                    ok = false;
-                }
-                else ok = true;
-            } while (!ok);
-            bank.showCusInfo(ID);
+            showCusInfo();
             break;
         }
         case 4: {
-            do {
-                cout << "Nhap ID khach hang: "; cin >> ID;
-                cin.ignore();
-                if (bank.searchCustomer(ID) == nullptr) {
-                    cout << "Khach hang khong ton tai. Vui long nhap lai.\n";
-                    ok = false;
-                }
-                else ok = true;
-            } while (!ok);
-            bank.deleteCustomer(ID);
-            cout << "Xoa khach hang thanh cong.\n";
+            deleteCustomer();
             break;
         }
         case 0:
@@ -137,115 +95,46 @@ void Menu::accountMenu()
 
         switch (choice) {
             case 1: {
-                do {
-                    cout << "Nhap ID khach hang: "; cin >> cusID;
-                    cin.ignore();
-                    if (bank.searchCustomer(cusID) == nullptr) {
-                        cout << "Khach hang khong ton tai. Vui long nhap lai.\n";
-                        ok = false;
-                    } else ok = true;
-                } while (!ok);
-                int n;
-                string newID;
-                long long balance;
-                cout << "Nhap loai tai khoan (1-TK / 2-TT): "; cin >> n;
-                cout << "Nhap so du khoi tao: "; cin >> balance;
-                if (n == 1) {
-                    newID = bank.addSAV(cusID, balance);
-                } if (n == 2) {
-                    long long overdraftLimit;
-                    cout << "Nhap han muc thau chi: "; cin >> overdraftLimit;
-                    newID = bank.addCHK(cusID, balance, overdraftLimit);
-                }
-                cout << "Tao tai khoan thanh cong.\n";
-                cout << "ID cua tai khoan la: " << newID << endl;
+                openAccount();
                 break;
             } case 2: {
-                do {
-                    cout << "Nhap ID tai khoan: "; cin >> accID;
-                    cin.ignore();
-                    if (bank.searchAccount(accID) == nullptr) {
-                        cout << "Tai khoan khong ton tai. Vui long nhap lai.\n";
-                        ok = false;
-                    }
-                    else ok = true;
-                } while (!ok);
-                bank.closeAccount(accID);
-                cout << "Dong tai khoan thanh cong.\n";
+                closeAccount();
                 break;
             } case 3: {
-                do {
-                    cout << "Nhap ID tai khoan: "; cin >> accID;
-                    cin.ignore();
-                    if (bank.searchAccount(accID) == nullptr) {
-                        cout << "Tai khoan khong ton tai. Vui long nhap lai.\n";
-                        ok = false;
-                    }
-                    else ok = true;
-                } while (!ok);
-                bank.showAccInfo(accID);
+                showAccInfo();
                 break;
             } case 4: {
-                do {
-                    cout << "Nhap ID tai khoan: "; cin >> accID;
-                    cin.ignore();
-                    if (bank.searchAccount(accID) == nullptr) {
-                        cout << "Tai khoan khong ton tai. Vui long nhap lai.\n";
-                        ok = false;
-                    }
-                    else ok = true;
-                } while (!ok);
-                Account *acc = bank.searchAccount(accID);
-                long long balance;
-                cout << "Nhap so tien gui vao: "; cin >> balance;
-                bank.deposit(*acc, balance);
-                cout << "Chuyen thanh cong " << balance << "VND vao tai khoan.\n";
+                deposit();
                 break;
             } case 5: {
-               do {
-                    cout << "Nhap ID tai khoan: "; cin >> accID;
-                    cin.ignore();
-                    if (bank.searchAccount(accID) == nullptr) {
-                        cout << "Tai khoan khong ton tai. Vui long nhap lai.\n";
-                        ok = false;
-                    }
-                    else ok = true;
-                } while (!ok);
-                Account *acc = bank.searchAccount(accID);
-                long long balance;
-                cout << "Nhap so tien rut: "; cin >> balance;
-                bool result = bank.withdraw(*acc, balance);
-                if (result) cout << "Rut thanh cong " << balance << "VND.\n";
-                else cout << "Rut that bai.\n";
+                withdraw();
                 break;
             } case 6: {
-                string toID;
-                do {
-                    cout << "Nhap ID tai khoan gui tien: "; cin >> accID;
-                    cin.ignore();
-                    cout << "Nhap ID tai khoan nhan tien: "; cin >> toID;
-                    cin.ignore();
-                    if (bank.searchAccount(accID) == nullptr || bank.searchAccount(toID) == nullptr) {
-                        cout << "Khach hang khong ton tai. Vui long nhap lai.\n";
-                        ok = false;
-                    }
-                    else ok = true;
-                } while (!ok);
-                Account *acc = bank.searchAccount(accID);
-                long long balance;
-                cout << "Nhap so tien gui vao: "; cin >> balance;
-                bool result = bank.transfer(*acc, toID, balance);
-                if (result) cout << "Chuyen thanh cong " << balance << "VND vao tai khoan cua " << toID <<".\n";
-                else cout << "Chuyen tien that bai.\n";
+                transfer();
                 break;
             }
         }
     } while (choice != 0);
 }
 
+void Menu::firstRow()
+{
+    cout << left
+        << setw(12) << "Ma GD"
+        << setw(15) << "TK Nguon"
+        << setw(15) << "TK Nhan"
+        << setw(27) << "Thoi gian"
+        << setw(15) << "So tien"
+        << setw(20) << "Loai"
+        << setw(10) << "Trang thai"
+        << endl;
+    cout << string(114, '-') << endl;
+}
+
 void Menu::transactionMenu()
 {
     int choice;
+    string accID;
     bool ok = false;
     do {
         cout << "\n----- QUAN LY GIAO DICH -----\n";
@@ -261,19 +150,236 @@ void Menu::transactionMenu()
 
         switch (choice) {
             case 1: {
-                 cout << left
-                     << setw(12) << "Ma GD"
-                     << setw(15) << "TK Nguon"
-                     << setw(15) << "TK Nhan"
-                     << setw(27) << "Thoi gian"
-                     << setw(15) << "So tien"
-                     << setw(20) << "Loai"
-                     << setw(10) << "Trang thai"
-                     << endl;
-                 cout << string(114, '-') << endl;
-                 bank.printAllTransactions();
+                firstRow();
+                bank.printAllTransactions();
                 break;
-            }   
+            } case 2: {
+                filterByAccount();
+                break;
+            } case 3: {
+                filterByType();
+                break;
+            } case 4: {
+                filterByDate();
+                break;
+            } case 5: {
+
+            } case 6: {
+                
+            }
         }
     } while (choice != 0);
+}
+
+void Menu::addCustomer()
+{
+    string fullName, phone, email, address;
+    cout << "Nhap ho ten: "; getline(cin, fullName);
+    cout << "Nhap so dien thoai: "; getline(cin, phone);
+    cout << "Nhap email: "; getline(cin, email);
+    cout << "Nhap dia chi: "; getline(cin, address);
+
+    string newID = bank.addCustomer(fullName, phone, email, address);
+    cout << "Tao khach hang thanh cong.\n";
+    cout << "ID cua khach hang la: " << newID << endl;
+}
+
+string Menu::checkCustomer()
+{
+    bool ok = false;
+    string ID;
+    do {
+        cout << "Nhap ID khach hang: "; cin >> ID;
+        cin.ignore();
+        if (bank.searchCustomer(ID) == nullptr) {
+            cout << "Khong the tim thay doi tuong. Vui long nhap lai.\n";
+            ok = false;
+        } 
+        else ok = true;
+    } while (!ok);
+    return ID;
+}
+
+void Menu::editCusInfo()
+{
+    string ID = checkCustomer();
+    string name, phone, email, address;
+    cout << "Sua thong tin (khong sua thi an Enter)\n";
+    cout << "Sua ten: "; getline(cin, name);
+    cout << "Sua SDT: "; getline(cin, phone);
+    cout << "Sua email: "; getline(cin ,email);
+    cout << "Sua dia chi: "; getline(cin, address);
+    bank.updateCusInfo(ID, name, phone, email, address); 
+
+}
+
+void Menu::showCusInfo()
+{
+    string ID = checkCustomer();
+    auto cus = bank.searchCustomer(ID);
+    cus->showInfo();
+}
+
+void Menu::deleteCustomer()
+{
+    string ID = checkCustomer();
+    bank.deleteCustomer(ID);
+    cout << "Xoa khach hang thanh cong.\n";
+}
+
+string Menu::checkAccount()
+{
+    bool ok = false;
+    string ID;
+    do {
+        cout << "Nhap ID tai khoan: "; cin >> ID;
+        cin.ignore();
+        if (bank.searchAccount(ID) == nullptr) {
+            cout << "Khong the tim thay doi tuong. Vui long nhap lai.\n";
+            ok = false;
+        } 
+        else ok = true;
+    } while (!ok);
+    return ID;
+}
+
+void Menu::openAccount()
+{
+    int n;
+    long long balance;
+    string cusID = checkCustomer(), newID;
+    cout << "Nhap loai tai khoan (1-TK / 2-TT): "; cin >> n;
+    cout << "Nhap so du khoi tao: "; cin >> balance;
+    if (n == 1) {
+        newID = bank.addSAV(cusID, balance);
+    } if (n == 2) {
+        long long overdraftLimit;
+        cout << "Nhap han muc thau chi: "; cin >> overdraftLimit;
+        newID = bank.addCHK(cusID, balance, overdraftLimit);
+    }
+    cout << "Tao tai khoan thanh cong.\n";
+    cout << "ID cua tai khoan la: " << newID << endl;
+}
+
+void Menu::closeAccount()
+{
+    string accID = checkAccount();
+    bank.closeAccount(accID);
+    cout << "Dong tai khoan thanh cong.\n";
+}
+
+void Menu::showAccInfo()
+{
+    string accID = checkAccount();
+    bank.showAccInfo(accID);
+}
+
+void Menu::deposit()
+{
+    string accID = checkAccount();
+    Account *acc = bank.searchAccount(accID);
+    long long balance;
+    cout << "Nhap so tien gui vao: "; cin >> balance;
+    bank.deposit(*acc, balance);
+    cout << "Chuyen thanh cong " << balance << " VND vao tai khoan.\n";
+}
+
+void Menu::withdraw()
+{
+    string accID = checkAccount();
+    Account *acc = bank.searchAccount(accID);
+    long long balance;
+    cout << "Nhap so tien rut: "; cin >> balance;
+    bool result = bank.withdraw(*acc, balance);
+    if (result) cout << "Rut thanh cong " << balance << " VND.\n";
+    else cout << "Rut that bai.\n";
+}
+
+void Menu::transfer()
+{
+    bool ok = false;
+    string accID, toID;
+    do {
+        cout << "Nhap ID tai khoan gui tien: "; cin >> accID;
+        cin.ignore();
+        cout << "Nhap ID tai khoan nhan tien: "; cin >> toID;
+        cin.ignore();
+        if (bank.searchAccount(accID) == nullptr || bank.searchAccount(toID) == nullptr) {
+            cout << "Khach hang khong ton tai. Vui long nhap lai.\n";
+            ok = false;
+        }
+        else ok = true;
+    } while (!ok);
+    Account *acc = bank.searchAccount(accID);
+    long long balance;
+    cout << "Nhap so tien gui vao: "; cin >> balance;
+    bool result = bank.transfer(*acc, toID, balance);
+    if (result) cout << "Chuyen thanh cong " << balance << "VND vao tai khoan cua " << toID <<".\n";
+    else cout << "Chuyen tien that bai.\n";
+}
+
+void Menu::filterByAccount()
+{
+    string accID = checkAccount();
+    auto filter = bank.filterByID(accID);
+    if (filter.empty()) {
+        cout << "Khong co giao dich nao ca.\n";
+        return;
+    }
+    firstRow();
+    int n = filter.size();
+    for (int i = 0; i < n; i++) filter[i].log();
+}
+
+void Menu::filterByType()
+{
+    map <int, string> type = {{1, "deposit"}, {2, "withdraw"}, {3, "transfer_in"}, {4, "transfer_out"}};
+    bool ok = false;
+    int choice;
+
+    do {
+        cout << "Nhap loai giao dich (1-Deposit / 2-Withdraw / 3-Transfer in / 4-Transfer out): "; cin >> choice;
+        cin.ignore();
+        if (choice > 4 || choice < 1) {
+            cout << "Lua chon khong hop le. Vui long nhap lai.\n";
+            ok = false;
+        }
+        else ok = true;
+    } while (!ok);
+
+    auto filter = bank.filterByType(type[choice]);
+    if (filter.empty()) {
+        cout << "Khong co giao dich nao ca.\n";
+        return;
+    }
+    firstRow();
+    int n = filter.size();
+    for (int i = 0; i < n; i++) filter[i].log();
+}
+
+void Menu::filterByDate()
+{
+    tm from = {}, to = {};
+    cout << "Nhap ngay bat dau (dd mm yyyy): ";
+    cin >> from.tm_mday >> from.tm_mon >> from.tm_year;
+    cout << "Nhap ngay ket thuc (dd mm yyyy): ";
+    cin >> to.tm_mday >> to.tm_mon >> to.tm_year;
+
+    from.tm_mon -= 1;
+    from.tm_year -= 1900;
+
+    to.tm_mon -= 1;
+    to.tm_year -= 1900;
+    to.tm_hour = 23;
+    to.tm_min = 59;
+    to. tm_sec = 59;
+
+    auto filter = bank.filterByDate(from, to);
+    if (filter.empty()) {
+        cout << "Khong co giao dich nao ca.\n";
+        return;
+    }
+    firstRow();
+    int n = filter.size();
+    for (int i = 0; i < n; i++) filter[i].log();
 }
