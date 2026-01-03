@@ -68,3 +68,5 @@ long long Transaction::getAmount() { return amount; }
 string Transaction::getAccID() { return accountID; }
 
 tm Transaction::getTime() { return dateTime; }
+
+string Transaction::getStatus() { return status; }

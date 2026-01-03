@@ -1,5 +1,4 @@
 #pragma once
-// #include"Account.h"
 #include <vector>
 #include<string>
 using namespace std;
@@ -29,4 +28,5 @@ public:
     void autoID(string ID);
     bool removeAllAccount();
     void list();
+    long long totalBalance();
 };

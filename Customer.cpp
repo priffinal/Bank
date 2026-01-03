@@ -97,3 +97,12 @@ void Customer::autoID(string ID)
 {
 	customerID = ID;
 }
+
+long long Customer::totalBalance()
+{
+	long long balance;
+	for (auto acc : account) {
+		balance += acc->getBalance();
+	}
+	return balance;
+}

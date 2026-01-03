@@ -1,5 +1,6 @@
 ﻿#define _CRT_SECURE_NO_WARNINGS
 #include "SavingAccount.h"
+#include "AutoGen.h"
 #include <string>
 #include <ctime>
 #include <iostream>

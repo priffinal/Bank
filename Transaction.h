@@ -23,6 +23,7 @@ public:
     string getAccID();
     long long getAmount();
     tm getTime();
+    string getStatus();
     void generateID();
     void log();
 };

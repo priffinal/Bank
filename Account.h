@@ -1,10 +1,7 @@
 #pragma once
-#include "Transaction.h"
-#include "AutoGen.h"
 #include <map>
 #include <ctime>
 #include <string>
-#include <iostream>
 #include <vector>
 using namespace std;
 

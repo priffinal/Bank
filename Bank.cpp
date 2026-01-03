@@ -1,7 +1,12 @@
 #include "Bank.h"
 #include "AutoGen.h"
+#include "Customer.h"
+#include "CheckingAccount.h"
+#include "SavingAccount.h"
+#include "Transaction.h"
 #include <iostream>
 #include <ctime>
+#include <algorithm>
 using namespace std;
 
 int Bank::cusNum = 0;
@@ -150,26 +155,6 @@ bool Bank::deleteCustomer(string ID)
     } return false;
 }
 
-long long Bank::totalDeposit()
-{
-    long long sum = 0;
-    for (auto t : transactions) {
-        if (t.getType() == "deposit") sum += t.getAmount();
-    }
-    return sum;
-}
-
-long long Bank::totalWithdraw(string ID)
-{
-    double sum = 0;
-    for (auto t : transactions) {
-        if (t.getType() == "withdraw" && t.getAccID() == ID) {
-            sum += t.getAmount();
-        } 
-    }
-    return sum;
-}
-
 vector<Transaction> Bank::filterByDate(tm from, tm to) 
 {
     vector<Transaction> result;
@@ -217,3 +202,122 @@ void Bank::printAllTransactions()
     }
 }
 
+void Bank::countTransactions(int &n1, int &n2, int &n3)
+{
+    n1 = n2 = n3 = 0;
+    for (auto &tr : transactions) {
+        if (tr.getType() == "deposit") n1++;
+        if (tr.getType() == "withdraw") n2++;
+        if (tr.getType() == "transfer_in") n3++;
+    }
+}
+
+void Bank::successRate(int &n1, int &n2)
+{
+    n1 = n2 = 0;
+    for (auto &tr : transactions) {
+        if (tr.getStatus() == "success") n1++;
+        if (tr.getStatus() == "failed") n2++;
+    }
+}
+
+void Bank::customerStatistics(int &totalCus, int &noAcc, string &mostAccCusID, string &richestCusID, long long &maxTotalBalance)
+{
+    totalCus = (int)customers.size();
+    noAcc = 0;
+    maxTotalBalance = 0;
+
+    if (!customers.empty()) {
+        mostAccCusID = customers[0].getID();
+        richestCusID = customers[0].getID();
+    } else {
+        mostAccCusID = "";
+        richestCusID = "";
+    }
+
+    for (auto &cus : customers) {
+        if (cus.getAccountCount() == 0) noAcc++;
+
+        if (!mostAccCusID.empty() && cus.getAccountCount() > searchCustomer(mostAccCusID)->getAccountCount()) mostAccCusID = cus.getID();
+
+        if (!richestCusID.empty() && cus.totalBalance() > searchCustomer(richestCusID)->totalBalance()) richestCusID = cus.getID();
+
+        maxTotalBalance += cus.totalBalance();
+    }
+}
+
+void Bank::accountStatistics(int &totalAcc, int &checkingCnt, int &savingCnt, int &overdraftCnt, long long &totalBalance,
+                             long long &maxBalance, string &maxBalAccID)
+{
+    totalAcc = (int)accounts.size();
+    checkingCnt = savingCnt = overdraftCnt = 0;
+    totalBalance = 0;
+    maxBalance = LLONG_MIN;
+    maxBalAccID = "";
+
+    if (!accounts.empty()) {
+        maxBalAccID = accounts[0]->getID();
+        maxBalance = accounts[0]->getBalance();
+    }
+    
+    for (auto acc : accounts) {
+        if (acc->getID().substr(0, 3) == "CHK") checkingCnt++;
+
+        if (acc->getID().substr(0, 3) == "SAV") savingCnt++;
+
+        if (acc->getBalance() < 0) overdraftCnt++;
+
+        totalBalance += acc->getBalance();
+
+        if (acc->getBalance() > maxBalance) {
+            maxBalAccID = acc->getID();
+            maxBalance = acc->getBalance();
+        }
+    }
+}
+
+vector<Transaction> Bank::sortTransaction(int type)
+{
+    vector<Transaction> result = transactions;
+
+    switch (type) {
+
+    case 1:
+        sort(result.begin(), result.end(),
+            [](Transaction a, Transaction b) {
+                tm tempA = a.getTime();
+                tm tempB = b.getTime();
+                time_t A = mktime(&tempA);
+                time_t B = mktime(&tempB);
+                return A < B;
+            });
+        break;
+
+    case 2:
+        sort(result.begin(), result.end(),
+            [](Transaction a, Transaction b) {
+                tm tempA = a.getTime();
+                tm tempB = b.getTime();
+                time_t A = mktime(&tempA);
+                time_t B = mktime(&tempB);
+                return A > B;
+            });
+        break;
+
+    case 3:
+        sort(result.begin(), result.end(),
+            [](Transaction a, Transaction b) {
+                return a.getAmount() < b.getAmount();
+            });
+        break;
+
+    case 4:
+        sort(result.begin(), result.end(),
+            [](Transaction a, Transaction b) {
+                return a.getAmount() > b.getAmount();
+            });
+        break;
+    }
+
+    return result;
+}
