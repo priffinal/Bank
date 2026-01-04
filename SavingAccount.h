@@ -13,5 +13,6 @@ public:
     double calculateInterest();
 	bool withdraw(double amount);
 	void displayInfo();
+	string toFileString() const;
 	SavingAccount(long long balance);
 };

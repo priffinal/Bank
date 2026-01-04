@@ -23,6 +23,7 @@ public:
 	Account(double initialBalance);
 	~Account();
 	virtual void createAccount(const Customer &c, long long balance);
+	virtual string toFileString() const = 0;
 	virtual void deposit(double amount);
 	virtual void transfer_in(double amount, string relatedID);
 	virtual bool transfer_out(double amount, string relatedID);

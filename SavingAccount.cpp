@@ -1,6 +1,7 @@
 ﻿#define _CRT_SECURE_NO_WARNINGS
 #include "SavingAccount.h"
 #include "AutoGen.h"
+#include "Customer.h"
 #include <string>
 #include <ctime>
 #include <iostream>
@@ -56,4 +57,12 @@ bool SavingAccount::withdraw(double amount)
 	time_t expired = mktime(&expiredTm);
 	if (difftime(expired, now) > 0) return false;
 	else return Account::withdraw(amount);
+}
+
+string SavingAccount::toFileString() const {
+    return "SAV|" + accountID + "|" + customerInfo->getID() + "|" +
+           to_string(balance) + "|" +
+           to_string(interestRate) + "|" +
+           to_string(term) + "|" +
+           to_string(minimumBalance);
 }

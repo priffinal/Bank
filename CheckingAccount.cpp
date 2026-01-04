@@ -1,6 +1,7 @@
 ﻿#define _CRT_SECURE_NO_WARNINGS
 #include "CheckingAccount.h"
 #include "AutoGen.h"
+#include "Customer.h"
 #include <iostream>
 #include <ctime>
 #include <string>
@@ -44,4 +45,10 @@ bool CheckingAccount::withdraw(double amount)
 		Account::withdraw(amount);
 		return true;
 	}
+}
+
+string CheckingAccount::toFileString() const {
+    return "CHK|" + accountID + "|" + customerInfo->getID() + "|" +
+           to_string(balance) + "|" +
+           to_string(overdraftLimit);
 }

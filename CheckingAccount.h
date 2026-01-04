@@ -12,4 +12,5 @@ public:
 	bool withdraw(double amount);
 	void createAccount(const Customer &c, long long balance);
 	void displayInfo();
+	string toFileString() const;
 };

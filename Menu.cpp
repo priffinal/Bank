@@ -23,11 +23,11 @@ void Menu::mainMenu()
         cin >> choice;
         cin.ignore();
 
-        if (choice > 4 || choice < 0 || isalpha(choice)) {
+        if (choice > 4 && choice < 0 && isalpha(choice)) {
             do {
                 cout << "Khong hop le. Nhap lai: "; 
                 cin >> choice;
-            } while (choice > 4 || choice < 0 || isalpha(choice));
+            } while (choice > 4 && choice < 0 && isalpha(choice));
         }
 
         switch (choice) {

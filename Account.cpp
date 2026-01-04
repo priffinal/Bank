@@ -63,7 +63,7 @@ double Account::calculateInterest()
 
 void Account::displayInfo()
 {
-	cout << "- Account ID: " << accountID 
+	cout << "Account ID: " << accountID 
 		 << " - Open Date: " << openDate 
 		 << " - Status: " << status 
 		 << " - Balance: " << balance << endl;

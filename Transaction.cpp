@@ -53,7 +53,7 @@ void Transaction::log()
     cout << left
          << setw(12) << transactionID
          << setw(15) << accountID
-         << setw(15) << (relatedID.empty() ? "-------" : relatedID)
+         << setw(15) << (relatedID.empty() ? "------" : relatedID)
          << setw(25) << dateTime
          << setw(15) << amt
          << setw(20) << type
@@ -70,3 +70,38 @@ string Transaction::getAccID() { return accountID; }
 tm Transaction::getTime() { return dateTime; }
 
 string Transaction::getStatus() { return status; }
+
+string Transaction::toFileString() const {
+    ostringstream oss;
+    oss << type << "|"
+        << transactionID << "|"
+        << accountID << "|"
+        << (relatedID.empty() ? "------" : relatedID) << "|"
+        << dateTime << "|"
+        << amount << "|"
+        << status;
+    return oss.str();
+}
+
+Transaction Transaction::fromFileString(const string& line) {
+    string type, id, from, to, timeStr, status;
+    long long amount;
+
+    stringstream ss(line);
+    getline(ss, type, '|');
+    getline(ss, id, '|');
+    getline(ss, from, '|');
+    getline(ss, to, '|');
+    getline(ss, timeStr, '|');
+    ss >> amount;
+    ss.ignore();
+    getline(ss, status);
+
+    tm t = {};
+    istringstream iss(timeStr);
+    iss >> get_time(&t, "%d/%m/%Y %H:%M:%S");
+
+    if (to == "------") to = "";
+
+    return Transaction(from, to, t, amount, type, status);
+}

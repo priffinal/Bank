@@ -9,9 +9,11 @@ using namespace std;
 int Customer::n = 0;
 Customer::Customer() {}
 
-string Customer::getID() {
-	return customerID;
-}
+string Customer::getID() { return customerID; }
+string Customer::getName() { return fullName; }
+string Customer::getAddress() { return address; }
+string Customer::getEmail() { return email; }
+string Customer::getPhone() { return phone; }
 
 //ham them tai khoan
 string Customer::addAccount(Account *acc)
