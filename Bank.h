@@ -58,4 +58,16 @@ public:
     void saveAccToFile(const string& filename);
     void loadTransFromFile(const string& filename);
     void saveTransToFile(const string& filename);
+    // loc custmoer, account, transaction
+    void filterCustomer();
+    void filterAccount();
+    void filterTransactionByType();
+    // thong ke
+    void statCustomer();
+    void statAccount();
+    void statTransaction();
+    // sap xep
+    void sortCustomer();
+    void sortAccount();
+    void sortTransaction();
 };

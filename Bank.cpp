@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include "Bank.h"
 #include "AutoGen.h"
 #include "Customer.h"
@@ -9,6 +10,7 @@
 #include <algorithm>
 #include <fstream>
 #include <sstream>
+#include <algorithm>
 using namespace std;
 
 int Bank::cusNum = 0;
@@ -441,4 +443,95 @@ void Bank::saveTransToFile(const string& filename) {
     ofstream out(filename);
     for (const auto& t : transactions)
         out << t.toFileString() << '\n';
+}
+void Bank::filterCustomer()
+{
+    long long minBalance;
+    cout << "Nhap so du toi thieu: ";
+    cin >> minBalance;
+
+    for (auto& c : customers) {
+        if (c.totalBalance() >= minBalance) {
+            c.showInfo();
+        }
+    }
+}
+void Bank::statCustomer()
+{
+    long long total = 0;
+    for (auto& c : customers) {
+        total += c.totalBalance();
+    }
+
+    cout << "Tong so khach hang: " << customers.size() << endl;
+    cout << "Tong so du he thong: " << total << endl;
+}
+void Bank::sortCustomer()
+{
+    sort(customers.begin(), customers.end(),
+        [](Customer& a, Customer& b) {
+            return a.totalBalance() > b.totalBalance();
+        });
+
+    cout << "Da sap xep khach hang theo tong so du.\n";
+}
+void Bank::filterAccount()
+{
+    long long min;
+    cout << "Nhap so du toi thieu: ";
+    cin >> min;
+
+    for (auto acc : accounts) {
+        if (acc->getBalance() >= min) {
+            acc->displayInfo();
+        }
+    }
+}
+void Bank::statAccount()
+{
+    long long total = 0;
+
+    for (auto acc : accounts)
+        total += acc->getBalance();
+
+    cout << "Tong tai khoan: " << accounts.size() << endl;
+    cout << "Tong so du: " << total << endl;
+}
+void Bank::sortAccount()
+{
+    sort(accounts.begin(), accounts.end(),
+        [](Account* a, Account* b) {
+            return a->getBalance() < b->getBalance();
+        });
+
+    cout << "Da sap xep tai khoan.\n";
+}
+void Bank::filterTransactionByType()
+{
+    string type;
+    cout << "Nhap loai giao dich: ";
+    cin >> type;
+
+    for (auto& t : transactions) {
+        if (t.getType() == type)
+            t.log();
+    }
+}
+void Bank::statTransaction()
+{
+    long long total = 0;
+    for (auto& t : transactions)
+        total += t.getAmount();
+
+    cout << "Tong so giao dich: " << transactions.size() << endl;
+    cout << "Tong so tien: " << total << endl;
+}
+void Bank::sortTransaction()
+{
+    sort(transactions.begin(), transactions.end(),
+        [](Transaction& a, Transaction& b) {
+            return a.getTime() > b.getTime();
+        });
+
+    cout << "Da sap xep giao dich.\n";
 }
