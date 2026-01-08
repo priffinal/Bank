@@ -140,6 +140,7 @@ bool Bank::transfer(Account &a, string ID, double amount)
         Transaction T1 = Transaction(a.getID(), ID, ltm, amount, "transfer_out", "success");
         transactions.push_back(T1);
         a.addTransaction(T1);
+
         searchAccount(ID)->transfer_in(amount, a.getID());
         Transaction T2 = Transaction(a.getID(), ID, ltm, amount, "transfer_in", "success");
         transactions.push_back(T2);
@@ -505,22 +506,5 @@ void Bank::filterTransactionByType()
     for (auto& t : transactions) {
         if (t.getType() == type)
             t.log();
-    }
-}
-
-void Bank::sortTransaction()
-{
-    vector<Transaction> temp = transactions;
-    sort(temp.begin(), temp.end(),
-        [](Transaction& a, Transaction& b) {
-            tm tempA = a.getTime();
-            tm tempB = b.getTime();
-            time_t A = mktime(&tempA);
-            time_t B = mktime(&tempB);
-            return A > B;
-        });
-    cout << "\nGIAO DICH THEO SO TIEN (GIAM DAN)\n";
-    for (auto& t : temp) {
-        t.log();
     }
 }
