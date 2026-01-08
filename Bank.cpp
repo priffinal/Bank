@@ -465,6 +465,7 @@ void Bank::statCustomer()
 
     cout << "Tong so khach hang: " << customers.size() << endl;
     cout << "Tong so du he thong: " << total << endl;
+
 }
 void Bank::sortCustomer()
 {
@@ -538,11 +539,7 @@ void Bank::sortTransaction()
     vector<Transaction> temp = transactions;
     sort(temp.begin(), temp.end(),
         [](Transaction& a, Transaction& b) {
-            tm tempA = a.getTime();
-            tm tempB = b.getTime();
-            time_t A = mktime(&tempA);
-            time_t B = mktime(&tempB);
-            return A > B;
+            return a.getTime() > b.getTime();
         });
     cout << "\nGIAO DICH THEO SO TIEN (GIAM DAN)\n";
     for (auto& t : temp) {
