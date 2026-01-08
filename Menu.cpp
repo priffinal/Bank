@@ -59,7 +59,6 @@ void Menu::customerMenu()
         cout << "3. Hien thong tin\n";
         cout << "4. Xoa khach hang\n";
         cout << "5. Sap xep khach hang\n";
-        cout << "6. Thong ke khach hang\n";
         cout << "0. Quay lai\n";
         cout << "Nhap lua chon: ";
         cin >> choice;
@@ -85,9 +84,6 @@ void Menu::customerMenu()
         }case 5: {
             bank.sortCustomer();
             break;
-        }case 6: {
-            bank.statCustomer();
-            break;
         }
         case 0:
             break;
@@ -108,7 +104,6 @@ void Menu::accountMenu()
         cout << "5. Rut tien\n";
         cout << "6. Chuyen tien\n";
         cout << "7. Sap xep tai khoan\n";
-        cout << "8. Thong ke tai khoan\n";
         cout << "0. Quay lai\n";
         cout << "Nhap lua chon: ";
         cin >> choice;
@@ -137,9 +132,6 @@ void Menu::accountMenu()
             }  case 7: {
                 bank.sortAccount();
                 break;
-            }case 8: {
-                bank.statAccount();
-                break;
             }
         }
     } while (choice != 0);
@@ -154,8 +146,7 @@ void Menu::transactionMenu()
         cout << "2. Loc theo tai khoan\n";
         cout << "3. Loc theo loai giao dich\n";
         cout << "4. Loc theo thoi gian\n";
-        cout << "5. Thong ke\n";
-        cout << "6. Sap xep giao dich\n";
+        cout << "5. Sap xep giao dich\n";
         cout << "0. Quay lai\n";
         cout << "Nhap lua chon: ";
         cin >> choice;
@@ -175,10 +166,7 @@ void Menu::transactionMenu()
                 filterByDate(bank);
                 break;
             } case 5: {
-                bank.statTransaction();
-                break;
-            } case 6: {
-                bank.sortTransaction();
+                transactionSortMenu(bank);
                 break;
             }
         }

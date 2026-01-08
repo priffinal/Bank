@@ -456,17 +456,7 @@ void Bank::filterCustomer()
         }
     }
 }
-void Bank::statCustomer()
-{
-    long long total = 0;
-    for (auto& c : customers) {
-        total += c.totalBalance();
-    }
 
-    cout << "Tong so khach hang: " << customers.size() << endl;
-    cout << "Tong so du he thong: " << total << endl;
-
-}
 void Bank::sortCustomer()
 {
     vector<Customer> temp = customers;
@@ -479,6 +469,7 @@ void Bank::sortCustomer()
         c.showInfo();
     }
 }
+
 void Bank::filterAccount()
 {
     long long min;
@@ -491,16 +482,7 @@ void Bank::filterAccount()
         }
     }
 }
-void Bank::statAccount()
-{
-    long long total = 0;
 
-    for (auto acc : accounts)
-        total += acc->getBalance();
-
-    cout << "Tong tai khoan: " << accounts.size() << endl;
-    cout << "Tong so du: " << total << endl;
-}
 void Bank::sortAccount()
 {
     vector<Account*> temp = accounts;
@@ -525,21 +507,17 @@ void Bank::filterTransactionByType()
             t.log();
     }
 }
-void Bank::statTransaction()
-{
-    long long total = 0;
-    for (auto& t : transactions)
-        total += t.getAmount();
 
-    cout << "Tong so giao dich: " << transactions.size() << endl;
-    cout << "Tong so tien: " << total << endl;
-}
 void Bank::sortTransaction()
 {
     vector<Transaction> temp = transactions;
     sort(temp.begin(), temp.end(),
         [](Transaction& a, Transaction& b) {
-            return a.getTime() > b.getTime();
+            tm tempA = a.getTime();
+            tm tempB = b.getTime();
+            time_t A = mktime(&tempA);
+            time_t B = mktime(&tempB);
+            return A > B;
         });
     cout << "\nGIAO DICH THEO SO TIEN (GIAM DAN)\n";
     for (auto& t : temp) {
