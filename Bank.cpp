@@ -468,12 +468,15 @@ void Bank::statCustomer()
 }
 void Bank::sortCustomer()
 {
-    sort(customers.begin(), customers.end(),
+    vector<Customer> temp = customers;
+    sort(temp.begin(),temp.end(),
         [](Customer& a, Customer& b) {
             return a.totalBalance() > b.totalBalance();
         });
-
-    cout << "Da sap xep khach hang theo tong so du.\n";
+    cout << "\nKHACH HANG THEO TONG SO DU (GIAM DAN)\n";
+    for (auto& c : temp) {
+        c.showInfo();
+    }
 }
 void Bank::filterAccount()
 {
@@ -499,12 +502,16 @@ void Bank::statAccount()
 }
 void Bank::sortAccount()
 {
-    sort(accounts.begin(), accounts.end(),
+    vector<Account*> temp = accounts;
+    sort(temp.begin(), temp.end(),
         [](Account* a, Account* b) {
             return a->getBalance() < b->getBalance();
-        });
+        }); 
 
-    cout << "Da sap xep tai khoan.\n";
+    cout << "\nTAI KHOAN THEO SO DU (GIAM DAN)\n";
+    for (auto acc : temp) {
+        acc->displayInfo();
+    };
 }
 void Bank::filterTransactionByType()
 {
@@ -528,10 +535,13 @@ void Bank::statTransaction()
 }
 void Bank::sortTransaction()
 {
-    sort(transactions.begin(), transactions.end(),
+    vector<Transaction> temp = transactions;
+    sort(temp.begin(), temp.end(),
         [](Transaction& a, Transaction& b) {
             return a.getTime() > b.getTime();
         });
-
-    cout << "Da sap xep giao dich.\n";
+    cout << "\nGIAO DICH THEO SO TIEN (GIAM DAN)\n";
+    for (auto& t : temp) {
+        t.log();
+    }
 }
