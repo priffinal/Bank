@@ -538,7 +538,11 @@ void Bank::sortTransaction()
     vector<Transaction> temp = transactions;
     sort(temp.begin(), temp.end(),
         [](Transaction& a, Transaction& b) {
-            return a.getTime() > b.getTime();
+            tm tempA = a.getTime();
+            tm tempB = b.getTime();
+            time_t A = mktime(&tempA);
+            time_t B = mktime(&tempB);
+            return A > B;
         });
     cout << "\nGIAO DICH THEO SO TIEN (GIAM DAN)\n";
     for (auto& t : temp) {
