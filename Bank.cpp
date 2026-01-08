@@ -465,6 +465,7 @@ void Bank::statCustomer()
 
     cout << "Tong so khach hang: " << customers.size() << endl;
     cout << "Tong so du he thong: " << total << endl;
+
 }
 void Bank::sortCustomer()
 {

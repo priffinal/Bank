@@ -58,6 +58,8 @@ void Menu::customerMenu()
         cout << "2. Sua thong tin\n";
         cout << "3. Hien thong tin\n";
         cout << "4. Xoa khach hang\n";
+        cout << "5. Sap xep khach hang\n";
+        cout << "6. Thong ke khach hang\n";
         cout << "0. Quay lai\n";
         cout << "Nhap lua chon: ";
         cin >> choice;
@@ -80,6 +82,12 @@ void Menu::customerMenu()
         case 4: {
             deleteCustomer(bank);
             break;
+        }case 5: {
+            bank.sortCustomer();
+            break;
+        }case 6: {
+            bank.statCustomer();
+            break;
         }
         case 0:
             break;
@@ -99,6 +107,8 @@ void Menu::accountMenu()
         cout << "4. Gui tien\n";
         cout << "5. Rut tien\n";
         cout << "6. Chuyen tien\n";
+        cout << "7. Sap xep tai khoan\n";
+        cout << "8. Thong ke tai khoan\n";
         cout << "0. Quay lai\n";
         cout << "Nhap lua chon: ";
         cin >> choice;
@@ -123,6 +133,12 @@ void Menu::accountMenu()
                 break;
             } case 6: {
                 transfer(bank);
+                break;
+            }  case 7: {
+                bank.sortAccount();
+                break;
+            }case 8: {
+                bank.statAccount();
                 break;
             }
         }
@@ -159,10 +175,10 @@ void Menu::transactionMenu()
                 filterByDate(bank);
                 break;
             } case 5: {
-                statisticsMenu(bank);
+                bank.statTransaction();
                 break;
             } case 6: {
-                transactionSortMenu(bank);
+                bank.sortTransaction();
                 break;
             }
         }
