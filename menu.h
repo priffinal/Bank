@@ -1,15 +1,16 @@
 #pragma once
-#include <iostream>
-#include <windows.h>
-using namespace std;
 
-class menu {
+class Bank;
 
+class Menu
+{
+private:
+    Bank &bank;
+    void customerMenu();
+    void accountMenu();
+    void transactionMenu();
 public:
-    void drawFrame();
-    void clearScreen();
-    void showMainMenu();
-    void ShowAccountMenu();
-    void ShowCustomerMenu();
-    void ShowTransactionMenu();
+    ~Menu();
+    Menu (Bank &b);
+    void mainMenu();
 };

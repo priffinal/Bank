@@ -1,7 +1,14 @@
 #include "Bank.h"
 #include "AutoGen.h"
+#include "Customer.h"
+#include "CheckingAccount.h"
+#include "SavingAccount.h"
+#include "Transaction.h"
 #include <iostream>
 #include <ctime>
+#include <algorithm>
+#include <fstream>
+#include <sstream>
 using namespace std;
 
 int Bank::cusNum = 0;
@@ -15,6 +22,7 @@ string Bank::addCustomer(string name, string phone, string email, string address
     c.createCustomer(name, phone, email, address);
     c.autoID(autoGenerate("C", ++cusNum));
     customers.push_back(c);
+    saveCusToFile("customers.txt");
     return c.getID();
 }
 
@@ -40,6 +48,7 @@ bool Bank::updateCusInfo(string ID, string name, string phone, string email, str
     Customer* cus = searchCustomer(ID);
     if (!cus) return false;
     cus->updateInfo(name, phone, email, address);
+    saveCusToFile("customers.txt");
     return true;
 }
 
@@ -50,6 +59,7 @@ string Bank::addCHK(string ID, long long balance, long long overdraftLimit)
     Account* acc = new CheckingAccount(balance, overdraftLimit);
     string newID = cus->addAccount(acc);
     accounts.push_back(acc);
+    saveAccToFile("accounts.txt");
     return newID;
 }
 
@@ -60,6 +70,7 @@ string Bank::addSAV(string ID, long long balance)
     Account* acc = new SavingAccount(balance);
     string newID = cus->addAccount(acc);
     accounts.push_back(acc);
+    saveAccToFile("accounts.txt");
     return newID;
 }
 
@@ -76,6 +87,7 @@ void Bank::closeAccount(string accID)
 {
     Account *acc = searchAccount(accID);
     acc->closeAccount();
+    saveAccToFile("accounts.txt");
 }
 
 bool Bank::showAccInfo(string ID)
@@ -94,6 +106,7 @@ void Bank::deposit(Account &a, double amount)
     Transaction T = Transaction(a.getID(), "", ltm, amount, "deposit", "success");
     transactions.push_back(T);
     a.addTransaction(T);
+    saveTransToFile("transactions.txt");
 }
 
 bool Bank::withdraw(Account &a, double amount)
@@ -104,6 +117,7 @@ bool Bank::withdraw(Account &a, double amount)
         Transaction T = Transaction(a.getID(), "", ltm, amount, "withdraw", "success");
         transactions.push_back(T);
         a.addTransaction(T);
+        saveTransToFile("transactions.txt");
         return true;
     } else {
         time_t now = time(0);
@@ -111,6 +125,7 @@ bool Bank::withdraw(Account &a, double amount)
         Transaction T = Transaction(a.getID(), "", ltm, amount, "withdraw", "failed");
         transactions.push_back(T);
         a.addTransaction(T);
+        saveTransToFile("transactions.txt");
         return false;
     }
 }
@@ -127,6 +142,7 @@ bool Bank::transfer(Account &a, string ID, double amount)
         Transaction T2 = Transaction(a.getID(), ID, ltm, amount, "transfer_in", "success");
         transactions.push_back(T2);
         searchAccount(ID)->addTransaction(T2);
+        saveTransToFile("transactions.txt");
         return true;
     } else {
         time_t now = time(0);
@@ -134,6 +150,7 @@ bool Bank::transfer(Account &a, string ID, double amount)
         Transaction T1 = Transaction(a.getID(), ID, ltm, amount, "transfer_out", "failed");
         transactions.push_back(T1);
         a.addTransaction(T1);
+        saveTransToFile("transactions.txt");
         return false;
     }
 }
@@ -145,30 +162,10 @@ bool Bank::deleteCustomer(string ID)
             customers[i] = customers.back();
             customers.pop_back();
             customers[i].removeAllAccount();
+            saveCusToFile("customers.txt");
             return true;
         }
     } return false;
-}
-
-
-long long Bank::totalDeposit()
-{
-    long long sum = 0;
-    for (auto t : transactions) {
-        if (t.getType() == "deposit") sum += t.getAmount();
-    }
-    return sum;
-}
-
-long long Bank::totalWithdraw(string ID)
-{
-    double sum = 0;
-    for (auto t : transactions) {
-        if (t.getType() == "withdraw" && t.getAccID() == ID) {
-            sum += t.getAmount();
-        } 
-    }
-    return sum;
 }
 
 vector<Transaction> Bank::filterByDate(tm from, tm to) 
@@ -187,9 +184,261 @@ vector<Transaction> Bank::filterByDate(tm from, tm to)
     return result;
 }
 
+vector<Transaction> Bank::filterByID(string ID)
+{
+    vector<Transaction> result;
+    int n = transactions.size();
+    for (int i = 0; i < n; i++) {
+        if (transactions[i].getAccID() == ID) {
+            result.push_back(transactions[i]);
+        }
+    }
+    return result;
+}
+
+vector<Transaction> Bank::filterByType(string type)
+{
+    vector<Transaction> result;
+    int n = transactions.size();
+    for (int i = 0; i < n; i++) {
+        if (transactions[i].getType() == type) {
+            result.push_back(transactions[i]);
+        }
+    }
+    return result;
+}
+
 void Bank::printAllTransactions()
 {
     for (int i = 0; i < transactions.size(); i++) {
         transactions[i].log();
     }
+}
+
+void Bank::countTransactions(int &n1, int &n2, int &n3)
+{
+    n1 = n2 = n3 = 0;
+    for (auto &tr : transactions) {
+        if (tr.getType() == "deposit") n1++;
+        if (tr.getType() == "withdraw") n2++;
+        if (tr.getType() == "transfer_in") n3++;
+    }
+}
+
+void Bank::successRate(int &n1, int &n2)
+{
+    n1 = n2 = 0;
+    for (auto &tr : transactions) {
+        if (tr.getStatus() == "success") n1++;
+        if (tr.getStatus() == "failed") n2++;
+    }
+}
+
+void Bank::customerStatistics(int &totalCus, int &noAcc, string &mostAccCusID, string &richestCusID, long long &maxTotalBalance)
+{
+    totalCus = (int)customers.size();
+    noAcc = 0;
+    maxTotalBalance = 0;
+
+    if (!customers.empty()) {
+        mostAccCusID = customers[0].getID();
+        richestCusID = customers[0].getID();
+    } else {
+        mostAccCusID = "";
+        richestCusID = "";
+    }
+
+    for (auto &cus : customers) {
+        if (cus.getAccountCount() == 0) noAcc++;
+
+        if (!mostAccCusID.empty() && cus.getAccountCount() > searchCustomer(mostAccCusID)->getAccountCount()) mostAccCusID = cus.getID();
+
+        if (!richestCusID.empty() && cus.totalBalance() > searchCustomer(richestCusID)->totalBalance()) richestCusID = cus.getID();
+
+        maxTotalBalance += cus.totalBalance();
+    }
+}
+
+void Bank::accountStatistics(int &totalAcc, int &checkingCnt, int &savingCnt, int &overdraftCnt, long long &totalBalance,
+                             long long &maxBalance, string &maxBalAccID)
+{
+    totalAcc = (int)accounts.size();
+    checkingCnt = savingCnt = overdraftCnt = 0;
+    totalBalance = 0;
+    maxBalance = LLONG_MIN;
+    maxBalAccID = "";
+
+    if (!accounts.empty()) {
+        maxBalAccID = accounts[0]->getID();
+        maxBalance = accounts[0]->getBalance();
+    }
+    
+    for (auto acc : accounts) {
+        if (acc->getID().substr(0, 3) == "CHK") checkingCnt++;
+
+        if (acc->getID().substr(0, 3) == "SAV") savingCnt++;
+
+        if (acc->getBalance() < 0) overdraftCnt++;
+
+        totalBalance += acc->getBalance();
+
+        if (acc->getBalance() > maxBalance) {
+            maxBalAccID = acc->getID();
+            maxBalance = acc->getBalance();
+        }
+    }
+}
+
+vector<Transaction> Bank::sortTransaction(int type)
+{
+    vector<Transaction> result = transactions;
+
+    switch (type) {
+
+    case 1:
+        sort(result.begin(), result.end(),
+            [](Transaction a, Transaction b) {
+                tm tempA = a.getTime();
+                tm tempB = b.getTime();
+                time_t A = mktime(&tempA);
+                time_t B = mktime(&tempB);
+                return A < B;
+            });
+        break;
+
+    case 2:
+        sort(result.begin(), result.end(),
+            [](Transaction a, Transaction b) {
+                tm tempA = a.getTime();
+                tm tempB = b.getTime();
+                time_t A = mktime(&tempA);
+                time_t B = mktime(&tempB);
+                return A > B;
+            });
+        break;
+
+    case 3:
+        sort(result.begin(), result.end(),
+            [](Transaction a, Transaction b) {
+                return a.getAmount() < b.getAmount();
+            });
+        break;
+
+    case 4:
+        sort(result.begin(), result.end(),
+            [](Transaction a, Transaction b) {
+                return a.getAmount() > b.getAmount();
+            });
+        break;
+    }
+
+    return result;
+}
+
+int Bank::extractNumber(const string& id) {
+    size_t pos = 0;
+    while (pos < id.size() && !isdigit(id[pos])) {
+        pos++;
+    }
+    return stoi(id.substr(pos));
+}
+
+
+void Bank::loadCusFromFile(const string& filename)
+{
+    ifstream in(filename);
+    if (!in) return;
+
+    string line;
+    while (getline(in, line)) {
+        stringstream ss(line);
+        string name, id, phone, email, address, n;
+
+        getline(ss, id, '|');
+        getline(ss, name, '|');
+        getline(ss, phone, '|');
+        getline(ss, email, '|');
+        getline(ss, address);
+
+        addCustomer(name, phone, email, address);
+        cusNum = max(cusNum, extractNumber(id));
+    }
+}
+
+void Bank::saveCusToFile(const string& filename)
+{
+    ofstream out(filename);
+    for (auto& c: customers) {
+        out << c.getID() << "|"
+            << c.getName() << "|"
+            << c.getPhone() << "|"
+            << c.getEmail() << "|"
+            << c.getAddress() << "\n";
+    }
+    out.close();
+}
+
+void Bank::loadAccFromFile(const string& filename)
+{
+    ifstream in("accounts.txt");
+    string line;
+
+    while (getline(in, line)) {
+        stringstream ss(line);
+        string type;
+        getline(ss, type, '|');
+
+        if (type == "CHK") {
+            string id, cusID;
+            long long balance, overdraft;
+
+            getline(ss, id, '|');
+            getline(ss, cusID, '|');
+            ss >> balance;
+            ss.ignore();
+            ss >> overdraft;
+
+            addCHK(cusID, balance, overdraft);
+        }
+        else if (type == "SAV") {
+            string id, cusID;
+            long long balance, term, minBal;
+            double rate;
+
+            getline(ss, id, '|');
+            getline(ss, cusID, '|');
+            ss >> balance;
+            ss.ignore();
+            ss >> rate;
+            ss.ignore();
+            ss >> term;
+            ss.ignore();
+            ss >> minBal;
+
+            addSAV(cusID, balance);
+        }
+    }
+}
+
+void Bank::saveAccToFile(const string& filename)
+{
+    ofstream out(filename);
+    for (auto& acc : accounts) {
+        out << acc->toFileString() << "\n";
+    }
+    out.close();
+}
+
+void Bank::loadTransFromFile(const string& filename) {
+    ifstream in(filename);
+    string line;
+    while (getline(in, line)) {
+        transactions.push_back(Transaction::fromFileString(line));
+    }
+}
+
+void Bank::saveTransToFile(const string& filename) {
+    ofstream out(filename);
+    for (const auto& t : transactions)
+        out << t.toFileString() << '\n';
 }

@@ -1,5 +1,4 @@
 #pragma once
-// #include"Account.h"
 #include <vector>
 #include<string>
 using namespace std;
@@ -22,6 +21,10 @@ public:
     int getAccountCount();
     Account* searchAccount(string ID);
     string getID();
+    string getName();
+    string getPhone();
+    string getAddress();
+    string getEmail();
     void showInfo();
     void updateInfo(string name, string phone, string email, string address);
     bool removeAccount(string accID);
@@ -29,4 +32,5 @@ public:
     void autoID(string ID);
     bool removeAllAccount();
     void list();
+    long long totalBalance();
 };

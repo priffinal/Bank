@@ -4,8 +4,6 @@
 #include "PrintTime.h"
 #include "Customer.h"
 #include "Transaction.h"
-#include <ctime>
-#include <string>
 #include <iostream>
 using namespace std;
 
@@ -32,40 +30,28 @@ void Account::addTransaction(Transaction T) { tr.push_back(T); }
 bool Account::withdraw(double amount)
 {
 	if (amount > balance) {
-		time_t now = time(0);
-		tm ltm = *localtime(&now);
 		return false;
 	}
 	else {
 		balance -= amount;
-		time_t now = time(0);
-		tm ltm = *localtime(&now);
 		return true;
 	}
 }
 
 void Account::deposit(double amount) { 
 	balance += amount;
-	time_t now = time(0);
-	tm ltm = *localtime(&now);
 }
 
 void Account::transfer_in(double amount, string relatedID) {
 	balance += amount;
-	time_t now = time(0);
-	tm ltm = *localtime(&now);
 }
 
 bool Account::transfer_out(double amount, string relatedID)
 {
 	if (amount > balance) {
-		time_t now = time(0);
-		tm ltm = *localtime(&now);
 		return false;
 	} else {
 		balance -= amount;
-		time_t now = time(0);
-		tm ltm = *localtime(&now);
 		return true;
 	}
 }
@@ -77,7 +63,7 @@ double Account::calculateInterest()
 
 void Account::displayInfo()
 {
-	cout << "- Account ID: " << accountID 
+	cout << "Account ID: " << accountID 
 		 << " - Open Date: " << openDate 
 		 << " - Status: " << status 
 		 << " - Balance: " << balance << endl;

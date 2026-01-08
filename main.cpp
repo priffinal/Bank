@@ -1,15 +1,14 @@
 #include <iostream>
-#include <string>
 #include "Bank.h"
-#include "SavingAccount.h"
-#include "CheckingAccount.h"
-#include "Account.h"
-#include"Customer.h"
 #include "Menu.h"
 using namespace std;
 
 int main() {
 	Bank b;
+    b.loadCusFromFile("customers.txt");
+    b.loadAccFromFile("accounts.txt");
+    b.loadTransFromFile("transactions.txt");
+
     Menu menu = Menu(b);
     menu.mainMenu();
 }

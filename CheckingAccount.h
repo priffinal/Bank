@@ -1,8 +1,6 @@
 #pragma once
 #include "Account.h"
 #include <string>
-#include <iostream>
-#include <iomanip>
 class CheckingAccount : public Account
 {
 private:
@@ -14,4 +12,5 @@ public:
 	bool withdraw(double amount);
 	void createAccount(const Customer &c, long long balance);
 	void displayInfo();
+	string toFileString() const;
 };

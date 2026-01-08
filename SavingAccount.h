@@ -1,8 +1,5 @@
 #pragma once
 #include "Account.h"
-#include <string>
-#include <iostream>
-#include <iomanip>
 using namespace std;
 
 class SavingAccount: public Account
@@ -16,5 +13,6 @@ public:
     double calculateInterest();
 	bool withdraw(double amount);
 	void displayInfo();
+	string toFileString() const;
 	SavingAccount(long long balance);
 };
