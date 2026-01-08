@@ -102,7 +102,7 @@ void Customer::autoID(string ID)
 
 long long Customer::totalBalance()
 {
-	long long balance;
+	long long balance = 0;	
 	for (auto acc : account) {
 		balance += acc->getBalance();
 	}
