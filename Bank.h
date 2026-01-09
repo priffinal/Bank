@@ -61,10 +61,14 @@ public:
 
     // loc custmoer, account, transaction
     void filterCustomer();
-    void filterAccount();
+    void filterAccountByBalance();
     void filterTransactionByType();
+    void filterAccountByID();
+    void filterAccountByDate();
 
     // sap xep
     void sortCustomer();
-    void sortAccount();
+    void sortAccountBybalance();
+    void sortAccountByID();
+    void sortAccountByDate();
 };

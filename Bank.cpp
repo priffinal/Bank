@@ -471,7 +471,7 @@ void Bank::sortCustomer()
     }
 }
 
-void Bank::filterAccount()
+void Bank::filterAccountByBalance()
 {
     long long min;
     cout << "Nhap so du toi thieu: ";
@@ -484,7 +484,7 @@ void Bank::filterAccount()
     }
 }
 
-void Bank::sortAccount()
+void Bank::sortAccountBybalance()
 {
     vector<Account*> temp = accounts;
     sort(temp.begin(), temp.end(),
@@ -506,5 +506,70 @@ void Bank::filterTransactionByType()
     for (auto& t : transactions) {
         if (t.getType() == type)
             t.log();
+    }
+}
+void Bank::filterAccountByID()
+{
+    string cid;
+    cout << "Nhap ID khach hang: ";
+    cin >> cid;
+
+    bool found = false;
+    for (auto acc : accounts) {
+        if (acc->getID() == cid) {
+            acc->displayInfo();
+            found = true;
+        }
+    }
+
+    if (!found)
+        cout << "Khach hang chua co tai khoan!\n";
+}
+void Bank::filterAccountByDate()
+{
+    string from, to;
+    cout << "Nhap ngay bat dau (DD-MM-YYYY): ";
+    cin >> from;
+    cout << "Nhap ngay ket thuc (DD-MM-YYYY): ";
+    cin >> to;
+
+    bool found = false;
+    for (auto acc : accounts) {
+        string d = acc->getopenDate();
+        if (d >= from && d <= to) {
+            acc->displayInfo();
+            found = true;
+        }
+    }
+
+    if (!found)
+        cout << "Khong co tai khoan nao trong khoang thoi gian nay!\n";
+}
+void Bank::sortAccountByID()
+{
+    vector<Account*> temp = accounts;   // COPY
+
+    sort(temp.begin(), temp.end(),
+        [](Account* a, Account* b) {
+            return a->getID() < b->getID();
+        });
+
+    cout << "\nTAI KHOAN THEO ID (TANG DAN)\n";
+    for (auto acc : temp) {
+        acc->displayInfo();
+    }
+}
+void Bank::sortAccountByDate()
+{
+    vector<Account*> temp = accounts;
+
+    sort(temp.begin(), temp.end(),
+        [](Account* a, Account* b) {
+            return a->getopenDate() < b->getopenDate();
+        });
+
+    cout << "\nTAI KHOAN THEO NGAY MO\n";
+    for (auto acc : temp) {
+        acc->displayInfo();
     }
 }

@@ -124,26 +124,32 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Account.cpp" />
+    <ClCompile Include="AccountMenu.cpp" />
     <ClCompile Include="AutoGen.cpp" />
     <ClCompile Include="Bank.cpp" />
     <ClCompile Include="CheckingAccount.cpp" />
     <ClCompile Include="Customer.cpp" />
+    <ClCompile Include="CustomerMenu.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="menu.cpp" />
     <ClCompile Include="PrintTime.cpp" />
     <ClCompile Include="SavingAccount.cpp" />
     <ClCompile Include="Transaction.cpp" />
+    <ClCompile Include="TransactionMenu.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Account.h" />
+    <ClInclude Include="AccountMenu.h" />
     <ClInclude Include="AutoGen.h" />
     <ClInclude Include="Bank.h" />
     <ClInclude Include="CheckingAccount.h" />
     <ClInclude Include="Customer.h" />
+    <ClInclude Include="CustomerMenu.h" />
     <ClInclude Include="menu.h" />
     <ClInclude Include="PrintTime.h" />
     <ClInclude Include="SavingAccount.h" />
     <ClInclude Include="Transaction.h" />
+    <ClInclude Include="TransactionMenu.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />
