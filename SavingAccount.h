@@ -14,5 +14,5 @@ public:
 	bool withdraw(double amount);
 	void displayInfo();
 	string toFileString() const;
-	SavingAccount(long long balance);
+	SavingAccount(long long balance, tm date);
 };

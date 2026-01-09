@@ -1,6 +1,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include "Bank.h"
 #include "AutoGen.h"
+#include "PrintTime.h"
 #include "Customer.h"
 #include "CheckingAccount.h"
 #include "SavingAccount.h"
@@ -54,22 +55,22 @@ bool Bank::updateCusInfo(string ID, string name, string phone, string email, str
     return true;
 }
 
-string Bank::addCHK(string ID, long long balance, long long overdraftLimit)
+string Bank::addCHK(string ID, long long balance, long long overdraftLimit, tm openDate)
 {
     Customer *cus = searchCustomer(ID);
     if (!cus) return "";
-    Account* acc = new CheckingAccount(balance, overdraftLimit);
+    Account* acc = new CheckingAccount(balance, overdraftLimit, openDate);
     string newID = cus->addAccount(acc);
     accounts.push_back(acc);
     saveAccToFile("accounts.txt");
     return newID;
 }
 
-string Bank::addSAV(string ID, long long balance)
+string Bank::addSAV(string ID, long long balance, tm openDate)
 {
     Customer *cus = searchCustomer(ID);
     if (!cus) return "";
-    Account* acc = new SavingAccount(balance);
+    Account* acc = new SavingAccount(balance, openDate);
     string newID = cus->addAccount(acc);
     accounts.push_back(acc);
     saveAccToFile("accounts.txt");
@@ -388,7 +389,7 @@ void Bank::loadAccFromFile(const string& filename)
 
     while (getline(in, line)) {
         stringstream ss(line);
-        string type;
+        string type, temp;
         getline(ss, type, '|');
 
         if (type == "CHK") {
@@ -396,12 +397,14 @@ void Bank::loadAccFromFile(const string& filename)
             long long balance, overdraft;
 
             getline(ss, id, '|');
+            getline(ss, temp, '|');
             getline(ss, cusID, '|');
             ss >> balance;
             ss.ignore();
             ss >> overdraft;
+            auto openDate = stringToTm(temp);
 
-            addCHK(cusID, balance, overdraft);
+            addCHK(cusID, balance, overdraft, openDate);
         }
         else if (type == "SAV") {
             string id, cusID;
@@ -409,6 +412,7 @@ void Bank::loadAccFromFile(const string& filename)
             double rate;
 
             getline(ss, id, '|');
+            getline(ss, temp, '|');
             getline(ss, cusID, '|');
             ss >> balance;
             ss.ignore();
@@ -417,8 +421,9 @@ void Bank::loadAccFromFile(const string& filename)
             ss >> term;
             ss.ignore();
             ss >> minBal;
+            auto openDate = stringToTm(temp);
 
-            addSAV(cusID, balance);
+            addSAV(cusID, balance, openDate);
         }
     }
 }
@@ -465,7 +470,7 @@ void Bank::sortCustomer()
         [](Customer& a, Customer& b) {
             return a.totalBalance() > b.totalBalance();
         });
-    cout << "\nKHACH HANG THEO TONG SO DU (GIAM DAN)\n";
+    
     for (auto& c : temp) {
         c.showInfo();
     }
@@ -492,7 +497,6 @@ void Bank::sortAccountBybalance()
             return a->getBalance() < b->getBalance();
         }); 
 
-    cout << "\nTAI KHOAN THEO SO DU (GIAM DAN)\n";
     for (auto acc : temp) {
         acc->displayInfo();
     };
@@ -525,18 +529,14 @@ void Bank::filterAccountByID()
     if (!found)
         cout << "Khach hang chua co tai khoan!\n";
 }
-void Bank::filterAccountByDate()
+void Bank::filterAccountByDate(tm from, tm to)
 {
-    string from, to;
-    cout << "Nhap ngay bat dau (DD-MM-YYYY): ";
-    cin >> from;
-    cout << "Nhap ngay ket thuc (DD-MM-YYYY): ";
-    cin >> to;
-
+    time_t A = mktime(&from), B = mktime(&to);
     bool found = false;
     for (auto acc : accounts) {
-        string d = acc->getopenDate();
-        if (d >= from && d <= to) {
+        tm d = acc->getopenDate();
+        time_t current = mktime(&d);
+        if (current >= A && current <= B) {
             acc->displayInfo();
             found = true;
         }
@@ -545,6 +545,7 @@ void Bank::filterAccountByDate()
     if (!found)
         cout << "Khong co tai khoan nao trong khoang thoi gian nay!\n";
 }
+
 void Bank::sortAccountByID()
 {
     vector<Account*> temp = accounts;   // COPY
@@ -554,21 +555,25 @@ void Bank::sortAccountByID()
             return a->getID() < b->getID();
         });
 
-    cout << "\nTAI KHOAN THEO ID (TANG DAN)\n";
     for (auto acc : temp) {
         acc->displayInfo();
     }
 }
+
+
 void Bank::sortAccountByDate()
 {
     vector<Account*> temp = accounts;
 
     sort(temp.begin(), temp.end(),
         [](Account* a, Account* b) {
-            return a->getopenDate() < b->getopenDate();
+            tm tempA = a->getopenDate();
+            tm tempB = b->getopenDate();
+            time_t A = mktime(&tempA);
+            time_t B = mktime(&tempB);
+            return A > B;
         });
-
-    cout << "\nTAI KHOAN THEO NGAY MO\n";
+    
     for (auto acc : temp) {
         acc->displayInfo();
     }

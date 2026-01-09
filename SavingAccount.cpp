@@ -1,6 +1,7 @@
 ﻿#define _CRT_SECURE_NO_WARNINGS
 #include "SavingAccount.h"
 #include "AutoGen.h"
+#include "PrintTime.h"
 #include "Customer.h"
 #include <string>
 #include <ctime>
@@ -16,12 +17,13 @@ tm addYears(tm *t, int year)
 	return *localtime(&time);
 }
 
-SavingAccount::SavingAccount(long long balance) : Account(balance)
+SavingAccount::SavingAccount(long long balance, tm date) : Account(balance)
 {
 	interest = 0;
 	minimumBalance = 0.0;
 	term = 0;
 	accountID = autoGenerate("SAV", ++accType["saving"]);
+	openDate = date;
 };
 
 double SavingAccount::calculateInterest()
@@ -40,16 +42,6 @@ void SavingAccount::displayInfo()
 	cout << "\nKy han: " << term << " nam" <<"\n"<< endl;
 }
 
-// void SavingAccount::createAccount(const Customer &c, long long balance)
-// {
-// 	cout << "\n--- Tao tai khoan tiet kiem ---" << endl;
-// 	Account::createAccount(c, balance);
-// 	cout << "\nNhap so du toi thieu: ";
-// 	cin >> minimumBalance;
-// 	cout << "\nNhap ky han (nam): ";
-// 	cin >> term;
-// }
-
 bool SavingAccount::withdraw(double amount)
 {
 	time_t now = time(0);
@@ -61,6 +53,7 @@ bool SavingAccount::withdraw(double amount)
 
 string SavingAccount::toFileString() const {
     return "SAV|" + accountID + "|" + customerInfo->getID() + "|" +
+		   tmToString(openDate) + "|" +
            to_string(balance) + "|" +
            to_string(interestRate) + "|" +
            to_string(term) + "|" +

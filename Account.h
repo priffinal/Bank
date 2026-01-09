@@ -37,5 +37,5 @@ public:
 	void lockAccount();
 	void closeAccount();
 	string getID();
-	string getopenDate();
+	tm getopenDate();
 };

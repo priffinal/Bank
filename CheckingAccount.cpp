@@ -1,6 +1,7 @@
 ﻿#define _CRT_SECURE_NO_WARNINGS
 #include "CheckingAccount.h"
 #include "AutoGen.h"
+#include "PrintTime.h"
 #include "Customer.h"
 #include <iostream>
 #include <ctime>
@@ -8,10 +9,11 @@
 #include <iomanip>
 using namespace std;
 
-CheckingAccount::CheckingAccount(long long balance, long long overdraftLimit) : Account(balance)
+CheckingAccount::CheckingAccount(long long balance, long long overdraftLimit, tm date) : Account(balance)
 {
 	this->overdraftLimit = overdraftLimit;
 	this->accountID = autoGenerate("CHK", ++accType["checking"]);
+	this->openDate = date;
 }
 
 
@@ -48,7 +50,7 @@ bool CheckingAccount::withdraw(double amount)
 }
 
 string CheckingAccount::toFileString() const {
-    return "CHK|" + accountID + "|" + customerInfo->getID() + "|" +
+    return "CHK|" + accountID + "|" + tmToString(openDate) + "|" + customerInfo->getID() + "|" +
            to_string(balance) + "|" +
            to_string(overdraftLimit);
 }

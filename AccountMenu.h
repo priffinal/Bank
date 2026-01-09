@@ -10,3 +10,4 @@ void withdraw(Bank &bank);
 void transfer(Bank &bank);
 void filterAccount(Bank& bank);
 void sortAccount(Bank& bank);
+void filterAccountByDate(Bank &bank);

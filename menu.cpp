@@ -11,7 +11,6 @@ Menu::~Menu() {}
 
 void Menu::mainMenu()
 {
-    system("cls");
     int choice;
     do {
         cout << "\n===== QUAN LY NGAN HANG =====\n";
@@ -52,7 +51,6 @@ void Menu::mainMenu()
 
 void Menu::customerMenu()
 {
-    system("cls");
     int choice;
     do {
         cout << "\n----- QUAN LY KHACH HANG ----\n";
@@ -95,7 +93,6 @@ void Menu::customerMenu()
 
 void Menu::accountMenu()
 {
-    system("cls");
     int choice;
     do {
         bool ok = false;
@@ -146,7 +143,6 @@ void Menu::accountMenu()
 
 void Menu::transactionMenu()
 {
-    system("cls");
     int choice;
     do {
         cout << "\n----- QUAN LY GIAO DICH -----\n";
@@ -174,6 +170,7 @@ void Menu::transactionMenu()
                 filterByDate(bank);
                 break;
             } case 5: {
+                cout << "\nKHACH HANG THEO TONG SO DU (GIAM DAN)\n";
                 transactionSortMenu(bank);
                 break;
             }

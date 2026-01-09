@@ -25,12 +25,15 @@ void openAccount(Bank &bank)
     string cusID = checkCustomer(bank), newID;
     cout << "Nhap loai tai khoan (1-TK / 2-TT): "; cin >> n;
     cout << "Nhap so du khoi tao: "; cin >> balance;
+    time_t now = time(nullptr);
+    tm openDate = *localtime(&now);
+
     if (n == 1) {
-        newID = bank.addSAV(cusID, balance);
+        newID = bank.addSAV(cusID, balance, openDate);
     } if (n == 2) {
         long long overdraftLimit;
         cout << "Nhap han muc thau chi: "; cin >> overdraftLimit;
-        newID = bank.addCHK(cusID, balance, overdraftLimit);
+        newID = bank.addCHK(cusID, balance, overdraftLimit, openDate);
     }
     cout << "Tao tai khoan thanh cong.\n";
     cout << "ID cua tai khoan la: " << newID << endl;
@@ -96,7 +99,7 @@ void filterAccount(Bank& bank)
 {
     int choice;
     do {
-        cout << "\n===== QUAN LY LOC TAI KHOAN =====\n";
+        cout << "\n--- QUAN LY LOC TAI KHOAN ---\n";
         cout << "1. Loc theo so du\n";
         cout << "2. Loc theo ID\n";
         cout << "3. Loc theo thoi gian\n";
@@ -120,18 +123,39 @@ void filterAccount(Bank& bank)
             bank.filterAccountByID();
             break;
         case 3:
-            bank.filterAccountByDate();
+            filterAccountByDate(bank);
             break;
         case 0:
             break;
         }
     } while (choice != 0);
 }
+
+void filterAccountByDate(Bank& bank)
+{
+    tm from = {}, to = {};
+    cout << "Nhap ngay bat dau (dd mm yyyy): ";
+    cin >> from.tm_mday >> from.tm_mon >> from.tm_year;
+    cout << "Nhap ngay ket thuc (dd mm yyyy): ";
+    cin >> to.tm_mday >> to.tm_mon >> to.tm_year;
+
+    from.tm_mon -= 1;
+    from.tm_year -= 1900;
+
+    to.tm_mon -= 1;
+    to.tm_year -= 1900;
+    to.tm_hour = 23;
+    to.tm_min = 59;
+    to. tm_sec = 59;
+
+    bank.filterAccountByDate(from, to);
+}
+
 void sortAccount(Bank& bank)
 {
     int choice;
     do {
-        cout << "\n===== QUAN LY SAP XEP TAI KHOAN =====\n";
+        cout << "\n--- QUAN LY SAP XEP TAI KHOAN ---\n";
         cout << "1. Sap xep theo so du\n";
         cout << "2. Sap xep theo ID\n";
         cout << "3. Sap xep theo thoi gian\n";
@@ -149,12 +173,15 @@ void sortAccount(Bank& bank)
 
         switch (choice) {
         case 1:
+            cout << "\nTAI KHOAN THEO SO DU (GIAM DAN)\n";
             bank.sortAccountBybalance();
             break;
         case 2:
+            cout << "\nTAI KHOAN THEO ID (TANG DAN)\n";
             bank.sortAccountByID();
             break;
         case 3:
+            cout << "\nTAI KHOAN THEO NGAY MO\n";
             bank.sortAccountByDate();
             break;
         case 0:

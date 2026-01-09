@@ -29,8 +29,8 @@ public:
     void customerStatistics(int &totalCus, int &noAcc, string &mostAccCusID, string &richestCusID, long long &maxTotalBalance);
     
     // Quan ly tai khoan
-    string addCHK(string ID, long long balance, long long overdraftLimit);
-    string addSAV(string ID, long long balance);
+    string addCHK(string ID, long long balance, long long overdraftLimit, tm date);
+    string addSAV(string ID, long long balance, tm date);
     bool showAccInfo(string ID);
     void closeAccount(string accID);
     Account* searchAccount(const string &ID);
@@ -64,7 +64,7 @@ public:
     void filterAccountByBalance();
     void filterTransactionByType();
     void filterAccountByID();
-    void filterAccountByDate();
+    void filterAccountByDate(tm from, tm to);
 
     // sap xep
     void sortCustomer();
