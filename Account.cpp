@@ -12,9 +12,6 @@ Account::Account(){}
 Account::Account(double initialBalance)
 {
 	balance = initialBalance;	
-	time_t now = time(0);
-	tm ltm = *localtime(&now);
-	openDate = ltm;
 	status = "Open";
 }
 
@@ -73,6 +70,8 @@ long long Account::getBalance() { return balance; }
 
 void Account::closeAccount() { status = "Closed"; }
 
+void Account::openAccount() { status = "Open"; }
+
 void Account::createAccount(const Customer &c, long long balance)
 {
 	this->balance = balance;
@@ -90,3 +89,5 @@ void Account::printList()
 	cout << "ID: " << getID() << "So du: " << getBalance() << endl;
 }
 tm Account::getopenDate() { return openDate; }
+
+string Account::getStatus() { return status; }

@@ -114,6 +114,8 @@ void Bank::deposit(Account &a, double amount)
 
 bool Bank::withdraw(Account &a, double amount)
 {
+    if (a.getStatus() == "Closed") return false;
+
     if (a.withdraw(amount)) {
         time_t now = time(0);
         tm ltm = *localtime(&now);
@@ -135,6 +137,8 @@ bool Bank::withdraw(Account &a, double amount)
 
 bool Bank::transfer(Account &a, string ID, double amount)
 {
+    if (a.getStatus() == "Closed") return false;
+    
     if (a.transfer_out(amount, ID)) {
         time_t now = time(0);
         tm ltm = *localtime(&now);
@@ -167,6 +171,7 @@ bool Bank::deleteCustomer(string ID)
             customers.pop_back();
             customers[i].removeAllAccount();
             saveCusToFile("customers.txt");
+            saveAccToFile("accounts.txt");
             return true;
         }
     } return false;
