@@ -89,3 +89,12 @@ void Account::printList()
 {
 	cout << "ID: " << getID() << "So du: " << getBalance() << endl;
 }
+string Account::getopenDate()
+{
+	char buf[11]; 
+
+	strftime(buf, sizeof(buf), "%Y-%m-%d", &openDate);
+
+	return string(buf);
+
+}

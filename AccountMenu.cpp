@@ -92,3 +92,73 @@ void transfer(Bank &bank)
     if (result) cout << "Chuyen thanh cong " << balance << "VND vao tai khoan cua " << toID <<".\n";
     else cout << "Chuyen tien that bai.\n";
 }
+void filterAccount(Bank& bank)
+{
+    int choice;
+    do {
+        cout << "\n===== QUAN LY LOC TAI KHOAN =====\n";
+        cout << "1. Loc theo so du\n";
+        cout << "2. Loc theo ID\n";
+        cout << "3. Loc theo thoi gian\n";
+        cout << "0. Thoat\n";
+        cout << "Nhap lua chon: ";
+        cin >> choice;
+        cin.ignore();
+
+        if (choice > 3 && choice < 0 && isalpha(choice)) {
+            do {
+                cout << "Khong hop le. Nhap lai: ";
+                cin >> choice;
+            } while (choice > 3 && choice < 0 && isalpha(choice));
+        }
+
+        switch (choice) {
+        case 1:
+            bank.filterAccountByBalance();
+            break;
+        case 2:
+            bank.filterAccountByID();
+            break;
+        case 3:
+            bank.filterAccountByDate();
+            break;
+        case 0:
+            break;
+        }
+    } while (choice != 0);
+}
+void sortAccount(Bank& bank)
+{
+    int choice;
+    do {
+        cout << "\n===== QUAN LY SAP XEP TAI KHOAN =====\n";
+        cout << "1. Sap xep theo so du\n";
+        cout << "2. Sap xep theo ID\n";
+        cout << "3. Sap xep theo thoi gian\n";
+        cout << "0. Thoat\n";
+        cout << "Nhap lua chon: ";
+        cin >> choice;
+        cin.ignore();
+
+        if (choice > 3 && choice < 0 && isalpha(choice)) {
+            do {
+                cout << "Khong hop le. Nhap lai: ";
+                cin >> choice;
+            } while (choice > 3 && choice < 0 && isalpha(choice));
+        }
+
+        switch (choice) {
+        case 1:
+            bank.sortAccountBybalance();
+            break;
+        case 2:
+            bank.sortAccountByID();
+            break;
+        case 3:
+            bank.sortAccountByDate();
+            break;
+        case 0:
+            break;
+        }
+    } while (choice != 0);
+}

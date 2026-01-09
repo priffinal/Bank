@@ -104,6 +104,7 @@ void Menu::accountMenu()
         cout << "5. Rut tien\n";
         cout << "6. Chuyen tien\n";
         cout << "7. Sap xep tai khoan\n";
+        cout << "8. Loc tai khoan\n";
         cout << "0. Quay lai\n";
         cout << "Nhap lua chon: ";
         cin >> choice;
@@ -130,7 +131,10 @@ void Menu::accountMenu()
                 transfer(bank);
                 break;
             }  case 7: {
-                bank.sortAccount();
+                sortAccount(bank);
+                break;
+            }case 8: {
+                filterAccount(bank);
                 break;
             }
         }

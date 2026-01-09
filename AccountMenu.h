@@ -8,3 +8,5 @@ void showAccInfo(Bank &bank);
 void deposit(Bank &bank);
 void withdraw(Bank &bank);
 void transfer(Bank &bank);
+void filterAccount(Bank& bank);
+void sortAccount(Bank& bank);

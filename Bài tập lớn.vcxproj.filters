@@ -45,6 +45,15 @@
     <ClCompile Include="PrintTime.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="TransactionMenu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AccountMenu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CustomerMenu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SavingAccount.h">
@@ -72,6 +81,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PrintTime.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TransactionMenu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AccountMenu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CustomerMenu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
