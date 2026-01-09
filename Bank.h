@@ -58,8 +58,8 @@ public:
     void saveAccToFile(const string& filename);
     void loadTransFromFile(const string& filename);
     void saveTransToFile(const string& filename);
-    // loc custmoer, account, transaction
 
+    // loc custmoer, account, transaction
     void filterCustomer();
     void filterAccount();
     void filterTransactionByType();

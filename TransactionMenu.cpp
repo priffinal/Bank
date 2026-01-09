@@ -89,6 +89,7 @@ void filterByDate(Bank &bank)
 
 void statisticsMenu(Bank &bank)
 {
+    system("cls");
    int choice;
     do {
         cout << "\n----- THONG KE -----\n";
@@ -153,6 +154,7 @@ void statisticsMenu(Bank &bank)
 
 void transactionSortMenu(Bank &bank)
 {
+    system("cls");
     int choice;
     do {
         cout << "\n--- SAP XEP GIAO DICH ---\n";
