@@ -21,7 +21,7 @@ public:
     ~Bank();
 
     // Quan ly khach hang
-    string addCustomer(string name, string phone, string email, string address);
+    string addCustomer(string name, string phone, string email, string address, string ID);
     Customer* searchCustomer(const string &ID);
     bool updateCusInfo(string ID, string name, string phone, string email, string address);
     bool showCusInfo(string ID);
@@ -59,7 +59,7 @@ public:
     void loadTransFromFile(const string& filename);
     void saveTransToFile(const string& filename);
 
-    // loc custmoer, account, transaction
+    // loc customer, account, transaction
     void filterCustomer();
     void filterAccountByBalance();
     void filterTransactionByType();

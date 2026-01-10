@@ -18,7 +18,7 @@ void addCustomer(Bank &bank)
     cout << "Nhap dia chi: ";
     getline(cin, address);
 
-    string newID = bank.addCustomer(fullName, phone, email, address);
+    string newID = bank.addCustomer(fullName, phone, email, address, "");
     cout << "Tao khach hang thanh cong.\n";
     cout << "ID cua khach hang la: " << newID << endl;
 }

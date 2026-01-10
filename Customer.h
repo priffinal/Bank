@@ -31,6 +31,7 @@ public:
     void createCustomer(string name, string phone, string email, string address);
     void autoID(string ID);
     bool removeAllAccount();
+    vector<Account*> getAccounts();
     void list();
     long long totalBalance();
 };

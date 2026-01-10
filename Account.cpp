@@ -64,7 +64,7 @@ void Account::displayInfo()
 	cout << "Account ID: " << accountID 
 		 << " - Open Date: " << openDate 
 		 << " - Status: " << status 
-		 << " - Balance: " << balance << endl;
+		 << " - Balance: " << balance;
 }
 
 long long Account::getBalance() { return balance; }

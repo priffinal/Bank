@@ -41,7 +41,7 @@ void SavingAccount::displayInfo()
 	cout << fixed << setprecision(2);
 	cout << "\nLai suat: " << interestRate << "% /nam" << endl;
 	cout << "\nSo du toi thieu: " << minimumBalance << endl;
-	cout << "\nKy han: " << term << " nam" <<"\n"<< endl;
+	cout << "\nKy han: " << term << " thang" <<"\n"<< endl;
 }
 
 bool SavingAccount::withdraw(double amount)
