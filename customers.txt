@@ -1,5 +1,5 @@
 C0001|TA TUAN LINH|0367289783|ttlinh102005@gmail.com|BN
-C0002|Ta Tuan Linh|0|0|0
+C0002|Nguyen Minh Hieu|0945456647|minhhieu@gmail.com|236 Hoang Quoc Viet
 C0003|linh|||
 C0004|linh|||
 C0005|linh|||
