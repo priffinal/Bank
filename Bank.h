@@ -29,8 +29,8 @@ public:
     void customerStatistics(int &totalCus, int &noAcc, string &mostAccCusID, string &richestCusID, long long &maxTotalBalance);
     
     // Quan ly tai khoan
-    string addCHK(string ID, long long balance, long long overdraftLimit, tm date);
-    string addSAV(string ID, long long balance, tm date);
+    string addCHK(string ID, long long balance, long long overdraftLimit, tm date, string status);
+    string addSAV(string ID, long long balance, int term, float interestRate, tm date, string status);
     bool showAccInfo(string ID);
     void closeAccount(string accID);
     Account* searchAccount(const string &ID);

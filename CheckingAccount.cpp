@@ -10,21 +10,12 @@
 #include "choice.h"
 using namespace std;
 
-CheckingAccount::CheckingAccount(long long balance, long long overdraftLimit, tm date) : Account(balance)
+CheckingAccount::CheckingAccount(long long balance, long long overdraftLimit, tm date, string status) : Account(balance)
 {
 	this->overdraftLimit = overdraftLimit;
 	this->accountID = autoGenerate("CHK", ++accType["checking"]);
 	this->openDate = date;
-}
-
-
-void CheckingAccount::createAccount(const Customer& c, long long balance)
-{
-	cout << "\n--- Tao tai khoan thanh toan ---" << endl;
-	Account::createAccount(c, balance);
-	cout << "\nNhap gioi han rut qua tai khoan (toi da 500 trieu): ";
-	int limit = inputChoice(0, 500000000);
-	overdraftLimit = limit;
+	this->status = status;
 }
 
 void CheckingAccount::displayInfo()
@@ -56,7 +47,10 @@ bool CheckingAccount::withdraw(double amount)
 	}
 }
 string CheckingAccount::toFileString() const {
-    return "CHK|" + accountID + "|" + tmToString(openDate) + "|" + customerInfo->getID() + "|" +
+    return "CHK|" + accountID + "|" + 
+		   tmToString(openDate) + "|" + 
+		   customerInfo->getID() + "|" +
            to_string(balance) + "|" +
-           to_string(overdraftLimit);
+           to_string(overdraftLimit) + "|" +
+		   status;
 }

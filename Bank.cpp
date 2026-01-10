@@ -54,22 +54,22 @@ bool Bank::updateCusInfo(string ID, string name, string phone, string email, str
     return true;
 }
 
-string Bank::addCHK(string ID, long long balance, long long overdraftLimit, tm openDate)
+string Bank::addCHK(string ID, long long balance, long long overdraftLimit, tm openDate, string status)
 {
     Customer *cus = searchCustomer(ID);
     if (!cus) return "";
-    Account* acc = new CheckingAccount(balance, overdraftLimit, openDate);
+    Account* acc = new CheckingAccount(balance, overdraftLimit, openDate, status);
     string newID = cus->addAccount(acc);
     accounts.push_back(acc);
     saveAccToFile("accounts.txt");
     return newID;
 }
 
-string Bank::addSAV(string ID, long long balance, tm openDate)
+string Bank::addSAV(string ID, long long balance, int term, float interestRate, tm openDate, string status)
 {
     Customer *cus = searchCustomer(ID);
     if (!cus) return "";
-    Account* acc = new SavingAccount(balance, openDate);
+    Account* acc = new SavingAccount(balance, openDate, term, interestRate, status);
     string newID = cus->addAccount(acc);
     accounts.push_back(acc);
     saveAccToFile("accounts.txt");
@@ -394,7 +394,7 @@ void Bank::loadAccFromFile(const string& filename)
 
     while (getline(in, line)) {
         stringstream ss(line);
-        string type, temp;
+        string type, temp, status;
         getline(ss, type, '|');
 
         if (type == "CHK") {
@@ -407,6 +407,7 @@ void Bank::loadAccFromFile(const string& filename)
             ss >> balance;
             ss.ignore();
             ss >> overdraft;
+            ss >> status;
             auto openDate = stringToTm(temp);
 
             // SUA LOI: Khong dung addCHK (vi no sinh ID moi)
@@ -414,7 +415,7 @@ void Bank::loadAccFromFile(const string& filename)
 
             Customer* cus = searchCustomer(cusID);
             if (cus) {
-                CheckingAccount* acc = new CheckingAccount(balance, overdraft, openDate);
+                CheckingAccount* acc = new CheckingAccount(balance, overdraft, openDate, status);
 
                 // Khoi phuc ID tu file
                 acc->setID(id);
@@ -440,9 +441,10 @@ void Bank::loadAccFromFile(const string& filename)
             ss >> term;
             ss.ignore();
             ss >> minBal;
+            ss >> status;
             auto openDate = stringToTm(temp);
 
-            addSAV(cusID, balance, openDate);
+            addSAV(cusID, balance, term, rate, openDate, status);
         }
     }
 }

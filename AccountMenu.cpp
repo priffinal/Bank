@@ -41,13 +41,17 @@ void openAccount(Bank& bank)
     tm openDate = *localtime(&now);
 
     if (n == 1) {
-        newID = bank.addSAV(cusID, balance, openDate);
+        float interestRate;
+        int term;
+        cout << "Nhap ky han (theo thang): "; cin >> term;
+        cout << "Nhap lai suat theo thang: "; cin >> interestRate;
+        newID = bank.addSAV(cusID, balance, term, interestRate, openDate, "Open");
     }
     else if (n == 2) {
         long long overdraftLimit;
         cout << "Nhap han muc thau chi: ";
         cin >> overdraftLimit;
-        newID = bank.addCHK(cusID, balance, overdraftLimit, openDate);
+        newID = bank.addCHK(cusID, balance, overdraftLimit, openDate, "Open");
     }
     cout << "Tao tai khoan thanh cong.\n";
     cout << "ID cua tai khoan la: " << newID << endl;

@@ -2,10 +2,11 @@
 #include "CustomerMenu.h"
 #include "AccountMenu.h"
 #include "TransactionMenu.h"
+#include "AutoGen.h"
 #include <iostream>
 #include <iomanip>
 #include <string>
-#include <cstdlib> //system()
+#include <cstdlib>
 #include "choice.h"
 
 Menu::Menu(Bank& b) : bank(b) {}
@@ -27,13 +28,17 @@ void Menu::mainMenu()
         choice = inputChoice(0, 4);
 
         switch (choice) {
-        case 1: customerMenu(); break;
-        case 2: accountMenu(); break;
-        case 3: transactionMenu(); break;
+        case 1: 
+            customerMenu(); 
+            break;
+        case 2: 
+            accountMenu();
+            break;
+        case 3: 
+            transactionMenu();
+            break;
         case 4:
             statisticsMenu(bank);
-            cout << "\nNhan phim bat ky de quay lai...";
-            cin.get();
             break;
         }
     } while (choice != 0);
@@ -57,18 +62,24 @@ void Menu::customerMenu()
 
         switch (choice)
         {
-        case 1: addCustomer(bank); break;
-        case 2: editCusInfo(bank); break;
-        case 3: showCusInfo(bank); break;
-        case 4: deleteCustomer(bank); break;
-        case 5: bank.sortCustomer(); break;
+        case 1: 
+            addCustomer(bank);
+            break;
+        case 2: 
+            editCusInfo(bank);
+            break;
+        case 3: 
+            showCusInfo(bank);
+            break;
+        case 4: 
+            deleteCustomer(bank); 
+            break;
+        case 5: 
+            bank.sortCustomer();
+            break;
         }
 
-        if (choice != 0)
-        {
-            cout << "\nNhan phim bat ky de tiep tuc...";
-            cin.get();
-        }
+        if (choice > 0) end();
 
     } while (choice != 0);
 }
@@ -90,26 +101,37 @@ void Menu::accountMenu()
         cout << "0. Quay lai\n";
         cout << "Nhap lua chon: ";
 
-        // SUA: Dung inputChoice thay cho cin >> choice
         choice = inputChoice(0, 8);
         cout << "\n";
 
         switch (choice) {
-        case 1: openAccount(bank); break;
-        case 2: closeAccount(bank); break;
-        case 3: showAccInfo(bank); break;
-        case 4: deposit(bank); break;
-        case 5: withdraw(bank); break;
-        case 6: transfer(bank); break;
-        case 7: sortAccount(bank); break;
-        case 8: filterAccount(bank); break;
+        case 1: 
+            openAccount(bank);
+            break;
+        case 2: 
+            closeAccount(bank);
+            break;
+        case 3: 
+            showAccInfo(bank); 
+            break;
+        case 4: 
+            deposit(bank); 
+            break;
+        case 5: 
+            withdraw(bank); 
+            break;
+        case 6: 
+            transfer(bank);
+            break;
+        case 7: 
+            sortAccount(bank);
+            break;
+        case 8: 
+            filterAccount(bank);
+            break;
         }
 
-        // Them lenh dung man hinh cho cac chuc nang khong co menu con
-        if (choice != 0 && choice != 7 && choice != 8) {
-            cout << "\nNhan phim bat ky de tiep tuc...";
-            cin.get();
-        }
+        if (choice > 0 && choice != 7 && choice != 8) end();
 
     } while (choice != 0);
 }
@@ -127,8 +149,6 @@ void Menu::transactionMenu()
         cout << "5. Sap xep giao dich\n";
         cout << "0. Quay lai\n";
         cout << "Nhap lua chon: ";
-
-        // SUA: Dung inputChoice thay cho cin >> choice
         choice = inputChoice(0, 5);
 
         switch (choice) {
@@ -136,19 +156,22 @@ void Menu::transactionMenu()
             firstRow();
             bank.printAllTransactions();
             break;
-        case 2: filterByAccount(bank); break;
-        case 3: filterByType(bank); break;
-        case 4: filterByDate(bank); break;
+        case 2: 
+            filterByAccount(bank); 
+            break;
+        case 3: 
+            filterByType(bank); 
+            break;
+        case 4: 
+            filterByDate(bank);
+            break;
         case 5:
             cout << "\nKHACH HANG THEO TONG SO DU (GIAM DAN)\n";
             transactionSortMenu(bank);
             break;
         }
 
-        if (choice != 0 && choice != 5) {
-            cout << "\nNhan phim bat ky de tiep tuc...";
-            cin.get();
-        }
+        if (choice > 0 && choice != 5) end();
 
     } while (choice != 0);
 }
