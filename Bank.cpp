@@ -165,10 +165,11 @@ bool Bank::transfer(Account &a, string ID, double amount)
 bool Bank::deleteCustomer(string ID)
 {
     for (int i = 0; i < customers.size(); i++) {
-        if (customers[i].getID() == ID) {
+        if (customers[i].getID() == ID) {      
+            customers[i].removeAllAccount();
             customers[i] = customers.back();
             customers.pop_back();
-            customers[i].removeAllAccount();
+    
             saveCusToFile("customers.txt");
             saveAccToFile("accounts.txt");
             return true;
