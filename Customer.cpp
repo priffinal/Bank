@@ -90,8 +90,14 @@ bool Customer::removeAllAccount()
 	{
 		acc->closeAccount();
 	}
+	account.clear();
 	return true;
 } 
+
+vector<Account*> Customer::getAccounts()
+{
+	return account;
+}
 
 void Customer::autoID(string ID)
 {

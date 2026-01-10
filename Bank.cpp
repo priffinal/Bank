@@ -22,8 +22,12 @@ string Bank::addCustomer(string name, string phone, string email, string address
 {
     Customer c;
     c.createCustomer(name, phone, email, address);
-    if (empty(ID)) c.autoID(ID);
-    else c.autoID(autoGenerate("C", ++cusNum));
+    if (!ID.empty()) {
+        c.autoID(ID);
+        cusNum = max(cusNum, extractNumber(ID));
+    } else {
+        c.autoID(autoGenerate("C", ++cusNum));
+    }
     customers.push_back(c);
     saveCusToFile("customers.txt");
     return c.getID();
@@ -170,7 +174,7 @@ bool Bank::deleteCustomer(string ID)
             customers[i].removeAllAccount();
             customers[i] = customers.back();
             customers.pop_back();
-    
+
             saveCusToFile("customers.txt");
             saveAccToFile("accounts.txt");
             return true;
