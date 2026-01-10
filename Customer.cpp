@@ -5,9 +5,10 @@
 #include "PrintTime.h"
 #include<string>
 #include<iostream>
+#include <vector>
 using namespace std;
 
-int Customer::n = 0;
+//int Customer::n = 0;
 Customer::Customer() {}
 
 string Customer::getID() { return customerID; }
@@ -22,11 +23,11 @@ string Customer::addAccount(Account *acc)
 	if (acc == nullptr) return "";
 	acc->setOwner(this);
 	account.push_back(acc);
-	n++;
+	//n++;
 	return acc->getID();
 }
 
-int Customer::getAccountCount() { return n; }
+int Customer::getAccountCount() { return (int)account.size(); }
 
 Account* Customer::searchAccount(string ID) 
 {
@@ -50,10 +51,10 @@ void Customer::showInfo()
 		 << " - Dien thoai: " << phone 
 		 << " - Email: " << email 
 		 << " - Dia chi: " << address 
-		 << " - So tai khoan: " << n << endl;
+		 << " - So tai khoan: " << account.size() << endl;
 }
 
-//ham chinh sua ti khoan
+//ham chinh sua tai khoan
 void Customer::updateInfo(string name, string phone, string email, string address)
 {	
 	if (!name.empty()) fullName = name;
@@ -65,14 +66,11 @@ void Customer::updateInfo(string name, string phone, string email, string addres
 //ham xoa tai khoan
 bool Customer::removeAccount(string accID)
 {
-	for (int i = 0; i < n; i++)
+	for (size_t i = 0; i < account.size(); i++)
 	{
 		if (account[i]->getID() == accID)
 		{
-			// Dịch trái các phần tử phía sau
-			for (int j = i; j < n - 1; j++)
-				account[j] = account[j + 1];
-			n--;
+			account.erase(account.begin() + i);
 			return true;
 		}
 	}
@@ -81,17 +79,16 @@ bool Customer::removeAccount(string accID)
 
 void Customer::list()
 {
-	for (int i = 0; i <= n; i++) {
+	for (int i = 0; i < account.size(); i++) {
 		account[i]->printList();
 	}
 }
 
 bool Customer::removeAllAccount()
 {
-
-	for (int i = 0; i < n; i++)
+	for (auto acc : account)
 	{
-		account[i]->closeAccount();
+		acc->closeAccount();
 	}
 	return true;
 } 

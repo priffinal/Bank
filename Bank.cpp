@@ -388,7 +388,8 @@ void Bank::saveCusToFile(const string& filename)
 
 void Bank::loadAccFromFile(const string& filename)
 {
-    ifstream in("accounts.txt");
+    ifstream in(filename);
+    if (!in) return;
     string line;
 
     while (getline(in, line)) {
@@ -408,7 +409,21 @@ void Bank::loadAccFromFile(const string& filename)
             ss >> overdraft;
             auto openDate = stringToTm(temp);
 
-            addCHK(cusID, balance, overdraft, openDate);
+            // SUA LOI: Khong dung addCHK (vi no sinh ID moi)
+            // Tao truc tiep va setID lai tu file
+
+            Customer* cus = searchCustomer(cusID);
+            if (cus) {
+                CheckingAccount* acc = new CheckingAccount(balance, overdraft, openDate);
+
+                // Khoi phuc ID tu file
+                acc->setID(id);
+                // Cap nhat bo dem de lan sau khong sinh trung ID nay
+                Account::updateCounter("checking", extractNumber(id));
+
+                cus->addAccount(acc);
+                accounts.push_back(acc);
+            }
         }
         else if (type == "SAV") {
             string id, cusID;
@@ -445,7 +460,12 @@ void Bank::loadTransFromFile(const string& filename) {
     ifstream in(filename);
     string line;
     while (getline(in, line)) {
-        transactions.push_back(Transaction::fromFileString(line));
+        Transaction t = Transaction::fromFileString(line);
+        transactions.push_back(t);
+        string tid = line.substr(line.find('|') + 1);
+        tid = tid.substr(0, tid.find('|'));
+        int num = extractNumber(tid);
+        Transaction::updateCounter(t.getType(), num);
     }
 }
 

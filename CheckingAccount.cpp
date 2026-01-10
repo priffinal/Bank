@@ -7,6 +7,7 @@
 #include <ctime>
 #include <string>
 #include <iomanip>
+#include "choice.h"
 using namespace std;
 
 CheckingAccount::CheckingAccount(long long balance, long long overdraftLimit, tm date) : Account(balance)
@@ -17,12 +18,13 @@ CheckingAccount::CheckingAccount(long long balance, long long overdraftLimit, tm
 }
 
 
-void CheckingAccount::createAccount(const Customer &c, long long balance)
+void CheckingAccount::createAccount(const Customer& c, long long balance)
 {
 	cout << "\n--- Tao tai khoan thanh toan ---" << endl;
 	Account::createAccount(c, balance);
-	cout << "\nNhap gioi han rut qua tai khoan: ";
-	cin >> overdraftLimit;
+	cout << "\nNhap gioi han rut qua tai khoan (toi da 500 trieu): ";
+	int limit = inputChoice(0, 500000000);
+	overdraftLimit = limit;
 }
 
 void CheckingAccount::displayInfo()
@@ -42,13 +44,17 @@ double CheckingAccount::calculateInterest()
 
 bool CheckingAccount::withdraw(double amount)
 {
-	if (getBalance() < amount + transactionFee - overdraftLimit) return false;
+	long long availableFunds = getBalance() + overdraftLimit;
+	long long totalDeduction = amount + transactionFee;
+
+	if (availableFunds < totalDeduction) {
+		return false;
+	}
 	else {
 		Account::withdraw(amount);
 		return true;
 	}
 }
-
 string CheckingAccount::toFileString() const {
     return "CHK|" + accountID + "|" + tmToString(openDate) + "|" + customerInfo->getID() + "|" +
            to_string(balance) + "|" +

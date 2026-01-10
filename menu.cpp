@@ -5,14 +5,17 @@
 #include <iostream>
 #include <iomanip>
 #include <string>
+#include <cstdlib> //system()
+#include "choice.h"
 
-Menu::Menu(Bank &b) : bank(b) {}
+Menu::Menu(Bank& b) : bank(b) {}
 Menu::~Menu() {}
 
 void Menu::mainMenu()
 {
     int choice;
     do {
+        system("cls");
         cout << "\n===== QUAN LY NGAN HANG =====\n";
         cout << "1. Quan ly khach hang\n";
         cout << "2. Quan ly tai khoan\n";
@@ -20,30 +23,17 @@ void Menu::mainMenu()
         cout << "4. Thong ke\n";
         cout << "0. Thoat\n";
         cout << "Nhap lua chon: ";
-        cin >> choice;
-        cin.ignore();
 
-        if (choice > 4 && choice < 0 && isalpha(choice)) {
-            do {
-                cout << "Khong hop le. Nhap lai: "; 
-                cin >> choice;
-            } while (choice > 4 && choice < 0 && isalpha(choice));
-        }
+        choice = inputChoice(0, 4);
 
         switch (choice) {
-        case 1:
-            customerMenu();
-            break;
-        case 2:
-            accountMenu();
-            break;
-        case 3:
-            transactionMenu();
-            break;
+        case 1: customerMenu(); break;
+        case 2: accountMenu(); break;
+        case 3: transactionMenu(); break;
         case 4:
             statisticsMenu(bank);
-            break;
-        case 0:
+            cout << "\nNhan phim bat ky de quay lai...";
+            cin.get();
             break;
         }
     } while (choice != 0);
@@ -53,6 +43,7 @@ void Menu::customerMenu()
 {
     int choice;
     do {
+        system("cls");
         cout << "\n----- QUAN LY KHACH HANG ----\n";
         cout << "1. Them khach hang\n";
         cout << "2. Sua thong tin\n";
@@ -61,33 +52,24 @@ void Menu::customerMenu()
         cout << "5. Sap xep khach hang\n";
         cout << "0. Quay lai\n";
         cout << "Nhap lua chon: ";
-        cin >> choice;
-        cin.ignore();
-        cout << "\n";
 
-        switch (choice) {
-        case 1:	{
-            addCustomer(bank);
-            break;
+        choice = inputChoice(0, 5);
+
+        switch (choice)
+        {
+        case 1: addCustomer(bank); break;
+        case 2: editCusInfo(bank); break;
+        case 3: showCusInfo(bank); break;
+        case 4: deleteCustomer(bank); break;
+        case 5: bank.sortCustomer(); break;
         }
-        case 2: {
-            editCusInfo(bank);
-            break;
+
+        if (choice != 0)
+        {
+            cout << "\nNhan phim bat ky de tiep tuc...";
+            cin.get();
         }
-        case 3: {
-            showCusInfo(bank);
-            break;
-        }
-        case 4: {
-            deleteCustomer(bank);
-            break;
-        }case 5: {
-            bank.sortCustomer();
-            break;
-        }
-        case 0:
-            break;
-        }
+
     } while (choice != 0);
 }
 
@@ -95,7 +77,7 @@ void Menu::accountMenu()
 {
     int choice;
     do {
-        bool ok = false;
+        system("cls");
         cout << "\n----- QUAN LY TAI KHOAN ----\n";
         cout << "1. Mo tai khoan\n";
         cout << "2. Dong tai khoan\n";
@@ -107,37 +89,28 @@ void Menu::accountMenu()
         cout << "8. Loc tai khoan\n";
         cout << "0. Quay lai\n";
         cout << "Nhap lua chon: ";
-        cin >> choice;
-        cin.ignore();
+
+        // SUA: Dung inputChoice thay cho cin >> choice
+        choice = inputChoice(0, 8);
         cout << "\n";
 
         switch (choice) {
-            case 1: {
-                openAccount(bank);
-                break;
-            } case 2: {
-                closeAccount(bank);
-                break;
-            } case 3: {
-                showAccInfo(bank);
-                break;
-            } case 4: {
-                deposit(bank);
-                break;
-            } case 5: {
-                withdraw(bank);
-                break;
-            } case 6: {
-                transfer(bank);
-                break;
-            }  case 7: {
-                sortAccount(bank);
-                break;
-            }case 8: {
-                filterAccount(bank);
-                break;
-            }
+        case 1: openAccount(bank); break;
+        case 2: closeAccount(bank); break;
+        case 3: showAccInfo(bank); break;
+        case 4: deposit(bank); break;
+        case 5: withdraw(bank); break;
+        case 6: transfer(bank); break;
+        case 7: sortAccount(bank); break;
+        case 8: filterAccount(bank); break;
         }
+
+        // Them lenh dung man hinh cho cac chuc nang khong co menu con
+        if (choice != 0 && choice != 7 && choice != 8) {
+            cout << "\nNhan phim bat ky de tiep tuc...";
+            cin.get();
+        }
+
     } while (choice != 0);
 }
 
@@ -145,6 +118,7 @@ void Menu::transactionMenu()
 {
     int choice;
     do {
+        system("cls");
         cout << "\n----- QUAN LY GIAO DICH -----\n";
         cout << "1. Xem lich su giao dich\n";
         cout << "2. Loc theo tai khoan\n";
@@ -153,27 +127,28 @@ void Menu::transactionMenu()
         cout << "5. Sap xep giao dich\n";
         cout << "0. Quay lai\n";
         cout << "Nhap lua chon: ";
-        cin >> choice;
+
+        // SUA: Dung inputChoice thay cho cin >> choice
+        choice = inputChoice(0, 5);
 
         switch (choice) {
-            case 1: {
-                firstRow();
-                bank.printAllTransactions();
-                break;
-            } case 2: {
-                filterByAccount(bank);
-                break;
-            } case 3: {
-                filterByType(bank);
-                break;
-            } case 4: {
-                filterByDate(bank);
-                break;
-            } case 5: {
-                cout << "\nKHACH HANG THEO TONG SO DU (GIAM DAN)\n";
-                transactionSortMenu(bank);
-                break;
-            }
+        case 1:
+            firstRow();
+            bank.printAllTransactions();
+            break;
+        case 2: filterByAccount(bank); break;
+        case 3: filterByType(bank); break;
+        case 4: filterByDate(bank); break;
+        case 5:
+            cout << "\nKHACH HANG THEO TONG SO DU (GIAM DAN)\n";
+            transactionSortMenu(bank);
+            break;
         }
+
+        if (choice != 0 && choice != 5) {
+            cout << "\nNhan phim bat ky de tiep tuc...";
+            cin.get();
+        }
+
     } while (choice != 0);
 }

@@ -128,6 +128,7 @@
     <ClCompile Include="AutoGen.cpp" />
     <ClCompile Include="Bank.cpp" />
     <ClCompile Include="CheckingAccount.cpp" />
+    <ClCompile Include="choice.cpp" />
     <ClCompile Include="Customer.cpp" />
     <ClCompile Include="CustomerMenu.cpp" />
     <ClCompile Include="main.cpp" />
@@ -143,6 +144,7 @@
     <ClInclude Include="AutoGen.h" />
     <ClInclude Include="Bank.h" />
     <ClInclude Include="CheckingAccount.h" />
+    <ClInclude Include="choice.h" />
     <ClInclude Include="Customer.h" />
     <ClInclude Include="CustomerMenu.h" />
     <ClInclude Include="menu.h" />
@@ -153,6 +155,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="accounts.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

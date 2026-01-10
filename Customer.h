@@ -14,7 +14,7 @@ private:
     string email;
     string address;
     vector<Account*> account;
-    static int n;
+   // static int n;
 public:
     Customer();
     string addAccount(Account *acc);

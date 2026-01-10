@@ -18,6 +18,7 @@ private:
 public:
     Transaction();
     Transaction(string aID, string rID, tm date, long long amount, string type, string status);
+    Transaction(string transID, string aID, string rID, tm date, long long amount, string type, string status);
     ~Transaction();
     string toFileString() const;
     static Transaction fromFileString(const string& line);
@@ -28,4 +29,5 @@ public:
     string getStatus();
     void generateID();
     void log();
+    static void updateCounter(string type, int val);
 };
