@@ -39,4 +39,7 @@ public:
 	string getID();
 	tm getopenDate();
 	string getStatus();
+	// De cap nhat ID khi load file
+	void setID(string id);
+	static void updateCounter(string type, int val);
 };

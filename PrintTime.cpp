@@ -1,6 +1,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include "PrintTime.h"
 #include <iomanip>
+#include <sstream>
 #include <iostream>
 using namespace std;
 

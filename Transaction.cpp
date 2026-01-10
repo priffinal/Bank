@@ -24,6 +24,18 @@ Transaction::Transaction(string aID, string rID, tm date, long long amount, stri
     generateID();
 }
 
+Transaction::Transaction(string transID, string aID, string rID, tm date, long long amount, string type, string status)
+{
+    this->transactionID = transID;
+    this->accountID = aID;
+    this->relatedID = rID;
+    this->dateTime = date;
+    this->amount = amount;
+    this->type = type;
+    this->status = status;
+
+}
+
 void Transaction::generateID()
 {
     if (type == "deposit") {
@@ -103,5 +115,11 @@ Transaction Transaction::fromFileString(const string& line) {
 
     if (to == "------") to = "";
 
-    return Transaction(from, to, t, amount, type, status);
+    return Transaction(id, from, to, t, amount, type, status);
+}
+
+void Transaction::updateCounter(string type, int val) {
+    if (val > counter[type]) {
+        counter[type] = val;
+    }
 }

@@ -5,6 +5,8 @@
 #include <algorithm>
 #include <iostream>
 #include <iomanip>
+#include "choice.h"
+
 using namespace std;
 
 void firstRow()
@@ -34,21 +36,11 @@ void filterByAccount(Bank &bank)
     for (int i = 0; i < n; i++) filter[i].log();
 }
 
-void filterByType(Bank &bank)
+void filterByType(Bank& bank)
 {
-    map <int, string> type = {{1, "deposit"}, {2, "withdraw"}, {3, "transfer_in"}, {4, "transfer_out"}};
-    bool ok = false;
-    int choice;
-
-    do {
-        cout << "Nhap loai giao dich (1-Deposit / 2-Withdraw / 3-Transfer in / 4-Transfer out): "; cin >> choice;
-        cin.ignore();
-        if (choice > 4 || choice < 1) {
-            cout << "Lua chon khong hop le. Vui long nhap lai.\n";
-            ok = false;
-        }
-        else ok = true;
-    } while (!ok);
+    map <int, string> type = { {1, "deposit"}, {2, "withdraw"}, {3, "transfer_in"}, {4, "transfer_out"} };
+    cout << "Chon loai giao dich (1-Deposit / 2-Withdraw / 3-Transfer in / 4-Transfer out): ";
+    int choice = inputChoice(1, 4);
 
     auto filter = bank.filterByType(type[choice]);
     if (filter.empty()) {
@@ -67,6 +59,12 @@ void filterByDate(Bank &bank)
     cin >> from.tm_mday >> from.tm_mon >> from.tm_year;
     cout << "Nhap ngay ket thuc (dd mm yyyy): ";
     cin >> to.tm_mday >> to.tm_mon >> to.tm_year;
+
+    if (cin.fail()) {
+        cin.clear(); cin.ignore(1000, '\n');
+        cout << "Ngay thang khong hop le.\n";
+        return;
+    }
 
     from.tm_mon -= 1;
     from.tm_year -= 1900;
@@ -91,14 +89,14 @@ void statisticsMenu(Bank &bank)
 {
    int choice;
     do {
+        system("cls");
         cout << "\n----- THONG KE -----\n";
         cout << "1. Thong ke khach hang\n";
         cout << "2. Thong ke tai khoan\n";
         cout << "3. Thong ke giao dich\n";
         cout << "0. Thoat\n";
         cout << "Nhap lua chon: ";
-        cin >> choice;
-        cin.ignore();
+        choice = inputChoice(0, 3);
         switch (choice) {
             case 1: {
                 int totalCus, noAcc;
@@ -144,9 +142,21 @@ void statisticsMenu(Bank &bank)
                 cout << "Tong so giao dich: " << deposit + withdraw + transfer << endl;
                 cout << "Thanh cong: " << success << endl;
                 cout << "That bai: " << failed << endl;
-                cout << "Ty le: " << fixed << setprecision(2) << (success)/(success + failed)*100 << "%" << endl;
+                // SUA LOI: Chia cho 0 va sai kieu du lieu
+                int total = success + failed;
+                if (total > 0) {
+                    cout << "Ty le thanh cong: " << fixed << setprecision(2)
+                        << ((double)success / total) * 100.0 << "%" << endl;
+                }
+                else {
+                    cout << "Ty le thanh cong: 0.00%" << endl;
+                }
                 break;
             }
+        }
+        if (choice != 0) {
+            cout << "\nNhan phim bat ky de tiep tuc...";
+            cin.get();
         }
     } while (choice != 0);  
 }
@@ -155,6 +165,7 @@ void transactionSortMenu(Bank &bank)
 {
     int choice;
     do {
+        system("cls");
         cout << "\n--- SAP XEP GIAO DICH ---\n";
         cout << "1. Theo thoi gian (cu -> moi)\n";
         cout << "2. Theo thoi gian (moi -> cu)\n";
@@ -162,29 +173,25 @@ void transactionSortMenu(Bank &bank)
         cout << "4. Theo so tien (giam dan)\n";
         cout << "0. Quay lai\n";
         cout << "Nhap lua chon: ";
-        cin >> choice;
-        cin.ignore();
+       
+        choice = inputChoice(0, 4);
 
         vector<Transaction> sorted;
 
-        switch (choice) {
-            case 1: {
-                sorted = bank.sortTransaction(1);
-                break;
-            } case 2: {
-                sorted = bank.sortTransaction(2);
-                break;
-            } case 3: {
-                sorted = bank.sortTransaction(3);
-                break;
-            } case 4: {
-                sorted = bank.sortTransaction(4);
-                break;
-            }
+        switch (choice)
+        {
+        case 1: sorted = bank.sortTransaction(1); break;
+        case 2: sorted = bank.sortTransaction(2); break;
+        case 3: sorted = bank.sortTransaction(3); break;
+        case 4: sorted = bank.sortTransaction(4); break;
         }
 
-        firstRow();
-        for (auto t : sorted) t.log();
+        if (choice != 0) {
+            firstRow();
+            for (auto t : sorted) t.log();
+            cout << "\nNhan phim bat ky de tiep tuc...";
+            cin.get();
+        }
 
     } while (choice != 0);
 }

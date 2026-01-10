@@ -5,6 +5,7 @@
 #include "Customer.h"
 #include "Transaction.h"
 #include <iostream>
+#include <algorithm>//for max
 using namespace std;
 
 map<string, int> Account::accType = {};
@@ -91,3 +92,13 @@ void Account::printList()
 tm Account::getopenDate() { return openDate; }
 
 string Account::getStatus() { return status; }
+
+void Account::setID(string id) {
+	this->accountID = id;
+}
+
+void Account::updateCounter(string type, int val) {
+	if (val > accType[type]) {
+		accType[type] = val;
+	}
+}

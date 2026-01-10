@@ -10,10 +10,10 @@
 using namespace std;
 
 
-tm addYears(tm *t, int year)
+tm addYears(tm t, int year)
 {
-	t->tm_year += year;
-	time_t time = mktime(t);
+	t.tm_year += year;
+	time_t time = mktime(&t);
 	return *localtime(&time);
 }
 
@@ -24,11 +24,12 @@ SavingAccount::SavingAccount(long long balance, tm date) : Account(balance)
 	term = 0;
 	accountID = autoGenerate("SAV", ++accType["saving"]);
 	openDate = date;
+	interestRate = 4.67;
 };
 
 double SavingAccount::calculateInterest()
 {
-	 interest = minimumBalance*(4.67/100) * term ;
+	interest = balance * (interestRate / 100.0) * term;
 	 return interest;
 }
 
@@ -45,17 +46,18 @@ void SavingAccount::displayInfo()
 bool SavingAccount::withdraw(double amount)
 {
 	time_t now = time(0);
-	tm expiredTm = addYears(&openDate, term);
+	tm expiredTm = addYears(openDate, term);
 	time_t expired = mktime(&expiredTm);
 	if (difftime(expired, now) > 0) return false;
 	else return Account::withdraw(amount);
 }
 
 string SavingAccount::toFileString() const {
-    return "SAV|" + accountID + "|" + customerInfo->getID() + "|" +
-		   tmToString(openDate) + "|" +
-           to_string(balance) + "|" +
-           to_string(interestRate) + "|" +
-           to_string(term) + "|" +
-           to_string(minimumBalance);
+	return "SAV|" + accountID + "|" +
+		tmToString(openDate) + "|" +
+		customerInfo->getID() + "|" +
+		to_string(balance) + "|" +
+		to_string(interestRate) + "|" +
+		to_string(term) + "|" +
+		to_string(minimumBalance);
 }
