@@ -25,7 +25,7 @@ public:
     Customer* searchCustomer(const string &ID);
     bool updateCusInfo(string ID, string name, string phone, string email, string address);
     bool showCusInfo(string ID);
-    bool deleteCustomer(const string& ID);
+    bool deleteCustomer(string ID);
     void customerStatistics(int &totalCus, int &noAcc, string &mostAccCusID, string &richestCusID, long long &maxTotalBalance);
     
     // Quan ly tai khoan
