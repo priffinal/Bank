@@ -417,16 +417,11 @@ void Bank::loadAccFromFile(const string& filename)
             ss >> status;
             auto openDate = stringToTm(temp);
 
-            // SUA LOI: Khong dung addCHK (vi no sinh ID moi)
-            // Tao truc tiep va setID lai tu file
-
             Customer* cus = searchCustomer(cusID);
             if (cus) {
                 CheckingAccount* acc = new CheckingAccount(balance, overdraft, openDate, status);
 
-                // Khoi phuc ID tu file
                 acc->setID(id);
-                // Cap nhat bo dem de lan sau khong sinh trung ID nay
                 Account::updateCounter("checking", extractNumber(id));
 
                 cus->addAccount(acc);
@@ -581,7 +576,7 @@ void Bank::filterAccountByDate(tm from, tm to)
 
 void Bank::sortAccountByID()
 {
-    vector<Account*> temp = accounts;   // COPY
+    vector<Account*> temp = accounts;   
 
     sort(temp.begin(), temp.end(),
         [](Account* a, Account* b) {
