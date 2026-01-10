@@ -163,11 +163,16 @@ bool Bank::transfer(Account &a, string ID, double amount)
     }
 }
 
-bool Bank::deleteCustomer(const string& id) {
-    for (auto it = customers.begin(); it != customers.end(); ++it) {
-        if (it->getID() == id) {
-            (*it).removeAllAccount();
-            customers.erase(it);
+bool Bank::deleteCustomer(string ID)
+{
+    for (int i = 0; i < customers.size(); i++) {
+        if (customers[i].getID() == ID) {      
+            customers[i].removeAllAccount();
+            customers[i] = customers.back();
+            customers.pop_back();
+    
+            saveCusToFile("customers.txt");
+            saveAccToFile("accounts.txt");
             return true;
         }
     }
