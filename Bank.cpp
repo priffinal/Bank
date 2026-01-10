@@ -18,11 +18,12 @@ int Bank::cusNum = 0;
 Bank::Bank(){}
 Bank::~Bank(){}
 
-string Bank::addCustomer(string name, string phone, string email, string address)
+string Bank::addCustomer(string name, string phone, string email, string address, string ID)
 {
     Customer c;
     c.createCustomer(name, phone, email, address);
-    c.autoID(autoGenerate("C", ++cusNum));
+    if (empty(ID)) c.autoID(ID);
+    else c.autoID(autoGenerate("C", ++cusNum));
     customers.push_back(c);
     saveCusToFile("customers.txt");
     return c.getID();
@@ -162,18 +163,15 @@ bool Bank::transfer(Account &a, string ID, double amount)
     }
 }
 
-bool Bank::deleteCustomer(string ID)
-{
-    for (int i = 0; i < customers.size(); i++) {
-        if (customers[i].getID() == ID) {
-            customers[i] = customers.back();
-            customers.pop_back();
-            customers[i].removeAllAccount();
-            saveCusToFile("customers.txt");
-            saveAccToFile("accounts.txt");
+bool Bank::deleteCustomer(const string& id) {
+    for (auto it = customers.begin(); it != customers.end(); ++it) {
+        if (it->getID() == id) {
+            (*it).removeAllAccount();
+            customers.erase(it);
             return true;
         }
-    } return false;
+    }
+    return false;
 }
 
 vector<Transaction> Bank::filterByDate(tm from, tm to) 
@@ -368,7 +366,7 @@ void Bank::loadCusFromFile(const string& filename)
         getline(ss, email, '|');
         getline(ss, address);
 
-        addCustomer(name, phone, email, address);
+        addCustomer(name, phone, email, address, id);
         cusNum = max(cusNum, extractNumber(id));
     }
 }

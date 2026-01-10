@@ -2,6 +2,7 @@
 #include <sstream>
 #include <iostream>
 #include <iomanip>
+#include <limits>
 using namespace std;
 
 string autoGenerate(string type, int n)
@@ -14,5 +15,6 @@ string autoGenerate(string type, int n)
 void end()
 {
     cout << "\nNhan phim Enter de quay lai...";
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
     cin.get();
 }
