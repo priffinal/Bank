@@ -111,7 +111,7 @@ Transaction Transaction::fromFileString(const string& line) {
 
     tm t = {};
     istringstream iss(timeStr);
-    iss >> get_time(&t, "%d/%m/%Y %H:%M:%S");
+    iss >> get_time(&t, "%H:%M:%S %d/%m/%Y");
 
     if (to == "------") to = "";
 

@@ -3,11 +3,11 @@
 #include "AccountMenu.h"
 #include "TransactionMenu.h"
 #include "AutoGen.h"
+#include "choice.h"
 #include <iostream>
 #include <iomanip>
 #include <string>
 #include <cstdlib>
-#include "choice.h"
 
 Menu::Menu(Bank& b) : bank(b) {}
 Menu::~Menu() {}
