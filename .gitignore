@@ -2,7 +2,6 @@
 x64/
 Debug/
 Release/
-
 # Compiled files
 *.exe
 *.dll
@@ -11,14 +10,11 @@ Release/
 *.pdb
 *.ilk
 *.log
-
 # VSCode
 .vscode/
-
 # Visual Studio user-specific
 *.vcxproj.user
 .vs/
-
 # Cache / temporary
 *.tmp
 *.cache

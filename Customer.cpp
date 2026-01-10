@@ -10,7 +10,7 @@ using namespace std;
 
 //int Customer::n = 0;
 Customer::Customer() {}
-
+// tra ve thong tin ca nhan cua khach hang
 string Customer::getID() { return customerID; }
 string Customer::getName() { return fullName; }
 string Customer::getAddress() { return address; }
