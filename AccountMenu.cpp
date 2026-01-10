@@ -99,7 +99,7 @@ void filterAccount(Bank& bank)
 {
     int choice;
     do {
-        cout << "\n--- QUAN LY LOC TAI KHOAN ---\n";
+        cout << "\n---LOC TAI KHOAN ---\n";
         cout << "1. Loc theo so du\n";
         cout << "2. Loc theo ID\n";
         cout << "3. Loc theo thoi gian\n";

@@ -11,7 +11,6 @@
 #include <algorithm>
 #include <fstream>
 #include <sstream>
-#include <algorithm>
 using namespace std;
 
 int Bank::cusNum = 0;
