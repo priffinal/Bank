@@ -6,7 +6,7 @@ class SavingAccount: public Account
 {
 private:
 	long long interest;
-	double interestRate=4.67;
+	double interestRate;
 	double minimumBalance;
 	int term;
 public:
@@ -14,5 +14,5 @@ public:
 	bool withdraw(double amount);
 	void displayInfo();
 	string toFileString() const;
-	SavingAccount(long long balance, tm date);
+	SavingAccount(long long balance, tm date, int term, float interestRate, string status);
 };

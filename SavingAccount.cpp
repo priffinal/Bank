@@ -17,14 +17,15 @@ tm addYears(tm t, int year)
 	return *localtime(&time);
 }
 
-SavingAccount::SavingAccount(long long balance, tm date) : Account(balance)
+SavingAccount::SavingAccount(long long balance, tm date, int term, float interestRate, string status) : Account(balance)
 {
-	interest = 0;
+	this->interestRate = interestRate;
 	minimumBalance = 0.0;
-	term = 0;
+	this->term = term;
 	accountID = autoGenerate("SAV", ++accType["saving"]);
 	openDate = date;
 	interestRate = 4.67;
+	this->status = status;
 };
 
 double SavingAccount::calculateInterest()
@@ -59,5 +60,6 @@ string SavingAccount::toFileString() const {
 		to_string(balance) + "|" +
 		to_string(interestRate) + "|" +
 		to_string(term) + "|" +
-		to_string(minimumBalance);
+		to_string(minimumBalance) + "|" +
+		status;
 }

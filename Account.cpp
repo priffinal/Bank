@@ -73,16 +73,6 @@ void Account::closeAccount() { status = "Closed"; }
 
 void Account::openAccount() { status = "Open"; }
 
-void Account::createAccount(const Customer &c, long long balance)
-{
-	this->balance = balance;
-	
-	time_t now = time(0);
-	tm ltm = *localtime(&now);
-	openDate = ltm;
-	status = "Open";
-}
-
 string Account::getID() { return accountID; }
 
 void Account::printList()

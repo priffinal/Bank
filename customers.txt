@@ -1,9 +1,4 @@
-C0001|TA TUAN LINH|0367289783|ttlinh102005@gmail.com|BN
-C0002|Nguyen Minh Hieu|0945456647|minhhieu@gmail.com|236 Hoang Quoc Viet
-C0003|linh|||
-C0004|linh|||
-C0005|linh|||
-C0006|Linh|0|ttttt@|
-C0007|Tuan Linh|0367289783|ttlinh102005@gmail.com|Bac Ninh
-C0008|phu|||
-C0009|Ta Tuan linh|0367289783|ttlinh102005@gmail.com|Yen Phong, Bac Ninh
+C0001|Tran Duy Phuc|3636363636|363636@gmail.com|236 HQV
+C0002|Nguyen Minh Hieu|1111111111|111111@gmail.com|236 HQV
+C0003|Ta Tuan Linh|2222222222|222222@gmail.com|236 HQV
+C0004|Vu Ngoc Truong Son|3333333333|333333@gmail.com|236 HQV

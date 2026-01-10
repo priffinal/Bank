@@ -22,7 +22,6 @@ public:
 	Account();
 	Account(double initialBalance);
 	~Account();
-	virtual void createAccount(const Customer &c, long long balance);
 	virtual string toFileString() const = 0;
 	virtual void deposit(double amount);
 	virtual void transfer_in(double amount, string relatedID);
@@ -39,7 +38,6 @@ public:
 	string getID();
 	tm getopenDate();
 	string getStatus();
-	// De cap nhat ID khi load file
 	void setID(string id);
 	static void updateCounter(string type, int val);
 };

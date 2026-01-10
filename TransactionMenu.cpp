@@ -125,9 +125,9 @@ void statisticsMenu(Bank &bank)
                 cout << "SavingAccount: " << savingCnt << endl;
                 cout << "Tong so du he thong: " << totalBal << endl;
                 cout << "Tai khoan co so du cao nhat: "
-                    << maxBalAccID << " | " << maxBal << endl;
+                     << maxBalAccID << " | " << maxBal << endl;
                 cout << "So tai khoan bi am (overdraft): "
-                    << overdraftCnt << endl;
+                     << overdraftCnt << endl;
                 break;
             }
             case 3: {
@@ -146,7 +146,7 @@ void statisticsMenu(Bank &bank)
                 int total = success + failed;
                 if (total > 0) {
                     cout << "Ty le thanh cong: " << fixed << setprecision(2)
-                        << ((double)success / total) * 100.0 << "%" << endl;
+                         << ((double)success / total) * 100.0 << "%" << endl;
                 }
                 else {
                     cout << "Ty le thanh cong: 0.00%" << endl;
@@ -186,12 +186,7 @@ void transactionSortMenu(Bank &bank)
         case 4: sorted = bank.sortTransaction(4); break;
         }
 
-        if (choice != 0) {
-            firstRow();
-            for (auto t : sorted) t.log();
-            cout << "\nNhan phim bat ky de tiep tuc...";
-            cin.get();
-        }
-
+        firstRow();
+        for (auto t : sorted) t.log();
     } while (choice != 0);
 }
